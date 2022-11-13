@@ -1,0 +1,2 @@
+exports.TUITION_STATE_UNPAID = 0;
+exports.TUITION_STATE_PAID = 1;
