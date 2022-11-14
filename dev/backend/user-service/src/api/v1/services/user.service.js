@@ -1,47 +1,11 @@
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 
-const { _User, _Transaction } = require('../models');
+const { _User, _Role } = require('../models');
 const { signAccessToken } = require('../utils/json-web-token.util');
 
-const registerAccount = async function ({ full_name, phone_number, email, student_id }) {
+const addEmployee = async function ({ username, fullname, email, dob, phonenumber, department, gender }) {
     try {
-        if (!full_name || !phone_number || !email || !student_id) {
-            return { status: false, message: 'Vui lòng điền đầy đủ thông tin để đăng ký tài khoản!' };
-        }
-
-        const checkExistUser = await _User
-            .findOne({
-                $or: [
-                    {
-                        phone_number: phone_number,
-                    },
-                    {
-                        email: email,
-                    },
-                    {
-                        student_id: student_id,
-                    },
-                ],
-            })
-            .lean();
-
-        if (checkExistUser) {
-            if (checkExistUser.phone_number === phone_number) {
-                return { status: false, message: 'Số điện thoại đã tồn tại!' };
-            }
-
-            if (checkExistUser.email === email) {
-                return { status: false, message: 'Địa chỉ email đã tồn tại!' };
-            }
-
-            if (checkExistUser.student_id === student_id) {
-                return { status: false, message: 'Mã sinh viên đã tồn tại!' };
-            }
-
-            return { status: false, message: 'Lỗi trùng thông tin!' };
-        }
-
         const hashedPassword = await bcrypt.hash(student_id, 10);
 
         const user = await _User.create({
@@ -54,10 +18,6 @@ const registerAccount = async function ({ full_name, phone_number, email, studen
                 password: hashedPassword,
             },
         });
-
-        if (!user) {
-            return { status: false, message: 'Có lỗi trong quá trình tạo tài khoản! Vui lòng thử lại sau!' };
-        }
 
         return {
             status: true,
