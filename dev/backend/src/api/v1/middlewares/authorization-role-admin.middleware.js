@@ -1,31 +1,31 @@
-const { getAccountRoleByUsername } = require('../repos/get-personal-information.repos');
-const DB_CONSTANTS = require('../utils/database-constant-number.utils');
+const createError = require('http-errors');
 
-// Xác thực quyền admin
-const verifyAdminRoleMiddleware = async (req, res, next) => {
-	// Check if the request is called by AJAX - Fetch and expect to receive JSON Response
-	const accountRole = await getAccountRoleByUsername(req.payload.username);
-
-    let accountRoleResult = accountRole[0];
-
-    // Not found any account with Username
-    if (accountRoleResult.length === 0) {
-        return res.status(403).json({
-            status: false,
-            message: "Tên tài khoản không tồn tại ! Vui lòng thử lại !"
-        });
+const verifyRoleMiddleware = (roles) => {
+    if (roles.length !== 0) {
+        return createError.NotAcceptable();
     }
 
-    accountRoleResult = accountRoleResult[0];
+    return async (req, res, next) => {
+        // Check if the request is called by AJAX - Fetch and expect to receive JSON Response
+        const accountRole = await getRoleById(req.payload.user_id);
 
-    if (accountRoleResult.role !== DB_CONSTANTS.ACCOUNT_ROLE_ADMIN 
-        && req.payload.role !== DB_CONSTANTS.ACCOUNT_ROLE_ADMIN) {
-        return res.status(403).json({
-            status: false,
-            message: "Bạn không có quyền sử dụng tính năng này !"
-        });
-    }
-    next();
-}
+        // Not found any account with Username
+        if (accountRoleResult.length === 0) {
+            return res.status(403).json({
+                status: false,
+                message: 'Tên tài khoản không tồn tại ! Vui lòng thử lại !',
+            });
+        }
 
-module.exports = { verifyAdminRoleMiddleware }
+        if (!roles.includes(accountRole)) {
+            return res.status(403).json({
+                status: false,
+                message: 'Bạn không có quyền sử dụng tính năng này !',
+            });
+        }
+
+        next();
+    };
+};
+
+module.exports = { verifyRoleMiddleware };
