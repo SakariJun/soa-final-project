@@ -1,10 +1,10 @@
 from config import config
 from flask import Flask
 from flask_mail import Mail
-from flask_mongoalchemy import MongoAlchemy
+from flask_mongoengine import MongoEngine
 
 mail = Mail()
-db = MongoAlchemy()
+db = MongoEngine()
 
 def create_app(config_name):
     app = Flask(__name__)
