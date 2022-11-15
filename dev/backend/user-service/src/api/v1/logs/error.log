@@ -28,3 +28,9 @@ URL: /api/v1/employee-management/user/add-user
 METHOD: POST
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: d561c82e-3d0a-47db-b23b-c35e413a6ae0
+TIME: 15-11-2022	21:12:30
+URL: /api/v1/employee-management/user-admin/reset-password
+METHOD: POST
+MESSAGE: Unauthorized
+--------------------------------------------------------

@@ -17,7 +17,7 @@
   "add_by": null,
   "account": {
     "username": "12200001",
-    "password": "$2b$10$YQE14QuStRYXgJTJNKcDdeadnVSdPn1zzySuwixrd.vgCk0RHeCF6",
+    "password": "$2b$10$W6Dfxxr5O3eLbUVnVwXw.eLWnRcuF00qLV4.RkjTIp8coOMmHMkiy",
     "_id": {
       "$oid": "637349b859488835b9c09845"
     },
@@ -28,10 +28,11 @@
     },
     "updatedAt": {
       "$date": {
-        "$numberLong": "1668509210997"
+        "$numberLong": "1668524361479"
       }
     },
-    "is_activate": true
+    "is_activate": true,
+    "request_reset_password": false
   },
   "absence": {
     "max_absence_day": 12,
@@ -62,7 +63,7 @@
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1668509210997"
+      "$numberLong": "1668524361480"
     }
   },
   "__v": 0
@@ -99,7 +100,8 @@
         "$numberLong": "1668500029929"
       }
     },
-    "is_activate": false
+    "is_activate": false,
+    "request_reset_password": false
   },
   "absence": {
     "max_absence_day": 12,

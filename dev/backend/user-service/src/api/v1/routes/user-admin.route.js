@@ -1,18 +1,14 @@
-const { verifyRoleMiddleware } = require('../middlewares');
-
 const { addUserValidator } = require('../validators');
-const { ROLE_NAME_DIRECTOR } = require('../constants/global.constant');
 
 const router = require('express').Router();
 const userAdminController = require('../controllers/user-admin.controller');
 
-router.post(
-    '/add-user',
-    verifyRoleMiddleware([ROLE_NAME_DIRECTOR]),
-    addUserValidator,
-    userAdminController.AddUserController,
-);
+router.post('/add-user', addUserValidator, userAdminController.AddUserController);
 
-router.post('/reset-password', verifyRoleMiddleware([ROLE_NAME_DIRECTOR]), userAdminController.ResetPasswordController);
+router.post('/reset-password', userAdminController.ResetPasswordController);
+
+router.get('/get-all-users', userAdminController.GetAllUsersController);
+
+router.get('/get-user-detail', userAdminController.GetUserDetailController);
 
 module.exports = router;

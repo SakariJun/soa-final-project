@@ -43,6 +43,12 @@ const AccountSchema = new Schema(
             required: true,
             default: false,
         },
+
+        request_reset_password: {
+            type: Schema.Types.Boolean,
+            required: true,
+            default: false,
+        },
     },
     {
         timestamps: true,

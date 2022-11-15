@@ -5,4 +5,5 @@ module.exports = {
     loginValidator: require('./login.validator'),
     changePasswordRequireValidator,
     changePasswordOptionalValidator,
+    requestResetPasswordValidator: require('./request-reset-password.validator'),
 };

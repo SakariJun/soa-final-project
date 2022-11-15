@@ -11,6 +11,7 @@ const { createNewIDWithOutPrefix } = require('../utils/generate-prefix-id.util')
 
 const { _User, _Role } = require('../models');
 
+// #region Thêm nhân viên
 async function validateAddUser(req) {
     const validateResult = validationResult(req);
 
@@ -113,10 +114,65 @@ const addUser = async function ({
         return { status: false, message: error.message };
     }
 };
+// #endregion
 
-const resetPassword = async function ({ _id }, { user_id }) {};
+const resetPassword = async function ({ user_id }) {
+    try {
+        let user = await _User.findOne({ user_id });
+
+        if (!user) {
+            return { status: false, message: 'Không tìm thấy thông tin nhân viên cần đặt lại mật khẩu!' };
+        }
+
+        if (!user.account.request_reset_password) {
+            return { status: false, message: 'Tài khoản này hiện không có nhu cầu đặt lại mật khẩu!' };
+        }
+
+        const hashedPassword = await bcrypt.hash(user_id, 10);
+        user.account.password = hashedPassword;
+        user.account.request_reset_password = false;
+
+        await user.save();
+
+        return { status: true, message: 'Đặt lại mật khẩu cho tài khoản nhân viên thành công!' };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const getAllUsers = async function () {
+    try {
+        const users = await _User.find();
+
+        return { status: true, message: 'Lấy danh sách nhân viên thành công!', data: users };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const getUserDetail = async function ({ user_id }) {
+    try {
+        let user = await _User.findOne({ user_id });
+
+        if (!user) {
+            return { status: false, message: 'Không tìm thấy thông tin nhân viên!' };
+        }
+
+        return { status: true, message: 'Xem chi tiết thông tin nhân viên thành công!', data: user };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
 
 module.exports = {
     validateAddUser,
     addUser,
+
+    resetPassword,
+
+    getAllUsers,
+    getUserDetail,
 };

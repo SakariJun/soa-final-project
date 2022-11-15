@@ -3,6 +3,7 @@ const {
     login,
     changePasswordRequire,
     changePasswordOptional,
+    requestResetPassword,
 } = require('../services/user.service');
 
 const LoginController = async function (req, res, next) {
@@ -14,7 +15,6 @@ const LoginController = async function (req, res, next) {
         }
 
         const { status, message, data } = await login(req.body);
-        console.log('🚀 ~ file: user.controller.js ~ line 34 ~ LoginController ~ data', data);
 
         if (!status) {
             return res.status(200).json({ status, message });
@@ -99,6 +99,32 @@ const ChangePasswordOptionalController = async function (req, res, next) {
     }
 };
 
+const RequestResetPasswordController = async function (req, res, next) {
+    try {
+        const validationResult = validateWithoutCustom(req);
+        console.log(
+            '🚀 ~ file: user.controller.js ~ line 105 ~ RequestResetPasswordController ~ validationResult',
+            validationResult,
+        );
+        console.log(validationResult);
+
+        if (!validationResult.status) {
+            return res.status(403).json(validationResult);
+        }
+
+        const { status, message, data } = await requestResetPassword(req.body);
+
+        if (!status) {
+            return res.status(200).json({ status, message });
+        }
+
+        return res.status(200).json({ status, message });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
+
 const GetUserInformationController = async function (req, res, next) {
     try {
         const { status, message, data } = await getUserInformation(req.payload);
@@ -118,6 +144,7 @@ module.exports = {
     LoginController,
     ChangePasswordOptionalController,
     ChangePasswordRequireController,
+    RequestResetPasswordController,
 
     GetUserInformationController,
 };

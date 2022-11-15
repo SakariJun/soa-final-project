@@ -127,11 +127,14 @@ const getUserInformation = async function ({ _id }) {
 //#endregion
 
 //#region Change password
-
 const changePasswordOptional = async function ({ _id }, { old_password, new_password, new_password_confirm }) {
     try {
         if (new_password !== new_password_confirm) {
             return { status: false, message: 'Mật khẩu mới không khớp!' };
+        }
+
+        if (new_password === old_password) {
+            return { status: false, message: 'Mật khẩu mới không được trùng với mật khẩu cũ!' };
         }
 
         let user = await _User.findById(_id).lean();
@@ -181,6 +184,10 @@ const changePasswordRequire = async function ({ _id }, { new_password, new_passw
             return { status: false, message: 'Không tìm thấy thông tin tài khoản!' };
         }
 
+        if (new_password === user.user_id) {
+            return { status: false, message: 'Mật khẩu mới không được trùng với mật khẩu cũ!' };
+        }
+
         const newPasswordHashes = await bcrypt.hash(new_password, 10);
 
         user = await _User.findOneAndUpdate(
@@ -216,6 +223,30 @@ const changePasswordRequire = async function ({ _id }, { new_password, new_passw
         return { status: false, message: error.message };
     }
 };
+
+const requestResetPassword = async function ({ email, phone_number }) {
+    try {
+        let user = await _User.findOne({ email, phone_number });
+
+        if (!user) {
+            return { status: false, message: 'Không tìm thấy thông tin tài khoản!' };
+        }
+
+        if (user.account.request_reset_password) {
+            return { status: false, message: 'Bạn đã gửi yêu cầu đặt lại mật khẩu!' };
+        }
+
+        user.account.request_reset_password = true;
+        await user.save();
+        return {
+            status: true,
+            message: 'Gửi yêu cầu đặt lại mật khẩu thành công!',
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
 //#endregion
 
 //#region Validate
@@ -237,5 +268,7 @@ module.exports = {
     login,
     changePasswordRequire,
     changePasswordOptional,
+    requestResetPassword,
+
     getUserInformation,
 };
