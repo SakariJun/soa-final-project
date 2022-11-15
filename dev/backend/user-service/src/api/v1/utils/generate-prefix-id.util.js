@@ -1,4 +1,6 @@
-function createNewIDWithOutPrefix(maxCurrentID, ID_DIGITS = 5) {
+const { ID_DIGITS } = require('../constants/global.constant');
+
+function createNewIDWithOutPrefix(maxCurrentID) {
     try {
         const idLength = maxCurrentID.length;
         let newMaxID = parseInt(maxCurrentID.substring(idLength - ID_DIGITS, idLength));
@@ -14,9 +16,7 @@ function createNewIDWithOutPrefix(maxCurrentID, ID_DIGITS = 5) {
     }
 }
 
-console.log(createNewIDWithOutPrefix('NV00000'));
-
-function createNewIDWithPrefix(maxCurrentID, prefix, ID_DIGITS = 5) {
+function createNewIDWithPrefix(maxCurrentID, prefix) {
     try {
         const idLength = maxCurrentID.length;
         let newMaxID = parseInt(maxCurrentID.substring(idLength - ID_DIGITS, idLength));
@@ -30,3 +30,8 @@ function createNewIDWithPrefix(maxCurrentID, prefix, ID_DIGITS = 5) {
         return prefix;
     }
 }
+
+module.exports = {
+    createNewIDWithOutPrefix,
+    createNewIDWithPrefix,
+};

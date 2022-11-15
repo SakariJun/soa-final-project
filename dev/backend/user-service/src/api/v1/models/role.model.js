@@ -7,8 +7,15 @@ const RoleSchema = Schema(
             required: true,
             unique: true,
         },
+
         role_description: {
             type: Schema.Types.String,
+        },
+
+        permissions: {
+            type: Schema.Types.Array,
+            required: true,
+            default: [],
         },
     },
     {

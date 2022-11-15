@@ -39,6 +39,12 @@ const AccountSchema = new Schema(
             type: Schema.Types.String,
             required: true,
         },
+
+        is_active: {
+            type: Schema.Types.Boolean,
+            required: true,
+            default: false,
+        },
     },
     {
         timestamps: true,
@@ -47,6 +53,13 @@ const AccountSchema = new Schema(
 
 const UserSchema = new Schema(
     {
+        user_id: {
+            type: Schema.Types.String,
+            unique: true,
+            required: true,
+            index: true,
+        },
+
         full_name: {
             type: Schema.Types.String,
             required: true,
@@ -56,17 +69,25 @@ const UserSchema = new Schema(
             type: Schema.Types.String,
             unique: true,
             required: true,
+            index: true,
         },
 
         email: {
             type: Schema.Types.String,
             unique: true,
             required: true,
+            index: true,
         },
 
         day_of_birth: {
             type: Schema.Types.Date,
             default: new Date(),
+        },
+
+        gender: {
+            type: Schema.Types.String,
+            default: 'Khác',
+            enum: ['Nam', 'Nữ', 'Khác'],
         },
 
         avatar_url: {
@@ -75,7 +96,6 @@ const UserSchema = new Schema(
 
         department_id: {
             type: Schema.Types.ObjectId,
-            ref: 'Department',
             required: true,
         },
 

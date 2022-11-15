@@ -1,0 +1,37 @@
+{
+    "name": "midterm-soa",
+    "version": "1.0.0",
+    "description": "Midterm-SOA-51900718",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./src/index.js",
+        "dev": "nodemon ./src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/trungjason/midterm-soa.git"
+    },
+    "author": "Tang Kien Trung - 51900718",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/trungjason/midterm-soa/issues"
+    },
+    "homepage": "https://github.com/trungjason/midterm-soa#readme",
+    "dependencies": {
+        "compression": "^1.7.4",
+        "cookie-parse": "^0.4.0",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "date-fns": "^2.29.3",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "express-http-proxy": "^1.6.3",
+        "express-rate-limit": "^6.6.0",
+        "express-session": "^1.17.3",
+        "helmet": "^6.0.0",
+        "http-errors": "^2.0.0",
+        "moment": "^2.29.4",
+        "morgan": "^1.10.0",
+        "uuid": "^9.0.0"
+    }
+}

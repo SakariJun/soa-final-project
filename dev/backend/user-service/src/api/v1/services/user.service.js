@@ -1,18 +1,49 @@
 const bcrypt = require('bcrypt');
-const moment = require('moment');
+
+const { ID_DIGITS } = require('../constants/global.constant');
 
 const { _User, _Role } = require('../models');
 const { signAccessToken } = require('../utils/json-web-token.util');
 
-const addEmployee = async function ({ username, fullname, email, dob, phonenumber, department, gender }) {
+const addUser = async function ({ full_name, email, day_of_birth, phone_number, department_id = 'PB00000', gender }) {
     try {
+        const checkDuplicateInformation = await _User
+            .findOne({
+                $or: [
+                    {
+                        email: email,
+                    },
+                    {
+                        phone_number: phone_number,
+                    },
+                ],
+            })
+            .lean();
+
+        if (!checkDuplicateInformation) {
+            if (checkDuplicateInformation.email === email) {
+                return res.status(400).json({ status: false, messsage: 'Địa chỉ email đã tồn tại!' });
+            }
+
+            if (checkDuplicateInformation.phone_number === phone_number) {
+                return res.status(400).json({ status: false, messsage: 'Số điện thoại đã tồn tại!' });
+            }
+        }
+
+        const department_index = parseInt(department_id.subString(len(department_id) - ID_DIGITS, len(department_id)));
+        const twoLastDigitFromYear = new Date().getFullYear().toString().substr(-2);
+
+        const unique_user_id = `${department_index}${twoLastDigitFromYear}`;
+
         const hashedPassword = await bcrypt.hash(student_id, 10);
 
         const user = await _User.create({
             full_name,
             phone_number,
             email,
-            student_id,
+            day_of_birth,
+            department_id,
+            gender,
             account: {
                 username: student_id,
                 password: hashedPassword,
@@ -21,7 +52,7 @@ const addEmployee = async function ({ username, fullname, email, dob, phonenumbe
 
         return {
             status: true,
-            message: 'Tạo tài khoản thành công! Tên tài khoản và mật khẩu mặc định là [mã số sinh viên]!',
+            message: 'Thêm nhân viên thành công! Tên tài khoản và mật khẩu mặc định là [Mã số nhân viên]!',
         };
     } catch (error) {
         console.error(error);
@@ -47,24 +78,20 @@ const login = async function ({ username, password }) {
         }
 
         const payload = {
-            user_id: user._id,
+            _id: user._id,
+            user_id: user.user_id,
+            role: user.role_id,
             phone_number: user.phone_number,
             email: user.email,
-            student_id: user.student_id,
         };
 
         const accessToken = await signAccessToken(payload);
-
-        delete payload.user_id;
-        payload.full_name = user.full_name;
-        payload.balance = user.balance;
 
         return {
             status: true,
             message: 'Đăng nhập thành công!',
             data: {
                 accessToken,
-                user_data: payload,
             },
         };
     } catch (error) {
@@ -73,16 +100,16 @@ const login = async function ({ username, password }) {
     }
 };
 
-const getUserInformation = async function ({ user_id }) {
+const getUserInformation = async function ({ _id }) {
     try {
-        if (!user_id) {
+        if (!_id) {
             return {
                 status: false,
                 message: 'Không tìm thấy thông tin người dùng! Vui lòng đăng xuất và đăng nhập lại!',
             };
         }
 
-        const user = await _User.findById(user_id).lean();
+        const user = await _User.findById(_id).lean();
 
         if (!user) {
             return {
@@ -90,42 +117,39 @@ const getUserInformation = async function ({ user_id }) {
                 message: 'Không tìm thấy thông tin người dùng! Vui lòng đăng xuất và đăng nhập lại!',
             };
         }
-        console.log(user_id);
-        const transaction = await _Transaction
-            .find({
-                $or: [
-                    {
-                        send_from: user._id,
-                    },
-                    {
-                        send_to: user._id,
-                    },
-                ],
-            })
-            .populate({
-                path: 'send_from',
-                select: 'student_id full_name -_id',
-            })
-            .populate({
-                path: 'send_to',
-                select: 'student_id full_name -_id',
-            })
-            .lean();
 
-        for (let i = 0; i < transaction.length; i++) {
-            let createdAt = new Date(transaction[i].createdAt);
-            createdAt = moment(createdAt).format('DD/MM/YYYY HH:mm:ss');
+        // const transaction = await _Transaction
+        //     .find({
+        //         $or: [
+        //             {
+        //                 send_from: user._id,
+        //             },
+        //             {
+        //                 send_to: user._id,
+        //             },
+        //         ],
+        //     })
+        //     .populate({
+        //         path: 'send_from',
+        //         select: 'student_id full_name -_id',
+        //     })
+        //     .populate({
+        //         path: 'send_to',
+        //         select: 'student_id full_name -_id',
+        //     })
+        //     .lean();
 
-            transaction[i].createdAt = createdAt;
-        }
+        // for (let i = 0; i < transaction.length; i++) {
+        //     let createdAt = new Date(transaction[i].createdAt);
+        //     createdAt = moment(createdAt).format('DD/MM/YYYY HH:mm:ss');
+
+        //     transaction[i].createdAt = createdAt;
+        // }
 
         const data = {
             full_name: user.full_name,
             email: user.email,
             phone_number: user.phone_number,
-            balance: user.balance,
-            student_id: user.student_id,
-            transactions: transaction,
         };
 
         return {
