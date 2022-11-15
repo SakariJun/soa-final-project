@@ -13,4 +13,6 @@ router.post(
     userAdminController.AddUserController,
 );
 
+router.post('/reset-password', verifyRoleMiddleware([ROLE_NAME_DIRECTOR]), userAdminController.ResetPasswordController);
+
 module.exports = router;

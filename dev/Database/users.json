@@ -17,8 +17,7 @@
   "add_by": null,
   "account": {
     "username": "12200001",
-    "password": "$2b$10$CSBHKyHV/Bxii2p06Lt9IeqsIWXIej882UNlNz/NAutY5IXtlO11G",
-    "is_active": false,
+    "password": "$2b$10$YQE14QuStRYXgJTJNKcDdeadnVSdPn1zzySuwixrd.vgCk0RHeCF6",
     "_id": {
       "$oid": "637349b859488835b9c09845"
     },
@@ -29,9 +28,10 @@
     },
     "updatedAt": {
       "$date": {
-        "$numberLong": "1668499896944"
+        "$numberLong": "1668509210997"
       }
-    }
+    },
+    "is_activate": true
   },
   "absence": {
     "max_absence_day": 12,
@@ -62,7 +62,7 @@
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1668499896945"
+      "$numberLong": "1668509210997"
     }
   },
   "__v": 0
@@ -86,7 +86,6 @@
   "account": {
     "username": "12200002",
     "password": "$2b$10$3wW/T.jZR88E3Ha0SBQcuO6f4HfXMRjoTaOiV/dqmG.uci2t/dOwy",
-    "is_active": false,
     "_id": {
       "$oid": "63734a3d712ea9ce70b32042"
     },
@@ -99,7 +98,8 @@
       "$date": {
         "$numberLong": "1668500029929"
       }
-    }
+    },
+    "is_activate": false
   },
   "absence": {
     "max_absence_day": 12,

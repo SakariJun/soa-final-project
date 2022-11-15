@@ -114,6 +114,8 @@ const addUser = async function ({
     }
 };
 
+const resetPassword = async function ({ _id }, { user_id }) {};
+
 module.exports = {
     validateAddUser,
     addUser,

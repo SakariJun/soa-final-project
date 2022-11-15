@@ -18,7 +18,7 @@ POST http://localhost:5000/api/v1/employee-management/user/login
 content-type: application/json
 
 {
-    "username": "123456789",
+    "username": "12200001",
     "password": "123456789"
 }
 
