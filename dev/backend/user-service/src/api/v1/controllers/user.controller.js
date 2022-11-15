@@ -1,11 +1,18 @@
-const { registerAccount, login, getUserInformation, updateUserBalance } = require('../services/user.service');
+const { validateAddUser, addUser, validateLogin, login } = require('../services/user.service');
 
-const UserRegisterController = async function (req, res, next) {
+const AddUserController = async function (req, res, next) {
     try {
-        const { status, message, data } = await registerAccount(req.body);
+        const validationResult = await validateAddUser(req);
+        console.log('🚀 ~ file: user.controller.js ~ line 6 ~ AddUserController ~ validationResult', validationResult);
+
+        if (!validationResult.status) {
+            return res.status(403).json(validationResult);
+        }
+
+        const { status, message, data } = await addUser(req.body);
 
         if (!status) {
-            return res.status(200).json({ status, message });
+            return res.status(202).json({ status, message });
         }
 
         return res.status(201).json({ status, message, data });
@@ -15,9 +22,16 @@ const UserRegisterController = async function (req, res, next) {
     }
 };
 
-const UserLoginController = async function (req, res, next) {
+const LoginController = async function (req, res, next) {
     try {
+        const validationResult = validateLogin(req);
+
+        if (!validationResult.status) {
+            return res.status(403).json(validationResult);
+        }
+
         const { status, message, data } = await login(req.body);
+        console.log('🚀 ~ file: user.controller.js ~ line 34 ~ LoginController ~ data', data);
 
         if (!status) {
             return res.status(200).json({ status, message });
@@ -38,9 +52,7 @@ const UserLoginController = async function (req, res, next) {
             path: '/',
         });
 
-        delete data.accessToken;
-
-        return res.status(200).json({ status, message, data });
+        return res.status(200).json({ status, message });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ status: false, message: err.message });
@@ -62,24 +74,8 @@ const GetUserInformationController = async function (req, res, next) {
     }
 };
 
-const UpdateUserBalanceController = async function (req, res, next) {
-    try {
-        const { status, message, data } = await updateUserBalance(req.payload, req.body);
-
-        if (!status) {
-            return res.status(200).json({ status, message });
-        }
-
-        return res.status(201).json({ status, message, data });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ status: false, message: err.message });
-    }
-};
-
 module.exports = {
-    UserRegisterController,
-    UserLoginController,
+    AddUserController,
+    LoginController,
     GetUserInformationController,
-    UpdateUserBalanceController,
 };

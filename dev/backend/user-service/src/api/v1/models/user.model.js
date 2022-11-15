@@ -11,13 +11,11 @@ const AbsenceSchema = Schema(
 
         day_absence: {
             type: Schema.Types.Number,
-            require: true,
             default: 0,
         },
 
         last_absence_request: {
             type: Schema.Types.Date,
-            require: true,
             default: new Date(),
         },
     },
@@ -95,7 +93,7 @@ const UserSchema = new Schema(
         },
 
         department_id: {
-            type: Schema.Types.ObjectId,
+            type: Schema.Types.String,
             required: true,
         },
 
@@ -103,6 +101,12 @@ const UserSchema = new Schema(
             type: Schema.Types.String,
             ref: 'Role',
             required: true,
+        },
+
+        add_by: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            default: null,
         },
 
         account: {

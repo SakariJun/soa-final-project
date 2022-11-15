@@ -7,32 +7,37 @@ function handleDatabaseError(error) {
 }
 
 function connect() {
-    const MONGODB_URI = process.env.MONGODB_URI_CLUSTER;
+    try {
+        // const MONGODB_URI = process.env.MONGODB_URI_CLUSTER;
+        const MONGODB_URI = process.env.MONGODB_URI;
 
-    const options = {
-        maxPoolSize: 10, // Maintain up to 10 socket connections
-        serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-        socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-        family: 4, // Use IPv4, skip trying IPv6
-        keepAlive: true, // For long running applications
-        keepAliveInitialDelay: 300000,
-    };
+        const options = {
+            maxPoolSize: 10, // Maintain up to 10 socket connections
+            serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+            socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+            family: 4, // Use IPv4, skip trying IPv6
+            keepAlive: true, // For long running applications
+            keepAliveInitialDelay: 300000,
+        };
 
-    mongoose.connect(MONGODB_URI, options);
+        mongoose.connect(MONGODB_URI, options);
 
-    // Error handling for established connections
-    mongoose.connection.on('connected', () => {
-        console.log('Mongoose connection connected');
-    });
+        // Error handling for established connections
+        mongoose.connection.on('connected', () => {
+            console.log('Mongoose connection connected');
+        });
 
-    mongoose.connection.on('error', (error) => {
-        console.error('Mongoose connection error: ' + error);
+        mongoose.connection.on('error', (error) => {
+            console.error('Mongoose connection error: ' + error);
+            handleDatabaseError(error);
+        });
+
+        mongoose.connection.on('disconnected', () => {
+            console.error('Mongoose connection disconnected');
+        });
+    } catch (error) {
         handleDatabaseError(error);
-    });
-
-    mongoose.connection.on('disconnected', () => {
-        console.error('Mongoose connection disconnected');
-    });
+    }
 }
 
 module.exports = connect;
