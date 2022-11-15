@@ -8,7 +8,14 @@ class MyCustomizedQuery(BaseQuerySet):
     def get_johns(self):
         return self.filter(self.type.first_name == "John")
 
-
+class Status:
+    NEW = 0
+    IN_PROGRESS = 1
+    CANCELED = 2
+    WAITING = 3
+    REJECTED = 4
+    COMPLETE: 5
+    
 class TaskConversation(db.EmbeddedDocument):
     _oid = db.ObjectIdField(required=True, default=ObjectId, unique=True, primary_key=True)
     user_id = db.StringField(required=True)
