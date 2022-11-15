@@ -33,11 +33,6 @@ async function validateAddUser(req) {
         })
         .lean();
 
-    console.log(
-        '🚀 ~ file: user.service.js ~ line 36 ~ validateAddUser ~ checkDuplicateInformation',
-        checkDuplicateInformation,
-    );
-
     if (checkDuplicateInformation) {
         if (checkDuplicateInformation.email === email) {
             return { status: false, message: 'Địa chỉ email đã tồn tại!' };

@@ -4,17 +4,7 @@ const { validationResult } = require('express-validator');
 const { _User } = require('../models');
 const { signAccessToken } = require('../utils/json-web-token.util');
 
-// --------------------------------
-function validateLogin(req) {
-    const validateResult = validationResult(req);
-
-    if (!validateResult.isEmpty()) {
-        return { status: false, message: validateResult.errors[0].msg };
-    }
-
-    return { status: true };
-}
-
+//#region Log in
 const login = async function ({ username, password }) {
     try {
         if (!username || !password) {
@@ -38,12 +28,12 @@ const login = async function ({ username, password }) {
             role_id: user.role_id,
             phone_number: user.phone_number,
             email: user.email,
-            is_activate: user.account.is_active,
+            is_activate: user.account.is_activate,
         };
 
         const accessToken = await signAccessToken(payload);
 
-        if (!user.account.is_active) {
+        if (!user.account.is_activate) {
             return {
                 status: true,
                 message:
@@ -71,6 +61,9 @@ const login = async function ({ username, password }) {
     }
 };
 
+//#endregion
+
+//#region Get User information
 const getUserInformation = async function ({ _id }) {
     try {
         if (!_id) {
@@ -131,10 +124,118 @@ const getUserInformation = async function ({ _id }) {
         return { status: false, message: error.message };
     }
 };
+//#endregion
+
+//#region Change password
+
+const changePasswordOptional = async function ({ _id }, { old_password, new_password, new_password_confirm }) {
+    try {
+        if (new_password !== new_password_confirm) {
+            return { status: false, message: 'Mật khẩu mới không khớp!' };
+        }
+
+        let user = await _User.findById(_id).lean();
+
+        if (!user) {
+            return { status: false, message: 'Không tìm thấy thông tin tài khoản!' };
+        }
+
+        if (!(await bcrypt.compare(old_password, user.account.password))) {
+            // Do NOT show to client that password is wrong
+            return { status: false, message: 'Mật khẩu cũ không chính xác!' };
+        }
+
+        const newPasswordHashes = await bcrypt.hash(new_password, 10);
+
+        user = await _User.findOneAndUpdate(
+            { _id: user._id },
+            { 'account.password': newPasswordHashes },
+            {
+                new: true,
+            },
+        );
+
+        if (!user) {
+            return { status: false, message: 'Đổi mật khẩu không thành công! Vui lòng thử lại sau!' };
+        }
+
+        return {
+            status: true,
+            message: 'Đổi mật khẩu thành công!',
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const changePasswordRequire = async function ({ _id }, { new_password, new_password_confirm }) {
+    try {
+        if (new_password !== new_password_confirm) {
+            return { status: false, message: 'Mật khẩu mới không khớp!' };
+        }
+
+        let user = await _User.findById(_id).lean();
+
+        if (!user) {
+            return { status: false, message: 'Không tìm thấy thông tin tài khoản!' };
+        }
+
+        const newPasswordHashes = await bcrypt.hash(new_password, 10);
+
+        user = await _User.findOneAndUpdate(
+            { _id: user._id },
+            { 'account.password': newPasswordHashes, 'account.is_activate': true },
+            {
+                new: true,
+            },
+        );
+
+        if (!user) {
+            return { status: false, message: 'Đổi mật khẩu không thành công! Vui lòng thử lại sau!' };
+        }
+
+        const payload = {
+            _id: user._id,
+            user_id: user.user_id,
+            role_id: user.role_id,
+            phone_number: user.phone_number,
+            email: user.email,
+            is_activate: user.account.is_activate,
+        };
+
+        const accessToken = await signAccessToken(payload);
+
+        return {
+            status: true,
+            message: 'Đổi mật khẩu thành công!',
+            data: { accessToken },
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+//#endregion
+
+//#region Validate
+function validateWithoutCustom(req) {
+    const validateResult = validationResult(req);
+
+    if (!validateResult.isEmpty()) {
+        return { status: false, message: validateResult.errors[0].msg };
+    }
+
+    return { status: true };
+}
+
+//#endregion
 
 module.exports = {
-    validateLogin,
-    login,
+    validateWithoutCustom,
 
+    login,
+    changePasswordRequire,
+    changePasswordOptional,
     getUserInformation,
 };

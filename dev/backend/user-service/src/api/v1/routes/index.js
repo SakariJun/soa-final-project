@@ -1,4 +1,4 @@
-const { verifyAccessTokenMiddleware } = require('../middlewares/jwt.middleware');
+const { verifyAccessTokenMiddleware } = require('../middlewares');
 
 const userRoute = require('./user.route');
 const userAdminRoute = require('./user-admin.route');

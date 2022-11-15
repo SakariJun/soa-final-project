@@ -12,37 +12,34 @@ content-type: application/json
     "gender": "Nam"
 }
 
-###
-POST http://localhost:5000/api/v1/employee-management/user-admin/add-user
-content-type: application/json
-
-{
-    "full_name": "Tang Trung",
-    "phone_number": "1234",
-    "email": "trung1223@gmail.com",
-    "day_of_birth": "10/02/2001",
-    "department_id": "PB00001",
-    "role_name": "63732c1e3e5f00fee0aab769",
-    "gender": "Nam"
-}
-
 # Đăng nhập = account Giám đốc
 ###
 POST http://localhost:5000/api/v1/employee-management/user/login
 content-type: application/json
 
 {
-    "username": "12200001",
-    "password": "12200001"
+    "username": "123456789",
+    "password": "123456789"
 }
 
 
-# Đăng nhập = account không phải giám đốc
+# Đổi mật khẩu
 ###
-POST http://localhost:5000/api/v1/employee-management/user/login
+POST http://localhost:5000/api/v1/employee-management/user/change-password-optional
 content-type: application/json
 
 {
-    "username": "12200002",
-    "password": "12200002"
+    "old_password": "123456789",
+    "new_password": "123456789",
+    "new_password_confirm": "123456789"
+}
+
+# Đổi mật khẩu
+###
+POST http://localhost:5000/api/v1/employee-management/user/change-password-require
+content-type: application/json
+
+{
+    "new_password": "123456789",
+    "new_password_confirm": "123456789"
 }

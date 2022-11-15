@@ -1,4 +1,4 @@
-const { verifyRoleMiddleware } = require('../middlewares/authorization-role.middleware');
+const { verifyRoleMiddleware } = require('../middlewares');
 
 const { addUserValidator } = require('../validators');
 const { ROLE_NAME_DIRECTOR } = require('../constants/global.constant');

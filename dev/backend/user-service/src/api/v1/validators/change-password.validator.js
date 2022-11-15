@@ -2,7 +2,7 @@ const { check } = require('express-validator');
 
 // Validate cho trường hợp - Đổi mật khẩu lần đầu tiên đăng nhập
 // Validate mật khẩu mới + mật khẩu mới xác nhận
-const validatorChangePasswordRequire = [
+const changePasswordRequireValidator = [
     check('new_password')
         .notEmpty()
         .withMessage('Vui lòng nhập mật khẩu mới !')
@@ -18,7 +18,7 @@ const validatorChangePasswordRequire = [
         .withMessage('Mật khẩu xác nhận phải có ít nhất 6 ký tự !'),
 ];
 
-const validatorChangePasswordOptional = [
+const changePasswordOptionalValidator = [
     check('old_password')
         .notEmpty()
         .withMessage('Vui lòng nhập mật khẩu cũ!')
@@ -42,6 +42,6 @@ const validatorChangePasswordOptional = [
 ];
 
 module.exports = {
-    validatorChangePasswordRequire,
-    validatorChangePasswordOptional,
+    changePasswordRequireValidator,
+    changePasswordOptionalValidator,
 };

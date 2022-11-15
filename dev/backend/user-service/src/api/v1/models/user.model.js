@@ -38,7 +38,7 @@ const AccountSchema = new Schema(
             required: true,
         },
 
-        is_active: {
+        is_activate: {
             type: Schema.Types.Boolean,
             required: true,
             default: false,

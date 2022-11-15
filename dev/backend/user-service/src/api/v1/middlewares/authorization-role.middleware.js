@@ -29,4 +29,4 @@ const verifyRoleMiddleware = (roles) => {
     };
 };
 
-module.exports = { verifyRoleMiddleware };
+module.exports = verifyRoleMiddleware;
