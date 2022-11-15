@@ -149,3 +149,4 @@ function validateLogin(req) {
 }
 
 module.exports = { validateLogin, authenticationUser }
+

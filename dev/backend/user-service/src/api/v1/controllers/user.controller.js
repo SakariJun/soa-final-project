@@ -75,7 +75,6 @@ const GetUserInformationController = async function (req, res, next) {
 };
 
 module.exports = {
-    AddUserController,
     LoginController,
     GetUserInformationController,
 };

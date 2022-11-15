@@ -22,3 +22,9 @@ URL: /favicon.ico
 METHOD: GET
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: 00d4a166-1243-4cfa-bd78-d133c0d07166
+TIME: 15-11-2022	16:21:19
+URL: /api/v1/employee-management/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
