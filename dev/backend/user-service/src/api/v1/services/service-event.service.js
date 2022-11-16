@@ -3,22 +3,28 @@ const {
     SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
 } = require('../constants/global.constant');
 
+const { updateUserRole } = require('./user-admin.service');
+const { getUserInformation } = require('./user.service');
+
 // Hàm này có nhiệm vụ
 // Nhận loại sự kiện cần xử lý
 // Data từ Service gửi đến.
 // Sau khi xử lý sẽ trả về kết quả cho Service gọi đến
-
 const SubscribeEvents = async function ({ event, data }) {
     try {
         switch (event) {
             case SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID:
-                return;
+                const result = await getUserInformation(data);
+                if (result.status) {
+                    result.data = result.data.role_id.name;
+                }
+                return result;
             case SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID:
-                return;
+                return await updateUserRole(data);
             default:
                 return {
                     status: false,
-                    message: 'Invalid event !',
+                    message: 'Event không hợp lệ!',
                 };
         }
     } catch (error) {

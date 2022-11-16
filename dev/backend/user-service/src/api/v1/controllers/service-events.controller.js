@@ -1,4 +1,4 @@
-const { SubscribeEvents } = require('../services/service-event.service');
+const SubscribeEvents = require('../services/service-event.service');
 
 // Controller Service Events
 // Chịu trách nhiệm nhận request từ các service khác
@@ -10,7 +10,7 @@ const ServiceEventsController = async (req, res, next) => {
     try {
         const { payload } = req.body;
 
-        const { status, message, data } = SubscribeEvents(payload);
+        const { status, message, data } = await SubscribeEvents(payload);
 
         if (!status) {
             return res.status(202).json({ status, message, data });
@@ -23,6 +23,4 @@ const ServiceEventsController = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    ServiceEventsController,
-};
+module.exports = ServiceEventsController;

@@ -128,6 +128,7 @@ const addUser = async function ({
 };
 // #endregion
 
+// #region Chức năng của Giám đốc
 const resetPassword = async function ({ user_id }) {
     try {
         let user = await _User.findOne({ user_id });
@@ -178,12 +179,15 @@ const getUserDetail = async function ({ user_id }) {
         return { status: false, message: error.message };
     }
 };
+// #endregion
 
+// #region Service Public Cho các Service Khác
 const updateUserRole = async function ({ user_id, role_name }) {
     try {
         const role = await _Role.findOne({ name: role_name });
 
         if (!role) {
+            return { status: false, message: 'Chức vụ không hợp lệ!' };
         }
 
         const user = await _User.findOneAndUpdate(
@@ -209,6 +213,7 @@ const updateUserRole = async function ({ user_id, role_name }) {
     }
 };
 
+// #endregion
 module.exports = {
     validateAddUser,
     addUser,
@@ -217,4 +222,6 @@ module.exports = {
 
     getAllUsers,
     getUserDetail,
+
+    updateUserRole,
 };

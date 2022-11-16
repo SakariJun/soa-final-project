@@ -1,5 +1,5 @@
 ###
-POST http://localhost:5000/api/v1/employee-management/user-admin/add-user
+POST http://localhost:5001/user-admin/add-user
 content-type: application/json
 
 {
@@ -14,7 +14,7 @@ content-type: application/json
 
 # Đăng nhập = account Giám đốc
 ###
-POST http://localhost:5000/api/v1/employee-management/user/login
+POST http://localhost:5001/user/login
 content-type: application/json
 
 {
@@ -24,7 +24,7 @@ content-type: application/json
 
 # Đổi mật khẩu
 ###
-PUT http://localhost:5000/api/v1/employee-management/user/change-password-require
+PUT http://localhost:5001/user/change-password-require
 content-type: application/json
 
 {
@@ -35,7 +35,7 @@ content-type: application/json
 
 # Đổi mật khẩu
 ###
-PUT http://localhost:5000/api/v1/employee-management/user/change-password-optional
+PUT http://localhost:5001/user/change-password-optional
 content-type: application/json
 
 {
@@ -46,7 +46,7 @@ content-type: application/json
 
 # Gửi yêu cầu đặt lại mật khẩu
 ###
-POST http://localhost:5000/api/v1/employee-management/user/request-reset-password
+POST http://localhost:5001/user/request-reset-password
 content-type: application/json
 
 {
@@ -56,7 +56,7 @@ content-type: application/json
 
 # Đặt lại mật khẩu
 ###
-POST http://localhost:5000/api/v1/employee-management/user-admin/reset-password
+POST http://localhost:5001/user-admin/reset-password
 content-type: application/json
 
 {
@@ -65,9 +65,24 @@ content-type: application/json
 
 # Lấy danh sách nhân viên
 ###
-GET http://localhost:5000/api/v1/employee-management/user-admin/get-all-users
+GET http://localhost:5001/user-admin/get-all-users
 
 # Xem chi tiết nhân viên
 ###
-GET http://localhost:5000/api/v1/employee-management/user-admin/get-user-detail?user_id=12200001
+GET http://localhost:5001/user-admin/get-user-detail?user_id=12200001
 
+
+# Test Microservice
+# Lấy thông tin quyền
+###
+POST http://localhost:5001/service-events
+content-type: application/json
+
+{
+    "payload": {
+        "event": 1,
+        "data": {
+            "user_id": "12200001"
+        }
+    }
+}

@@ -114,6 +114,7 @@ module.exports = {
     createDepartment,
     getAllDepartments,
     updateDepartment,
+    deleteDepartment,
     assignLeaderDepartment,
     removeLeaderDepartment,
 };

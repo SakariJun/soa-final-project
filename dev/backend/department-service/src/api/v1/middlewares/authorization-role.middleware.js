@@ -1,7 +1,7 @@
 const createError = require('http-errors');
 
-const _Role = require('../models/role.model');
-
+const PublishServiceEvent = require('../utils/service-communicate.util');
+const { SERVICE_USER, SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID } = require('../constants/global.constant');
 const verifyRoleMiddleware = (roles) => {
     if (roles.length === 0) {
         return createError.Unauthorized();
@@ -9,16 +9,20 @@ const verifyRoleMiddleware = (roles) => {
 
     return async (req, res, next) => {
         // Check if the request is called by AJAX - Fetch and expect to receive JSON Response
-        const accountRole = await _Role.findById(req.payload.role_id).lean();
+        const payload = {
+            event: SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID,
+            data: {
+                user_id: req.payload.user_id,
+            },
+        };
 
-        if (!accountRole) {
-            return res.status(400).json({
-                status: false,
-                message: 'Tên tài khoản không tồn tại ! Vui lòng thử lại !',
-            });
+        const accountRole = await PublishServiceEvent(payload, SERVICE_USER);
+
+        if (!accountRole.status) {
+            return res.status(400).json(accountRole);
         }
 
-        if (!roles.includes(accountRole.name)) {
+        if (!roles.includes(accountRole.data)) {
             return res.status(403).json({
                 status: false,
                 message: 'Bạn không có quyền sử dụng tính năng này !',

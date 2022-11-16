@@ -89,6 +89,7 @@ const getUserInformation = async function ({ user_id }) {
         }
 
         delete user.account;
+        console.log('🚀 ~ file: user.service.js ~ line 85 ~ getUserInformation ~ user', user);
 
         return {
             status: true,

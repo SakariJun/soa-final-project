@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 
-module.exports = [
+const createDepartmentValidator = [
     check('phone_number')
         .notEmpty()
         .withMessage('Vui lòng nhập số điện thoại !')
@@ -28,3 +28,5 @@ module.exports = [
 
     check('role_name').notEmpty().withMessage('Vui lòng chọn chức vụ của nhân viên!'),
 ];
+
+module.exports = createDepartmentValidator;

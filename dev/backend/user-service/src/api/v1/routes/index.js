@@ -1,27 +1,20 @@
-const { verifyAccessTokenMiddleware, verifyRoleMiddleware } = require('../middlewares');
+const { verifyAccessTokenMiddleware, verifyRoleMiddleware, verifyServiceAPIKeyMiddleware } = require('../middlewares');
 
 const { ROLE_NAME_DIRECTOR } = require('../constants/global.constant');
 
 const userRoute = require('./user.route');
 const userAdminRoute = require('./user-admin.route');
 
-const ServiceEventsController = require('../services/service-event.service');
+const ServiceEventsController = require('../controllers/service-events.controller');
 
 const routes = function (app) {
-    const PREFIX = '/api/v1/employee-management';
-
-    app.use(`${PREFIX}/user`, userRoute);
+    app.use(`/user`, userRoute);
 
     // Để sử dụng các chức năng quản lý người dùng của admin
     // Cần có JWT và ROLe = Giám đốc
-    app.use(
-        `${PREFIX}/user-admin`,
-        verifyAccessTokenMiddleware,
-        verifyRoleMiddleware([ROLE_NAME_DIRECTOR]),
-        userAdminRoute,
-    );
+    app.use(`/user-admin`, verifyAccessTokenMiddleware, verifyRoleMiddleware([ROLE_NAME_DIRECTOR]), userAdminRoute);
 
-    app.use(`/service-events`, ServiceEventsController);
+    app.use(`/service-events`, verifyServiceAPIKeyMiddleware, ServiceEventsController);
 };
 
 module.exports = routes;
