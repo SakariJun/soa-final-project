@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 function handleDatabaseError(error) {
-    console.log(error);
-    console.log("Server can't working if can't connect to database!");
+    console.error(error);
+    console.error("Server can't working if can't connect to database!");
     process.exit(1);
 }
 
@@ -24,7 +24,7 @@ function connect() {
 
         // Error handling for established connections
         mongoose.connection.on('connected', () => {
-            console.log('Mongoose connection connected');
+            console.error('Mongoose connection connected');
         });
 
         mongoose.connection.on('error', (error) => {

@@ -1,91 +1,73 @@
-# Running Application Flow
-# Step 1: Register an account
-
-# Step 2: Login and receive AccessToken
-
-# Step 3: Use AccessToken to get user information 
-# or checks tuitions of another student by student_id
-# or update account's balance
-
-# Step 4: Validate Tuitions To check if student is affordable for a specific tuition
-# If affordable then generate an OTP code and send it to student email
-
-# Step 5: Validate OTP and if valid transaction is created and student balance will be updated
-
-POST http://localhost:5000/api/v1/i-banking/user/register
+###
+POST http://localhost:5000/api/v1/employee-management/user-admin/add-user
 content-type: application/json
 
 {
-    "full_name": "Tăng Kiến Trung",
-    "phone_number": "0775598582",
-    "email": "trungtkt159@gmail.com",
-    "student_id": "51900718"
+    "full_name": "Tang Trung",
+    "phone_number": "1234",
+    "email": "trung1223@gmail.com",
+    "day_of_birth": "10/02/2001",
+    "department_id": "PB00001",
+    "role_name": "63732c1e3e5f00fee0aab769",
+    "gender": "Nam"
 }
 
+# Đăng nhập = account Giám đốc
 ###
-POST http://localhost:5000/api/v1/i-banking/user/register
+POST http://localhost:5000/api/v1/employee-management/user/login
 content-type: application/json
 
 {
-    "full_name": "Trương Tuấn Thịnh",
-    "phone_number": "0775598581",
-    "email": "trungtkt1911@gmail.com",
-    "student_id": "51900712"
+    "username": "12200001",
+    "password": "12200001"
 }
 
+# Đổi mật khẩu
 ###
-POST http://localhost:5000/api/v1/i-banking/user/login
+PUT http://localhost:5000/api/v1/employee-management/user/change-password-require
 content-type: application/json
 
 {
-    "username": "51900712",
-    "password": "51900712"
+    "new_password": "123456789",
+    "new_password_confirm": "123456789"
 }
 
-###
-GET http://localhost:5000/api/v1/i-banking/user/get-user-information
 
+# Đổi mật khẩu
 ###
-PUT http://localhost:5000/api/v1/i-banking/user/update-user-balance
+PUT http://localhost:5000/api/v1/employee-management/user/change-password-optional
 content-type: application/json
 
 {
-    "balance": 5000000.5
+    "old_password": "123456789",
+    "new_password": "123456789",
+    "new_password_confirm": "123456789"
 }
 
-
+# Gửi yêu cầu đặt lại mật khẩu
 ###
-POST http://localhost:5000/api/v1/i-banking/tuition/create-tuition
+POST http://localhost:5000/api/v1/employee-management/user/request-reset-password
 content-type: application/json
 
 {
-    "student_id": "51900712",
-    "tuition_payment": 5000000
+    "email": "trung123@gmail.com",
+    "phone_number": "123"
 }
 
+# Đặt lại mật khẩu
 ###
-GET http://localhost:5000/api/v1/i-banking/tuition/get-tuitions?student_id=51900718
-
-
-###
-GET http://localhost:5000/api/v1/i-banking/tuition/get-tuitions?student_id=51900712
-
-
-
-###
-POST http://localhost:5000/api/v1/i-banking/tuition/validate-tuition
+POST http://localhost:5000/api/v1/employee-management/user-admin/reset-password
 content-type: application/json
 
 {
-    "tuition_id": "635bfb9409e936b0609675e7"
+    "user_id": "12200001"
 }
 
+# Lấy danh sách nhân viên
 ###
-POST http://localhost:5000/api/v1/i-banking/otp/verify-otp
-content-type: application/json
+GET http://localhost:5000/api/v1/employee-management/user-admin/get-all-users
 
-{
-    "otp": "352766",
-    "tuition_id": "635bfb9409e936b0609675e7"
-}
+# Xem chi tiết nhân viên
+###
+GET http://localhost:5000/api/v1/employee-management/user-admin/get-user-detail?user_id=12200001
 

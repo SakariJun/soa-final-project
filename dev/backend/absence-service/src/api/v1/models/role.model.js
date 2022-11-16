@@ -2,13 +2,20 @@ const { Schema, model } = require('mongoose');
 
 const RoleSchema = Schema(
     {
-        role_name: {
+        name: {
             type: Schema.Types.String,
             required: true,
             unique: true,
         },
-        role_description: {
+
+        description: {
             type: Schema.Types.String,
+        },
+
+        permissions: {
+            type: Schema.Types.Array,
+            required: true,
+            default: [],
         },
     },
     {

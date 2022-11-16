@@ -13,57 +13,69 @@ const { _User, _Role } = require('../models');
 
 // #region Thêm nhân viên
 async function validateAddUser(req) {
-    const validateResult = validationResult(req);
+    try {
+        const validateResult = validationResult(req);
 
-    if (!validateResult.isEmpty()) {
-        return { status: false, message: validateResult.errors[0].msg };
-    }
-
-    const { email, phone_number } = req.body;
-
-    const checkDuplicateInformation = await _User
-        .findOne({
-            $or: [
-                {
-                    email: email,
-                },
-                {
-                    phone_number: phone_number,
-                },
-            ],
-        })
-        .lean();
-
-    if (checkDuplicateInformation) {
-        if (checkDuplicateInformation.email === email) {
-            return { status: false, message: 'Địa chỉ email đã tồn tại!' };
+        if (!validateResult.isEmpty()) {
+            return { status: false, message: validateResult.errors[0].msg };
         }
 
-        if (checkDuplicateInformation.phone_number === phone_number) {
-            return { status: false, message: 'Số điện thoại đã tồn tại!' };
-        }
-    }
+        const { email, phone_number } = req.body;
 
-    return { status: true };
+        const checkDuplicateInformation = await _User
+            .findOne({
+                $or: [
+                    {
+                        email: email,
+                    },
+                    {
+                        phone_number: phone_number,
+                    },
+                ],
+            })
+            .lean();
+
+        if (checkDuplicateInformation) {
+            if (checkDuplicateInformation.email === email) {
+                return { status: false, message: 'Địa chỉ email đã tồn tại!' };
+            }
+
+            if (checkDuplicateInformation.phone_number === phone_number) {
+                return { status: false, message: 'Số điện thoại đã tồn tại!' };
+            }
+        }
+
+        return { status: true };
+    } catch (error) {
+        console.error(error.message);
+        return { status: false, message: 'Có lỗi xảy ra trong quá trình kiểm tra đầu vào!' };
+    }
 }
 
 const generateUniqueUserID = async function (department_id) {
-    let maxCurrentID = await _User.find({ department_id }).sort('-user_id').limit(1).lean();
+    try {
+        let maxCurrentID = await _User.find({ department_id }).sort('-user_id').limit(1).lean();
 
-    if (maxCurrentID.length === 0) {
-        maxCurrentID = ''.padStart(ID_DIGITS, '0');
-    } else {
-        maxCurrentID = maxCurrentID[0].user_id;
-        maxCurrentID = maxCurrentID.substring(maxCurrentID.length - ID_DIGITS, maxCurrentID.length);
+        if (maxCurrentID.length === 0) {
+            maxCurrentID = ''.padStart(ID_DIGITS, '0');
+        } else {
+            maxCurrentID = maxCurrentID[0].user_id;
+            maxCurrentID = maxCurrentID.substring(maxCurrentID.length - ID_DIGITS, maxCurrentID.length);
+        }
+
+        maxCurrentID = createNewIDWithOutPrefix(maxCurrentID);
+
+        const department_index = parseInt(
+            department_id.substring(department_id.length - ID_DIGITS, department_id.length),
+        );
+
+        const twoLastDigitFromYear = new Date().getFullYear().toString().substr(-2);
+
+        return `${department_index}${twoLastDigitFromYear}${maxCurrentID}`;
+    } catch (err) {
+        console.error(err.message);
+        return err.message;
     }
-
-    maxCurrentID = createNewIDWithOutPrefix(maxCurrentID);
-
-    const department_index = parseInt(department_id.substring(department_id.length - ID_DIGITS, department_id.length));
-
-    const twoLastDigitFromYear = new Date().getFullYear().toString().substr(-2);
-
-    return `${department_index}${twoLastDigitFromYear}${maxCurrentID}`;
 };
 
 const addUser = async function ({
@@ -163,6 +175,36 @@ const getUserDetail = async function ({ user_id }) {
         return { status: true, message: 'Xem chi tiết thông tin nhân viên thành công!', data: user };
     } catch (error) {
         console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const updateUserRole = async function ({ user_id, role_name }) {
+    try {
+        const role = await _Role.findOne({ name: role_name });
+
+        if (!role) {
+        }
+
+        const user = await _User.findOneAndUpdate(
+            {
+                user_id,
+            },
+            {
+                role_id: role._id,
+            },
+            {
+                new: true,
+            },
+        );
+
+        if (!user) {
+            return { status: false, message: 'Không thể cập nhật chức vụ của nhân viên! Vui lòng thử lại sau!' };
+        }
+
+        return { status: true, message: 'Cập nhật chức vụ nhân viên thành công!', data: user };
+    } catch (error) {
+        console.error(error.message);
         return { status: false, message: error.message };
     }
 };

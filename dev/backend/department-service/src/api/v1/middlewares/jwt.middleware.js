@@ -14,8 +14,6 @@ const verifyAccessTokenMiddleware = async (req, res, next) => {
         return next(createError.Unauthorized());
     }
 
-    console.log('🚀 ~ file: jwt.middleware.js ~ line 18 ~ verifyAccessTokenMiddleware ~ req.cookies', req.cookies);
-
     if (accessToken.includes('Bearer')) {
         accessToken = accessToken.split(' ')[1];
     }
@@ -45,6 +43,4 @@ const verifyAccessTokenMiddleware = async (req, res, next) => {
     });
 };
 
-module.exports = {
-    verifyAccessTokenMiddleware,
-};
+module.exports = verifyAccessTokenMiddleware;

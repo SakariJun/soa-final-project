@@ -11,7 +11,7 @@ function createNewIDWithOutPrefix(maxCurrentID) {
         // Trả về tiền tố + ID sau khi tăng 1
         return maxCurrentID.substring(0, idLength - ID_DIGITS) + newMaxID;
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         return 'ERROR';
     }
 }
@@ -26,7 +26,7 @@ function createNewIDWithPrefix(maxCurrentID, prefix) {
 
         return prefix + newMaxID;
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         return prefix;
     }
 }

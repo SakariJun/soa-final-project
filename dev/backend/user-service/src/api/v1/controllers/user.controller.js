@@ -102,11 +102,11 @@ const ChangePasswordOptionalController = async function (req, res, next) {
 const RequestResetPasswordController = async function (req, res, next) {
     try {
         const validationResult = validateWithoutCustom(req);
-        console.log(
+        console.error(
             '🚀 ~ file: user.controller.js ~ line 105 ~ RequestResetPasswordController ~ validationResult',
             validationResult,
         );
-        console.log(validationResult);
+        console.error(validationResult);
 
         if (!validationResult.status) {
             return res.status(403).json(validationResult);

@@ -64,16 +64,22 @@ const login = async function ({ username, password }) {
 //#endregion
 
 //#region Get User information
-const getUserInformation = async function ({ _id }) {
+const getUserInformation = async function ({ user_id }) {
     try {
-        if (!_id) {
+        if (!user_id) {
             return {
                 status: false,
                 message: 'Không tìm thấy thông tin người dùng! Vui lòng đăng xuất và đăng nhập lại!',
             };
         }
 
-        const user = await _User.findById(_id).lean();
+        const user = await _User
+            .findOne({ user_id })
+            .populate({
+                path: 'role_id',
+                select: '-_id',
+            })
+            .lean();
 
         if (!user) {
             return {
@@ -82,42 +88,12 @@ const getUserInformation = async function ({ _id }) {
             };
         }
 
-        // const transaction = await _Transaction
-        //     .find({
-        //         $or: [
-        //             {
-        //                 send_from: user._id,
-        //             },
-        //             {
-        //                 send_to: user._id,
-        //             },
-        //         ],
-        //     })
-        //     .populate({
-        //         path: 'send_from',
-        //         select: 'student_id full_name -_id',
-        //     })
-        //     .populate({
-        //         path: 'send_to',
-        //         select: 'student_id full_name -_id',
-        //     })
-        //     .lean();
-
-        // for (let i = 0; i < transaction.length; i++) {
-        //     let createdAt = new Date(transaction[i].createdAt);
-        //     createdAt = moment(createdAt).format('DD/MM/YYYY HH:mm:ss');
-
-        //     transaction[i].createdAt = createdAt;
-        // }
+        delete user.account;
 
         return {
             status: true,
             message: 'Lấy thông tin người dùng thành công !',
-            data: {
-                full_name: user.full_name,
-                email: user.email,
-                phone_number: user.phone_number,
-            },
+            data: user,
         };
     } catch (error) {
         console.error(error);
