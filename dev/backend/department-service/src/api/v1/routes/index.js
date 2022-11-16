@@ -1,9 +1,4 @@
-const {
-    verifyServiceAPIKeyMiddleware,
-    verifyIsActiveMiddleware,
-    verifyAccessTokenMiddleware,
-    verifyRoleMiddleware,
-} = require('../middlewares');
+const { verifyRoleMiddleware, verifyAccessTokenMiddleware, verifyServiceAPIKeyMiddleware } = require('../middlewares');
 
 const { ROLE_NAME_DIRECTOR } = require('../constants/global.constant');
 
@@ -14,7 +9,6 @@ const routes = function (app) {
     app.use(
         `/department`,
         verifyAccessTokenMiddleware,
-        verifyIsActiveMiddleware,
         verifyRoleMiddleware([ROLE_NAME_DIRECTOR]),
         DepartmentManagementRoute,
     );

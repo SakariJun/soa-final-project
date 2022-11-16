@@ -9,6 +9,7 @@ const SubscribeEvents = require('../services/service-event.service');
 const ServiceEventsController = async (req, res, next) => {
     try {
         const { payload } = req.body;
+        console.log('🚀 ~ file: service-events.controller.js ~ line 12 ~ ServiceEventsController ~ payload', payload);
 
         const { status, message, data } = await SubscribeEvents(payload);
 

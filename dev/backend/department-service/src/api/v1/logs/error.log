@@ -34,3 +34,15 @@ URL: /api/v1/employee-management/user-admin/reset-password
 METHOD: POST
 MESSAGE: Unauthorized
 --------------------------------------------------------
+LOG_ERROR_ID: 9c72ac7a-c03b-4236-8f6a-caf62c25bc45
+TIME: 16-11-2022	21:33:48
+URL: /department-management/create-department
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 980c2124-b0de-4d7c-9e42-2e5be1ba8499
+TIME: 16-11-2022	21:47:01
+URL: /department
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------

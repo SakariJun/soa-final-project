@@ -8,8 +8,9 @@ function handleDatabaseError(error) {
 
 function connect() {
     try {
-        // const MONGODB_URI = process.env.MONGODB_URI_CLUSTER;
-        const MONGODB_URI = process.env.MONGODB_URI;
+        // TODO: Check if production mode then use MONGODB_URI_CLUSTER
+        const MONGODB_URI = process.env.MONGODB_URI_CLUSTER;
+        // const MONGODB_URI = process.env.MONGODB_URI;
 
         const options = {
             maxPoolSize: 10, // Maintain up to 10 socket connections

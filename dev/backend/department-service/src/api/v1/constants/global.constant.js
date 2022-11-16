@@ -15,10 +15,10 @@ exports.SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID = 1;
 exports.SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID = 2;
 
 // Events của Service Absence
-exports.SERVICE_USER = process.env.ABSENCE_SERVICE_URL;
+exports.SERVICE_ABSENCE = process.env.ABSENCE_SERVICE_URL;
 
 // Events của Service Department
-exports.SERVICE_USER = process.env.DEPARTMENT_SERVICE_URL;
+exports.SERVICE_DEPARTMENT = process.env.DEPARTMENT_SERVICE_URL;
 
 // Events của Service Task
-exports.SERVICE_USER = process.env.TASK_SERVICE_URL;
+exports.SERVICE_TASK = process.env.TASK_SERVICE_URL;

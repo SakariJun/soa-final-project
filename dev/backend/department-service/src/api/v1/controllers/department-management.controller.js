@@ -1,15 +1,19 @@
 const {
     createDepartment,
     getAllDepartments,
+    getDepartmentDetail,
     updateDepartment,
     deleteDepartment,
+
     assignLeaderDepartment,
     removeLeaderDepartment,
+
+    validateWithoutCustom,
 } = require('../services/department-management.service');
 
 const CreateDepartmentController = async function (req, res, next) {
     try {
-        const validationResult = await validateAddUser(req);
+        const validationResult = await validateWithoutCustom(req);
 
         if (!validationResult.status) {
             return res.status(403).json(validationResult);
@@ -30,7 +34,7 @@ const CreateDepartmentController = async function (req, res, next) {
 
 const UpdateDepartmentController = async function (req, res, next) {
     try {
-        const validationResult = await validateAddUser(req);
+        const validationResult = await validateWithoutCustom(req);
 
         if (!validationResult.status) {
             return res.status(403).json(validationResult);
@@ -81,7 +85,7 @@ const GetAllDepartmentsController = async (req, res, next) => {
 
 const GetDepartmentDetailController = async (req, res, next) => {
     try {
-        const { status, message, data } = await getAllDepartments(req.query);
+        const { status, message, data } = await getDepartmentDetail(req.query);
 
         if (!status) {
             return res.status(202).json({ status, message });
@@ -96,7 +100,7 @@ const GetDepartmentDetailController = async (req, res, next) => {
 
 const AssignLeaderDepartmentController = async function (req, res, next) {
     try {
-        const validationResult = await validateAddUser(req);
+        const validationResult = await validateWithoutCustom(req);
 
         if (!validationResult.status) {
             return res.status(403).json(validationResult);
@@ -117,7 +121,7 @@ const AssignLeaderDepartmentController = async function (req, res, next) {
 
 const RemoveLeaderDepartmentController = async function (req, res, next) {
     try {
-        const validationResult = await validateAddUser(req);
+        const validationResult = await validateWithoutCustom(req);
 
         if (!validationResult.status) {
             return res.status(403).json(validationResult);

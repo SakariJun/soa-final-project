@@ -2,6 +2,7 @@ const createError = require('http-errors');
 
 const PublishServiceEvent = require('../utils/service-communicate.util');
 const { SERVICE_USER, SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID } = require('../constants/global.constant');
+
 const verifyRoleMiddleware = (roles) => {
     if (roles.length === 0) {
         return createError.Unauthorized();
@@ -10,14 +11,17 @@ const verifyRoleMiddleware = (roles) => {
     return async (req, res, next) => {
         // Check if the request is called by AJAX - Fetch and expect to receive JSON Response
         const payload = {
-            event: SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID,
-            data: {
-                user_id: req.payload.user_id,
+            payload: {
+                event: SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID,
+                data: {
+                    user_id: req.payload.user_id,
+                },
             },
         };
 
-        const accountRole = await PublishServiceEvent(payload, SERVICE_USER);
+        let accountRole = await PublishServiceEvent(payload, SERVICE_USER);
 
+        accountRole = accountRole.data;
         if (!accountRole.status) {
             return res.status(400).json(accountRole);
         }
