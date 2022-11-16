@@ -1,6 +1,6 @@
 from random import randint
-from . import db
-from .documents import User, Post, Comment, Reaction, Icons
+from .. import db
+from ..documents import User, Post, Comment, Reaction, Icons
 
 
 # Used to generate fake users
