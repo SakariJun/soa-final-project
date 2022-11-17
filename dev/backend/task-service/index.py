@@ -12,4 +12,4 @@ if __name__ == "__main__":
         if TaskRate.objects.count() == 0:
             TaskRate.insert_task_rate()
 
-    app.run()
+    app.run(port=os.getenv("PORT") or 5000)

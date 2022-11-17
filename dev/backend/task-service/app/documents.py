@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson.objectid import ObjectId
 from . import db
 
@@ -58,10 +58,7 @@ class TaskRate(db.Document):
 # Task conversations
 # Quá trình trao đổi - đánh giá giữa người giao và người được giao
 class TaskConversation(db.EmbeddedDocument):
-    id = db.ObjectIdField(required=True,
-                          default=ObjectId,
-                          unique=True,
-                          primary_key=True)
+    id = db.ObjectIdField(required=True, default=ObjectId, primary_key=True)
     user_id = db.StringField(required=True)
     content = db.StringField(required=True)
     created_at = db.DateTimeField(default=datetime.now())
@@ -93,4 +90,11 @@ class Task(db.Document):
         if not self.status:
             self.status = TaskStatus.objects.get(status="New")
         self.updated_at = datetime.now()
+
+        # +23h59m59s -> deadline hết ngày
+        if isinstance(self.deadline, str):
+            self.deadline = datetime.strptime(self.deadline, "%Y-%m-%d") + timedelta(
+                hours=23, minutes=59, seconds=59
+            )
+
         return super(Task, self).save(*args, **kwargs)
