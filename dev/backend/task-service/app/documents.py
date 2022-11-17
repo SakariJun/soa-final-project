@@ -1,13 +1,6 @@
 from datetime import datetime
-from flask_mongoengine import BaseQuerySet
 from bson.objectid import ObjectId
 from . import db
-
-
-class MyCustomizedQuery(BaseQuerySet):
-
-    def get_johns(self):
-        return self.filter(self.type.first_name == "John")
 
 
 class TaskStatusDefined:
@@ -65,6 +58,10 @@ class TaskRate(db.Document):
 # Task conversations
 # Quá trình trao đổi - đánh giá giữa người giao và người được giao
 class TaskConversation(db.EmbeddedDocument):
+    id = db.ObjectIdField(required=True,
+                          default=ObjectId,
+                          unique=True,
+                          primary_key=True)
     user_id = db.StringField(required=True)
     content = db.StringField(required=True)
     created_at = db.DateTimeField(default=datetime.now())
