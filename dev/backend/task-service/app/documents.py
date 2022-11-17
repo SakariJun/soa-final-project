@@ -91,7 +91,9 @@ class Task(db.Document):
 
     conversations = db.ListField(db.EmbeddedDocumentField(TaskConversation))
 
+    # Update updated_time mỗi khi có lưu thay đổi mới
     def save(self, *args, **kwargs):
         if not self.status:
             self.status = TaskStatus.objects.get(status="New")
+        self.updated_at = datetime.now()
         return super(Task, self).save(*args, **kwargs)
