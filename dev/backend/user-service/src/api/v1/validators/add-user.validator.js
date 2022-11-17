@@ -4,7 +4,6 @@ module.exports = [
     check('phone_number')
         .notEmpty()
         .withMessage('Vui lòng nhập số điện thoại !')
-        .not()
         .isMobilePhone('vi-VN')
         .withMessage('Định dạng số điện thoại không hợp lệ ! Hệ thống chỉ hỗ trợ số điện thoại Việt Nam'),
 
@@ -17,6 +16,7 @@ module.exports = [
     check('full_name')
         .notEmpty()
         .withMessage('Vui lòng nhập họ tên !')
+        .not()
         .matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
         .withMessage('Trong họ tên chứa các ký tự không hợp lệ!'),
 
@@ -25,6 +25,4 @@ module.exports = [
     check('gender').notEmpty().withMessage('Vui lòng chọn giới tính của nhân viên!'),
 
     check('department_id').notEmpty().withMessage('Vui lòng chọn phòng ban cho nhân viên!'),
-
-    check('role_name').notEmpty().withMessage('Vui lòng chọn chức vụ của nhân viên!'),
 ];

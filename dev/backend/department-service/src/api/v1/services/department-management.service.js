@@ -8,6 +8,7 @@ const {
     SERVICE_USER,
     ROLE_NAME_LEADER,
     SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
+    ROLE_NAME_EMPLOYEE,
 } = require('../constants/global.constant');
 const PublishServiceEvent = require('../utils/service-communicate.util');
 const { createNewIDWithOutPrefix } = require('../utils/generate-prefix-id.util');
@@ -20,9 +21,9 @@ const createDepartment = async function ({ name, room, leader_id = '', descripti
         if (leader_id !== '') {
             // TODO: Check xem hiện tại leader_id có đang làm trưởng phòng của phòng ban nào không
             // Nếu có thì báo lỗi
-            const checkIsAlreadyLeader = await _Department.findOne({ leader_id }).lean();
+            const checkIsAlreadyLeader = await _Department.findOne({ leader_id }).session(session).lean();
 
-            if (!checkIsAlreadyLeader) {
+            if (checkIsAlreadyLeader) {
                 await session.abortTransaction();
                 return {
                     status: false,
@@ -46,13 +47,18 @@ const createDepartment = async function ({ name, room, leader_id = '', descripti
 
         maxCurrentID = createNewIDWithOutPrefix(maxCurrentID);
 
-        const department = await _Department.create({
-            department_id: maxCurrentID,
-            name,
-            room,
-            leader_id,
-            description,
-        });
+        const department = await _Department.create(
+            {
+                department_id: maxCurrentID,
+                name,
+                room,
+                leader_id,
+                description,
+            },
+            {
+                session,
+            },
+        );
 
         if (!department) {
             await session.abortTransaction();
@@ -154,8 +160,19 @@ const assignLeaderDepartment = async function ({ leader_id, department_id }) {
     const session = await startSession();
     try {
         session.startTransaction();
-        // TODO: Gọi sang service khác để kiểm tra
-        // leader_id hiện tại có tồn tại và đang làm trưởng phòng hay không
+
+        const checkIsAlreadyLeader = await _Department.findOne({ leader_id }).session(session).lean();
+
+        if (checkIsAlreadyLeader) {
+            await session.abortTransaction();
+            return {
+                status: false,
+                message: `Nhân viên ${leader_id} đã là trưởng phòng của phòng ban ${checkIsAlreadyLeader.name}`,
+            };
+        }
+
+        // Nếu nhân viên hiện tại chưa làm trưởng phòng của phòng ban nào
+        // thì cập nhật trưởng phòng của phòng ban
 
         const department = await _Department.findOneAndUpdate(
             {
@@ -166,6 +183,7 @@ const assignLeaderDepartment = async function ({ leader_id, department_id }) {
             },
             {
                 new: true,
+                session,
             },
         );
 
@@ -174,6 +192,7 @@ const assignLeaderDepartment = async function ({ leader_id, department_id }) {
             return { status: false, message: 'Bổ nhiệm trưởng phòng không thành công!' };
         }
 
+        // Sau khi tạo phòng ban xong thì gọi sang User Service để cập nhật role của nhân viên
         const payload = {
             payload: {
                 event: SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
@@ -186,7 +205,7 @@ const assignLeaderDepartment = async function ({ leader_id, department_id }) {
 
         let userServiceResponse = await PublishServiceEvent(payload, SERVICE_USER);
 
-        if (!userServiceResponse.status) {
+        if (userServiceResponse.statusText !== 'OK') {
             await session.abortTransaction();
             return userServiceResponse;
         }
@@ -202,11 +221,52 @@ const assignLeaderDepartment = async function ({ leader_id, department_id }) {
     }
 };
 
-const removeLeaderDepartment = async function () {
+const removeLeaderDepartment = async function ({ department_id }) {
+    const session = await startSession();
     try {
+        session.startTransaction();
+
+        let department = await _Department.findOne({ department_id }).session(session);
+
+        if (!department) {
+            await session.abortTransaction();
+            return {
+                status: false,
+                message: `Không tìm thấy phòng ban với mã ${department_id}`,
+            };
+        }
+
+        if (department.leader_id !== '') {
+            department.leader_id = '';
+            await department.save();
+        } else {
+            // Cập nhật trưởng phòng của phòng ban về '' và cập nhật lại role của trưởng phòng cũ
+            const payload = {
+                payload: {
+                    event: SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
+                    data: {
+                        user_id: department.leader_id,
+                        role_name: ROLE_NAME_EMPLOYEE,
+                    },
+                },
+            };
+
+            let userServiceResponse = await PublishServiceEvent(payload, SERVICE_USER);
+
+            if (userServiceResponse.statusText !== 'OK') {
+                await session.abortTransaction();
+                return userServiceResponse;
+            }
+        }
+
+        await session.commitTransaction();
+        return { status: true, message: 'Xóa chức trưởng phòng thành công!' };
     } catch (error) {
         console.error(error);
+        await session.abortTransaction();
         return { status: false, message: error.message };
+    } finally {
+        await session.endSession();
     }
 };
 

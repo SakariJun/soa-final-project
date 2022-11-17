@@ -1,12 +1,19 @@
 const bcrypt = require('bcrypt');
+const { startSession } = require('mongoose');
 const { validationResult } = require('express-validator');
 
 const {
     ID_DIGITS,
+    ROLE_NAME_DIRECTOR,
     ROLE_NAME_LEADER,
+    ROLE_NAME_EMPLOYEE,
     MAX_ABSENCE_DAY_LEADER,
     MAX_ABSENCE_DAY_EMPLOYEE,
+
+    SERVICE_DEPARTMENT,
+    SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID,
 } = require('../constants/global.constant');
+const PublishServiceEvent = require('../utils/service-communicate.util');
 const { createNewIDWithOutPrefix } = require('../utils/generate-prefix-id.util');
 
 const { _User, _Role } = require('../models');
@@ -78,20 +85,33 @@ const generateUniqueUserID = async function (department_id) {
     }
 };
 
-const addUser = async function ({
-    full_name,
-    phone_number,
-    email,
-    day_of_birth,
-    gender,
-    department_id = 'PB00000',
-    role_name,
-}) {
+const addUser = async function ({ full_name, phone_number, email, day_of_birth, gender, department_id = 'PB00000' }) {
     try {
-        const role = await _Role.findOne({ name: role_name }).lean();
+        const role = await _Role.findOne({ name: ROLE_NAME_EMPLOYEE }).lean();
 
         if (!role) {
             return { status: false, message: 'Không tìm thấy chức vụ tương ứng!' };
+        }
+
+        // TODO: Gọi Department Service để check phòng ban có tồn tại hay không
+        const payload = {
+            payload: {
+                event: SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID,
+                data: {
+                    department_id,
+                },
+            },
+        };
+        let getDepartmentByIDResult = await PublishServiceEvent(payload, SERVICE_DEPARTMENT);
+
+        if (getDepartmentByIDResult.statusText !== 'OK') {
+            return { status: false, message: 'Có lỗi trong quá trình xác thực thông tin phòng ban!' };
+        }
+
+        getDepartmentByIDResult = getDepartmentByIDResult.data;
+
+        if (!getDepartmentByIDResult.status) {
+            return getDepartmentByIDResult;
         }
 
         const user_id = await generateUniqueUserID(department_id);
@@ -183,10 +203,18 @@ const getUserDetail = async function ({ user_id }) {
 
 // #region Service Public Cho các Service Khác
 const updateUserRole = async function ({ user_id, role_name }) {
+    const session = await startSession();
     try {
-        const role = await _Role.findOne({ name: role_name });
+        if (role_name === ROLE_NAME_DIRECTOR) {
+            return { status: false, message: 'Không thể cập nhật chức vụ Giám đốc cho nhân viên!' };
+        }
+
+        session.startTransaction();
+
+        const role = await _Role.findOne({ name: role_name }).session(session);
 
         if (!role) {
+            await session.abortTransaction();
             return { status: false, message: 'Chức vụ không hợp lệ!' };
         }
 
@@ -199,6 +227,7 @@ const updateUserRole = async function ({ user_id, role_name }) {
             },
             {
                 new: true,
+                session,
             },
         );
 
@@ -206,10 +235,15 @@ const updateUserRole = async function ({ user_id, role_name }) {
             return { status: false, message: 'Không thể cập nhật chức vụ của nhân viên! Vui lòng thử lại sau!' };
         }
 
+        // TODO: Gọi Absence Service cập nhật số ngày nghỉ phép tối đa
+        await session.commitTransaction();
         return { status: true, message: 'Cập nhật chức vụ nhân viên thành công!', data: user };
     } catch (error) {
         console.error(error.message);
+        await session.abortTransaction();
         return { status: false, message: error.message };
+    } finally {
+        await session.endSession();
     }
 };
 

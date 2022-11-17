@@ -28,3 +28,23 @@ content-type: application/json
     "room": "223",
     "description": "Phòng IT"
 }
+
+###
+PUT http://localhost:5003/department/assign-leader-department
+content-type: application/json
+
+{   
+    "department_id": "PB00001",
+    "leader_id": "12200001"
+}
+
+###
+PUT http://localhost:5003/department/remove-leader-department
+content-type: application/json
+
+{   
+    "department_id": "PB00001",
+    "name": "ITA",
+    "room": "223",
+    "description": "Phòng IT"
+}

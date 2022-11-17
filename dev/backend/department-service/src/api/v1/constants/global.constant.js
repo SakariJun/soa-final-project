@@ -19,6 +19,6 @@ exports.SERVICE_ABSENCE = process.env.ABSENCE_SERVICE_URL;
 
 // Events của Service Department
 exports.SERVICE_DEPARTMENT = process.env.DEPARTMENT_SERVICE_URL;
-
+exports.SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID = 1;
 // Events của Service Task
 exports.SERVICE_TASK = process.env.TASK_SERVICE_URL;

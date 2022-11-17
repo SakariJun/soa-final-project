@@ -46,3 +46,9 @@ URL: /department
 METHOD: GET
 MESSAGE: Unauthorized
 --------------------------------------------------------
+LOG_ERROR_ID: da1e40ce-9a28-43cf-9b68-08de2569ae70
+TIME: 17-11-2022	09:57:54
+URL: /department/assign-leader-department
+METHOD: PUT
+MESSAGE: Unexpected token } in JSON at position 69
+--------------------------------------------------------

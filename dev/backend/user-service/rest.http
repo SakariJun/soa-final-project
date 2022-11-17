@@ -3,12 +3,11 @@ POST http://localhost:5001/user-admin/add-user
 content-type: application/json
 
 {
-    "full_name": "Tang Trung",
-    "phone_number": "1234",
-    "email": "trung1223@gmail.com",
-    "day_of_birth": "10/02/2001",
+    "full_name": "Tăng Kiến Trung",
+    "phone_number": "0936155348",
+    "email": "trungtkt159@gmail.com",
+    "day_of_birth": "11/19/2001",
     "department_id": "PB00001",
-    "role_name": "63732c1e3e5f00fee0aab769",
     "gender": "Nam"
 }
 
@@ -18,8 +17,8 @@ POST http://localhost:5001/user/login
 content-type: application/json
 
 {
-    "username": "12200001",
-    "password": "12200001"
+    "username": "02200001",
+    "password": "123456"
 }
 
 # Đổi mật khẩu
@@ -40,8 +39,8 @@ content-type: application/json
 
 {
     "old_password": "123456789",
-    "new_password": "123456789",
-    "new_password_confirm": "123456789"
+    "new_password": "123456",
+    "new_password_confirm": "123456"
 }
 
 # Gửi yêu cầu đặt lại mật khẩu
