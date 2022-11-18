@@ -1,3 +1,8 @@
+const multer = require('multer');
+const upload = multer({
+    storage: multer.memoryStorage(),
+});
+
 const { verifyIsActiveMiddleware, verifyAccessTokenMiddleware } = require('../middlewares');
 
 const {
@@ -18,6 +23,15 @@ router.get(
     verifyAccessTokenMiddleware,
     verifyIsActiveMiddleware(true),
     userController.GetUserInformationController,
+);
+
+// Đổi ảnh đại diện
+router.put(
+    '/change-user-avatar',
+    verifyAccessTokenMiddleware,
+    verifyIsActiveMiddleware(true),
+    upload.single('avatar'),
+    userController.ChangeUserAvatarController,
 );
 
 // Đổi mật khẩu (Bắt buộc)

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
 const { _User } = require('../models');
+const firebase = require('../../../configs/firebase.config');
 
 const {
     SERVICE_ABSENCE,
@@ -13,6 +14,63 @@ const {
 
 const { signAccessToken } = require('../utils/json-web-token.util');
 const PublishServiceEvent = require('../utils/service-communicate.util');
+
+// #region Đổi ảnh đại diện
+const changeUserAvatar = async function (file, { user_id }) {
+    try {
+        if (!file) {
+            return { status: false, message: 'Không tìm thấy file ảnh đại diện!' };
+        }
+
+        if (file.size > 5242880) {
+            return { status: false, message: 'Chỉ cho phép upload file ảnh với kích thước nhỏ hơn 5MB!' };
+        }
+
+        const supportedMIMEtype = ['image/gif', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+
+        if (!supportedMIMEtype.includes(file.mimetype)) {
+            return { status: false, message: `Hệ thống không hỗ trợ định dạng ${file.mimetype}!` };
+        }
+
+        const user = await _User.findOne({ user_id });
+
+        if (!user) {
+            return { status: false, message: `Không tìm thấy thông tin nhân viên ${user_id}!` };
+        }
+        console.log(user.avatar);
+        if (user.avatar !== null) {
+            console.log('GO HERE');
+
+            // Xử lý xóa ảnh cũ
+            const pathToOldAvatar = `${user_id}/${user.avatar}`;
+            const oldAvatar = await firebase.bucket.file(pathToOldAvatar);
+            const isExists = await oldAvatar.exists();
+
+            if (isExists) {
+                await oldAvatar.delete();
+            }
+        }
+
+        const fileExtension = file.originalname.split('.').pop();
+
+        const options = {
+            destination: `${user_id}/avatar.${fileExtension}`,
+            public: true,
+        };
+        user.avatar = `avatar.${fileExtension}`;
+        console.log(user.avatar);
+        const blob = await firebase.bucket.upload(`${user_id}/${user.avatar}`, options);
+        // console.log('🚀 ~ file: user.service.js ~ line 60 ~ changeUserAvatar ~ blob', blob);
+
+        await user.save();
+
+        return { status: true, message: 'Cập nhật ảnh đại diện thành công!' };
+    } catch (error) {
+        // console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+// #endregion
 
 //#region Get User information By ID [DONE]
 const getUserInformation = async function ({ user_id }) {
@@ -296,4 +354,5 @@ module.exports = {
     requestResetPassword,
 
     getUserInformation,
+    changeUserAvatar,
 };

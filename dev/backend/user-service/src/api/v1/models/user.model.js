@@ -68,7 +68,7 @@ const UserSchema = new Schema(
             enum: ['Nam', 'Nữ', 'Khác'],
         },
 
-        avatar_url: {
+        avatar: {
             type: Schema.Types.String,
             default: null,
         },

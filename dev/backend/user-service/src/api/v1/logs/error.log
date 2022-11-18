@@ -34,3 +34,9 @@ URL: /api/v1/employee-management/user-admin/reset-password
 METHOD: POST
 MESSAGE: Unauthorized
 --------------------------------------------------------
+LOG_ERROR_ID: 2bb01161-8a03-4f1f-88b3-aab59b0176b9
+TIME: 18-11-2022	18:31:43
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------

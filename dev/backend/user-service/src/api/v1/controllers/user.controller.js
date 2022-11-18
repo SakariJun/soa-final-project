@@ -5,6 +5,7 @@ const {
     changePasswordOptional,
     requestResetPassword,
     getUserInformation,
+    changeUserAvatar,
 } = require('../services/user.service');
 
 const LoginController = async function (req, res, next) {
@@ -141,6 +142,21 @@ const GetUserInformationController = async function (req, res, next) {
     }
 };
 
+const ChangeUserAvatarController = async function (req, res, next) {
+    try {
+        const { status, message, data } = await changeUserAvatar(req.file, req.payload);
+
+        if (!status) {
+            return res.status(200).json({ status, message });
+        }
+
+        return res.status(200).json({ status, message, data });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
+
 module.exports = {
     LoginController,
     ChangePasswordOptionalController,
@@ -148,4 +164,5 @@ module.exports = {
     RequestResetPasswordController,
 
     GetUserInformationController,
+    ChangeUserAvatarController,
 };
