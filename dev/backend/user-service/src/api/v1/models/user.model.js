@@ -80,7 +80,8 @@ const UserSchema = new Schema(
 
         department_id: {
             type: Schema.Types.String,
-            required: true,
+            // required: true,
+            default: null,
         },
 
         role_id: {

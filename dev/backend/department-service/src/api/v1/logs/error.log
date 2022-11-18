@@ -52,3 +52,9 @@ URL: /department/assign-leader-department
 METHOD: PUT
 MESSAGE: Unexpected token } in JSON at position 69
 --------------------------------------------------------
+LOG_ERROR_ID: 0ea60cc7-3a27-4b94-a8c4-a67466c7837a
+TIME: 18-11-2022	22:30:46
+URL: /department/get-all-department
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------

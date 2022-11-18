@@ -5,6 +5,7 @@ const { _User } = require('../models');
 const firebase = require('../../../configs/firebase.config');
 
 const {
+    ROLE_NAME_DIRECTOR,
     SERVICE_ABSENCE,
     SERVICE_DEPARTMENT,
 
@@ -37,36 +38,44 @@ const changeUserAvatar = async function (file, { user_id }) {
         if (!user) {
             return { status: false, message: `Không tìm thấy thông tin nhân viên ${user_id}!` };
         }
-        console.log(user.avatar);
+
         if (user.avatar !== null) {
-            console.log('GO HERE');
-
             // Xử lý xóa ảnh cũ
-            const pathToOldAvatar = `${user_id}/${user.avatar}`;
-            const oldAvatar = await firebase.bucket.file(pathToOldAvatar);
-            const isExists = await oldAvatar.exists();
+            let oldAvatar = await firebase.bucket.getFiles(`${user.user_id}`);
 
-            if (isExists) {
+            // Nếu lấy file trong thư mục mã nhân viên
+            // Có tồn tại file thì lấy tên file đó xóa
+            if (oldAvatar.length !== 0) {
+                oldAvatar = await firebase.bucket.file(oldAvatar[0][0].name);
                 await oldAvatar.delete();
             }
         }
 
         const fileExtension = file.originalname.split('.').pop();
+        const bucketFile = await firebase.bucket.file(`${user_id}/avatar.${fileExtension}`);
 
         const options = {
-            destination: `${user_id}/avatar.${fileExtension}`,
+            resumable: false,
+            metadata: { contentType: file.mimetype },
+            predefinedAcl: 'publicRead',
             public: true,
         };
-        user.avatar = `avatar.${fileExtension}`;
-        console.log(user.avatar);
-        const blob = await firebase.bucket.upload(`${user_id}/${user.avatar}`, options);
-        // console.log('🚀 ~ file: user.service.js ~ line 60 ~ changeUserAvatar ~ blob', blob);
 
+        await bucketFile.save(file.buffer, options);
+
+        const avatar_url = bucketFile.metadata.mediaLink;
+        user.avatar = avatar_url;
         await user.save();
 
-        return { status: true, message: 'Cập nhật ảnh đại diện thành công!' };
+        return {
+            status: true,
+            message: 'Cập nhật ảnh đại diện thành công!',
+            data: {
+                avatar_url,
+            },
+        };
     } catch (error) {
-        // console.error(error);
+        console.error(error);
         return { status: false, message: error.message };
     }
 };
@@ -89,6 +98,7 @@ const getUserInformation = async function ({ user_id }) {
                 select: '-_id',
             })
             .lean();
+        console.log('🚀 ~ file: user.service.js ~ line 101 ~ getUserInformation ~ user', user);
 
         if (!user) {
             return {
@@ -97,48 +107,59 @@ const getUserInformation = async function ({ user_id }) {
             };
         }
 
-        // TODO: Gọi Absence Service lấy thông tin nghỉ phép trả về kèm ở API này
-        // TODO: Gọi Department Service lấy thông tin phòng ban trả về kèm ở API này
-        const payload_department = {
-            payload: {
-                event: SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID,
-                data: {
-                    department_id,
+        // Nếu role là giám đốc thì không có thông tin về phòng ban và thông tin nghỉ phép
+        if (user.role_id.name !== ROLE_NAME_DIRECTOR) {
+            // TODO: Gọi Absence Service lấy thông tin nghỉ phép trả về kèm ở API này
+            // TODO: Gọi Department Service lấy thông tin phòng ban trả về kèm ở API này
+            const payload_department = {
+                payload: {
+                    event: SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID,
+                    data: {
+                        department_id: user.department_id,
+                    },
                 },
-            },
-        };
+            };
 
-        const payload_absence = {
-            payload: {
-                event: SERVICE_ABSENCE_EVENTS_GET_ABSENCE_INFORMATION,
-                data: {
-                    user_id,
+            const payload_absence = {
+                payload: {
+                    event: SERVICE_ABSENCE_EVENTS_GET_ABSENCE_INFORMATION,
+                    data: {
+                        user_id,
+                    },
                 },
-            },
-        };
+            };
 
-        let extraInformationResult = await Promise.all([
-            PublishServiceEvent(payload_department, SERVICE_DEPARTMENT),
-            PublishServiceEvent(payload_absence, SERVICE_ABSENCE),
-        ]);
+            let extraInformationResult = await Promise.all([
+                PublishServiceEvent(payload_department, SERVICE_DEPARTMENT),
+                PublishServiceEvent(payload_absence, SERVICE_ABSENCE),
+            ]);
 
-        if (extraInformationResult[0].statusText !== 'OK' && extraInformationResult[1].statusText !== 'OK') {
-            return { status: false, message: 'Có lỗi trong quá trình lấy thông tin phòng ban và thông tin nghỉ phép!' };
+            console.log(
+                '🚀 ~ file: user.service.js ~ line 132 ~ getUserInformation ~ extraInformationResult',
+                extraInformationResult,
+            );
+
+            if (extraInformationResult[0].statusText !== 'OK' && extraInformationResult[1].statusText !== 'OK') {
+                return {
+                    status: false,
+                    message: 'Có lỗi trong quá trình lấy thông tin phòng ban và thông tin nghỉ phép!',
+                };
+            }
+
+            departmentInfo = extraInformationResult[0].data;
+            absenceInfo = extraInformationResult[1].data;
+
+            if (!departmentInfo.status) {
+                return departmentInfo;
+            }
+
+            if (!absenceInfo.status) {
+                return absenceInfo;
+            }
+
+            user.department = departmentInfo.data;
+            user.absence = absenceInfo.data;
         }
-
-        departmentInfo = extraInformationResult[0].data;
-        absenceInfo = extraInformationResult[1].data;
-
-        if (!departmentInfo.status) {
-            return departmentInfo;
-        }
-
-        if (!absenceInfo.status) {
-            return absenceInfo;
-        }
-
-        user.department = departmentInfo.data;
-        user.absence = absenceInfo.data;
 
         return {
             status: true,

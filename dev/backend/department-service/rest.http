@@ -43,8 +43,5 @@ PUT http://localhost:5003/department/remove-leader-department
 content-type: application/json
 
 {   
-    "department_id": "PB00001",
-    "name": "ITA",
-    "room": "223",
-    "description": "Phòng IT"
+    "department_id": "PB00001"
 }

@@ -237,7 +237,13 @@ const resetPassword = async function ({ user_id }) {
 
 const getAllUsers = async function () {
     try {
-        const users = await _User.find();
+        const users = await _User
+            .find()
+            .populate({
+                path: 'role_id',
+                select: '-_id',
+            })
+            .select('-_id -account.password -account._id');
 
         return { status: true, message: 'Lấy danh sách nhân viên thành công!', data: users };
     } catch (error) {
