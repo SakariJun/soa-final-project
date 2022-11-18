@@ -17,7 +17,7 @@ def token_required(f):
                 status=False,
                 message="Vui lòng đăng nhập để tiếp tục",
                 redirect="/auth/login",
-            )
+            ), 400
 
         # token = token.split("=")
 
@@ -26,7 +26,7 @@ def token_required(f):
                 status=False,
                 message="Vui lòng đăng nhập để tiếp tục",
                 redirect="/auth/login",
-            )
+            ), 400
 
         # accessToken = cookies[cookies.index("accessToken") + 1]
         accessToken = cookies.get("accessToken", "")
@@ -48,7 +48,7 @@ def token_required(f):
                 status=False,
                 message="Vui lòng đăng nhập lại",
                 redirect="/auth/login",
-            )
+            ), 400
 
         return f(payload, *args, **kwargs)
 

@@ -543,41 +543,179 @@ a.text-primary:focus {
 
 /* Template */
 
-
-/* Loading */
+/*--------------------------------------
+-------- Pre Loader Style START --------
+---------------------------------------*/
 
 #loading {
+    display: flex;
     position: fixed;
-    background-color: #f8f7f7;
-    height: 100%;
+    z-index: 99999999999;
+    top: 0;
+    left: 0;
     width: 100%;
-    overflow: hidden !important;
-    z-index: 1001;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background: #f8f7f7;
 }
 
-#loading img {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-    animation: blinking 1s infinite linear;
+.loading {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    transform: rotate(45deg);
+    animation: hue-rotate 12s linear infinite both;
 }
 
-@keyframes blinking {
+.loading__square {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 34px;
+    margin: 3px;
+    border-radius: 5px;
+    background: #07a;
+    background-image: linear-gradient(45deg, #fa0, #0c9);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: square-animation 12s ease-in-out infinite both;
+}
+
+.loading__square:nth-of-type(0) {
+    animation-delay: -0.0s;
+}
+
+.loading__square:nth-of-type(1) {
+    animation-delay: -1.7142857142857142s;
+}
+
+.loading__square:nth-of-type(2) {
+    animation-delay: -3.4285714285714284s;
+}
+
+.loading__square:nth-of-type(3) {
+    animation-delay: -5.142857142857143s;
+}
+
+.loading__square:nth-of-type(4) {
+    animation-delay: -6.857142857142857s;
+}
+
+.loading__square:nth-of-type(5) {
+    animation-delay: -8.571428571428571s;
+}
+
+.loading__square:nth-of-type(6) {
+    animation-delay: -10.285714285714286s;
+}
+
+.loading__square:nth-of-type(7) {
+    animation-delay: -12.0s;
+}
+
+@keyframes square-animation {
     0% {
-        transform: scale(0.2);
-        opacity: 0.7;
+        left: 0;
+        top: 0;
+    }
+
+    10.5% {
+        left: 0;
+        top: 0;
+    }
+
+    12.5% {
+        left: 40px;
+        top: 0;
+    }
+
+    23% {
+        left: 40px;
+        top: 0;
+    }
+
+    25% {
+        left: 80px;
+        top: 0;
+    }
+
+    35.5% {
+        left: 80px;
+        top: 0;
+    }
+
+    37.5% {
+        left: 80px;
+        top: 40px;
+    }
+
+    48% {
+        left: 80px;
+        top: 40px;
     }
 
     50% {
-        transform: scale(0.4);
-        opacity: 1;
+        left: 40px;
+        top: 40px;
+    }
+
+    60.5% {
+        left: 40px;
+        top: 40px;
+    }
+
+    62.5% {
+        left: 40px;
+        top: 80px;
+    }
+
+    73% {
+        left: 40px;
+        top: 80px;
+    }
+
+    75% {
+        left: 0;
+        top: 80px;
+    }
+
+    85.5% {
+        left: 0;
+        top: 80px;
+    }
+
+    87.5% {
+        left: 0;
+        top: 40px;
+    }
+
+    98% {
+        left: 0;
+        top: 40px;
     }
 
     100% {
-        transform: scale(0.2);
-        opacity: 0.7;
+        left: 0;
+        top: 0;
     }
 }
+
+@keyframes hue-rotate {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+/*--------------------------------------
+--------- Pre Loader Style END ---------
+---------------------------------------*/
 
 
 /* Login */

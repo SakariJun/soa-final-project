@@ -1,12 +1,12 @@
 from . import auth
-from flask import make_response, jsonify, current_app
+from flask import make_response, jsonify, current_app, render_template
 from ..decorators import token_required
 
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     # Request login service
-    return "login"
+    return render_template("auth/login.html")
 
 
 @auth.route("/logout", methods=["GET", "POST"])

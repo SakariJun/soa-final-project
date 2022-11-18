@@ -1,7 +1,6 @@
 
 $(document).ready(function () {
     $("body").removeClass("sidebar-main");
-
     var urlPath = window.location.pathname;
     updateNavMenu(urlPath);
     loadComponent(urlPath);
@@ -82,9 +81,19 @@ function loadComponent(urlPath) {
 
     fetch(baseUrl + urlPath + "?load=1")
         .then((response) => {
+            console.log(response)
+            if (response.status == 400) {
+                return response.json()
+            }
             return response.text();
         })
         .then((html) => {
+            // Check redirect
+            if (html.redirect && html.redirect != 'undefined') {
+                window.history.replaceState(html.redirect, null, html.redirect);
+                loadComponent(html.redirect)
+                return;
+            }
             $("#loading").fadeOut(500);
             $("#page-content").html(html);
             $("body").css("overflow-y", "scroll");
@@ -117,7 +126,7 @@ function loadComponent(urlPath) {
             document.title = "Hệ thống quản lý nội bộ - " + title;
         })
         .catch(function (err) {
-            showToast("Something went wrong.", err);
+            showToast("Có lỗi xảy ra. Vui lòng thử lại sau." + err.message)
         });
 }
 

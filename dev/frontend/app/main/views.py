@@ -1,6 +1,6 @@
 import os
 from flask import (
-    session,
+    current_app,
     redirect,
     url_for,
     request,
@@ -9,6 +9,7 @@ from flask import (
     Response,
     jsonify,
 )
+from requests import get, post, put
 from . import main
 from ..decorators import token_required
 
@@ -18,11 +19,14 @@ def before_app_request():
     load = request.args.get("load", False)
     # first time load page -> load base.html
     # -> load js, css, etc
-    if 'static' not in request.path and load == False:
-        return render_template("base.html", role_id="6375a605f912fa4857d6f488")
+    if "static" not in request.path and load == False:
+        # user_response = get(current_app.config['USER_SERVICE'] + "/user/get-user-information")
+        # print(user_response.json)
+        return render_template("base.html", user="")
 
 
 @main.route("/")
-def index():
+@token_required
+def index(payload):
     # Request Task Home page
-    return render_template("index.html", role_id="6375a605f912fa4857d6f488")
+    return render_template("index.html")

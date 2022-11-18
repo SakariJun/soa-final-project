@@ -20,7 +20,7 @@
               <span class="ml-4">Trang Chủ</span>
             </a>
           </li>
-          {% if Role.get(role_id) and
+          {% if Role.get(user.get(role_id)) and
           Role[role_id].has_permission(Permission.READ_TASK) %}
           <li class="">
             <a href="#" data-path="/tasks" id="tasks">
@@ -36,7 +36,7 @@
               <i class="fas fa-angle-right menu-arrow"></i>
             </a>
             <ul id="Staff" class="submenu collapse">
-              {% if Role.get(role_id) and
+              {% if Role.get(user.get(role_id)) and
               Role[role_id].has_permission(Permission.MODIFY_USER) %}
               <li class="">
                 <a href="#" data-path="/users/add" id="add-user">
@@ -56,7 +56,7 @@
               {% endif %}
 
               <!-- Nhân viên không được sử dụng chức năng quản lý nghỉ phép -->
-              {% if Role.get(role_id) and
+              {% if Role.get(user.get(role_id)) and
               Role[role_id].has_permission(Permission.REVIEW_ABSENT) %}
               <li class="">
                 <a href="#" data-path="/absents" id="list-absence">
@@ -66,7 +66,7 @@
               {% endif %}
 
               <!-- Chỉ có người lao động 'Trưởng phòng' hoặc 'Nhân viên' có thể xem thông tin nghỉ phép -->
-              {% if Role.get(role_id) and
+              {% if Role.get(user.get(role_id)) and
               Role[role_id].has_permission(Permission.REQUEST_ABSENT) %}
               <li class="">
                 <a
@@ -80,7 +80,7 @@
               {% endif %}
             </ul>
           </li>
-          {% if Role.get(role_id) and
+          {% if Role.get(user.get(role_id)) and
           Role[role_id].has_permission(Permission.MODIFY_DEPARTMENT) %}
           <li class="">
             <a href="#" data-toggle="collapse" data-target="#Department">
@@ -150,7 +150,7 @@
                 />
                 <div class="caption ml-3">
                   <h6 class="mb-0">
-                    <?= $_SESSION['user'] ?><i
+                    {{ user.get("user_name") }}<i
                       class="fas fa-chevron-down ml-2"
                     ></i>
                   </h6>
