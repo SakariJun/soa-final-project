@@ -1,0 +1,97 @@
+<div class="content-page">
+  <div class="container" style="display: block">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="text-uppercase text-center">Danh sách yêu cầu nghỉ phép</h1>
+      </div>
+    </div>
+
+    <div class="card">
+      <table
+        class="table rounded table-hover mt-3 mb-0"
+        id="absence-request-table"
+      >
+        <thead>
+          <tr>
+            <th style="border-top: None" class="text-center text-uppercase">
+              Mã yêu cầu
+            </th>
+            <th style="border-top: None" class="text-center text-uppercase">
+              Mã nhân viên
+            </th>
+            <th style="border-top: None" class="text-center text-uppercase">
+              Ngày bắt đầu
+            </th>
+            <th style="border-top: None" class="text-center text-uppercase">
+              Ngày kết thúc
+            </th>
+            <th style="border-top: None" class="text-center text-uppercase">
+              Trạng thái xử lý
+            </th>
+            <th style="border-top: None" class="text-center text-uppercase">
+              Ngày gửi yêu cầu
+            </th>
+          </tr>
+        </thead>
+        <tbody id="absence-request-table-body">
+          {% for absent in absents %}
+          <tr>
+            <td class="py-4 text-center">
+              <div class="text-center"><h6>5</h6></div>
+            </td>
+            <td class="py-4 text-center">US015</td>
+            <td class="py-4 text-center">22/01/2022</td>
+            <td class="py-4 text-center">25/01/2022</td>
+            <td class="py-4 text-center">
+              <div class="small d-line">
+                <i
+                  class="fa fa-circle {% if %} text-success{% elseif %} text-primary{% else %} text-danger{% endif %}"
+                ></i
+                ><strong> Refused</strong>
+              </div>
+            </td>
+            <td class="py-4 text-center">2022-01-15 21:25:31</td>
+            <td>
+              <div>
+                <button
+                  class="btn btn-primary btn-sm d-block mt-1 w-100"
+                  onclick="showDetailAbsenceRequest(5)"
+                >
+                  Xem chi tiết
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    id="absenceRequestResponse-modal-dialog"
+    class="modal fade"
+    role="dialog"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Thông báo</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+
+        <div class="modal-body">
+          <p id="absenceRequestResponseMessage"></p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Hủy
+          </button>
+          <button class="btn btn-danger" data-dismiss="modal">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
