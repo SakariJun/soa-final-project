@@ -2,9 +2,19 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
 const { _User } = require('../models');
-const { signAccessToken } = require('../utils/json-web-token.util');
 
-//#region Get User information By ID [ON-WORKING]
+const {
+    SERVICE_ABSENCE,
+    SERVICE_DEPARTMENT,
+
+    SERVICE_ABSENCE_EVENTS_GET_ABSENCE_INFORMATION,
+    SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID,
+} = require('../constants/global.constant');
+
+const { signAccessToken } = require('../utils/json-web-token.util');
+const PublishServiceEvent = require('../utils/service-communicate.util');
+
+//#region Get User information By ID [DONE]
 const getUserInformation = async function ({ user_id }) {
     try {
         if (!user_id) {
@@ -31,6 +41,46 @@ const getUserInformation = async function ({ user_id }) {
 
         // TODO: Gọi Absence Service lấy thông tin nghỉ phép trả về kèm ở API này
         // TODO: Gọi Department Service lấy thông tin phòng ban trả về kèm ở API này
+        const payload_department = {
+            payload: {
+                event: SERVICE_DEPARTMENT_EVENT_GET_DEPARTMENT_BY_DEPARTMENT_ID,
+                data: {
+                    department_id,
+                },
+            },
+        };
+
+        const payload_absence = {
+            payload: {
+                event: SERVICE_ABSENCE_EVENTS_GET_ABSENCE_INFORMATION,
+                data: {
+                    user_id,
+                },
+            },
+        };
+
+        let extraInformationResult = await Promise.all([
+            PublishServiceEvent(payload_department, SERVICE_DEPARTMENT),
+            PublishServiceEvent(payload_absence, SERVICE_ABSENCE),
+        ]);
+
+        if (extraInformationResult[0].statusText !== 'OK' && extraInformationResult[1].statusText !== 'OK') {
+            return { status: false, message: 'Có lỗi trong quá trình lấy thông tin phòng ban và thông tin nghỉ phép!' };
+        }
+
+        departmentInfo = extraInformationResult[0].data;
+        absenceInfo = extraInformationResult[1].data;
+
+        if (!departmentInfo.status) {
+            return departmentInfo;
+        }
+
+        if (!absenceInfo.status) {
+            return absenceInfo;
+        }
+
+        user.department = departmentInfo.data;
+        user.absence = absenceInfo.data;
 
         return {
             status: true,

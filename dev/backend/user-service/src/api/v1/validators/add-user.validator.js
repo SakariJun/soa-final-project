@@ -25,4 +25,10 @@ module.exports = [
     check('gender').notEmpty().withMessage('Vui lòng chọn giới tính của nhân viên!'),
 
     check('department_id').notEmpty().withMessage('Vui lòng chọn phòng ban cho nhân viên!'),
+
+    check('salary')
+        .notEmpty()
+        .withMessage('Vui lòng chọn nhập của lương nhân viên!')
+        .isFloat({ min: 0 })
+        .withMessage('Lương nhân viên phải lớn hơn 0!'),
 ];

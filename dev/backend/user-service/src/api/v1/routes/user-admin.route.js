@@ -11,4 +11,6 @@ router.get('/get-all-users', userAdminController.GetAllUsersController);
 
 router.get('/get-user-detail', userAdminController.GetUserDetailController);
 
+router.put('/update-user-salary', userAdminController.UpdateUserSalaryController);
+
 module.exports = router;

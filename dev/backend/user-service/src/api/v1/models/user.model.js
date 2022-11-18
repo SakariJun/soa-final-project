@@ -49,14 +49,12 @@ const UserSchema = new Schema(
             type: Schema.Types.String,
             unique: true,
             required: true,
-            index: true,
         },
 
         email: {
             type: Schema.Types.String,
             unique: true,
             required: true,
-            index: true,
         },
 
         day_of_birth: {
@@ -72,6 +70,12 @@ const UserSchema = new Schema(
 
         avatar_url: {
             type: Schema.Types.String,
+            default: null,
+        },
+
+        salary: {
+            type: Schema.Types.Number,
+            default: 0,
         },
 
         department_id: {

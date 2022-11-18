@@ -20,7 +20,7 @@ const { createNewIDWithOutPrefix } = require('../utils/generate-prefix-id.util')
 
 const { _User, _Role } = require('../models');
 
-// #region Thêm nhân viên [WAIT-FOR-TESTING]
+// #region Thêm nhân viên [DONE]
 // Kiểm tra đầu vào
 async function validateAddUser(req) {
     try {
@@ -91,7 +91,15 @@ const generateUniqueUserID = async function (department_id) {
     }
 };
 
-const addUser = async function ({ full_name, phone_number, email, day_of_birth, gender, department_id = 'PB00000' }) {
+const addUser = async function ({
+    full_name,
+    phone_number,
+    email,
+    day_of_birth,
+    gender,
+    department_id = 'PB00000',
+    salary,
+}) {
     const session = await startSession();
     try {
         session.startTransaction();
@@ -131,24 +139,27 @@ const addUser = async function ({ full_name, phone_number, email, day_of_birth, 
         const hashedPassword = await bcrypt.hash(user_id, 10);
 
         const user = await _User.create(
-            {
-                user_id,
-                full_name,
-                phone_number,
-                email,
-                day_of_birth,
-                department_id,
-                role_id: role._id,
-                gender,
-                account: {
-                    username: user_id,
-                    password: hashedPassword,
+            [
+                {
+                    user_id,
+                    full_name,
+                    phone_number,
+                    email,
+                    day_of_birth,
+                    department_id,
+                    role_id: role._id,
+                    salary,
+                    gender,
+                    account: {
+                        username: user_id,
+                        password: hashedPassword,
+                    },
                 },
-            },
+            ],
             { session },
         );
 
-        if (!user) {
+        if (user.length === 0) {
             await session.abortTransaction();
             return { status: false, message: 'Có lỗi trong quá trình tạo nhân viên!' };
         }
@@ -306,8 +317,42 @@ const updateUserRole = async function ({ user_id, role_name }) {
         await session.endSession();
     }
 };
-
 // #endregion
+
+// #region Update User Salary [DONE]
+const updateUserSalary = async function ({ user_id, salary }) {
+    try {
+        if (isNaN(salary)) {
+            return { status: false, message: 'Lương nhân viên có định dạng không phải là số!' };
+        }
+
+        if (salary < 0) {
+            return { status: false, message: 'Lương nhân viên phải lớn hơn 0!' };
+        }
+
+        const user = await _User.findOne({ user_id });
+
+        if (!user) {
+            return { status: false, message: `Không tìm thấy nhân viên với mã nhân viên ${user_id}!` };
+        }
+
+        user.salary = salary;
+        await user.save();
+
+        return {
+            status: true,
+            message: 'Cập nhật lương nhân viên thành công!',
+            data: {
+                new_salary: salary,
+            },
+        };
+    } catch (error) {
+        console.error(error.message);
+        return { status: false, message: error.message };
+    }
+};
+// #endregion
+
 module.exports = {
     validateAddUser,
     addUser,
@@ -317,4 +362,5 @@ module.exports = {
     getAllUsers,
 
     updateUserRole,
+    updateUserSalary,
 };

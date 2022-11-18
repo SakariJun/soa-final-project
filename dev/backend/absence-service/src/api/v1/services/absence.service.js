@@ -59,7 +59,23 @@ const updateAbsenceInformation = async function ({ user_id, role_name }) {
     }
 };
 
+const getAbsenceInformation = async function ({ user_id }) {
+    try {
+        let absence = await _Absence.findOne({ user_id });
+
+        if (!absence) {
+            return { status: false, message: `Không tìm thấy thông tin nghỉ phép của nhân viên ${user_id}!` };
+        }
+
+        return { status: true, message: 'Lấy thông tin nghỉ phép thành công!', data: absence };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
 module.exports = {
     createAbsenceInformation,
     updateAbsenceInformation,
+    getAbsenceInformation,
 };

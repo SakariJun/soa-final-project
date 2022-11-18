@@ -1,4 +1,10 @@
-const { validateAddUser, addUser, resetPassword, getAllUsers } = require('../services/user-admin.service');
+const {
+    validateAddUser,
+    addUser,
+    resetPassword,
+    getAllUsers,
+    updateUserSalary,
+} = require('../services/user-admin.service');
 
 const { getUserInformation } = require('../services/user.service');
 
@@ -69,10 +75,27 @@ const GetUserDetailController = async (req, res, next) => {
     }
 };
 
+const UpdateUserSalaryController = async (req, res, next) => {
+    try {
+        // Admin sử dụng JWT Admin và Query Params để đọc thông tin nhân viên
+        const { status, message, data } = await updateUserSalary(req.body);
+
+        if (!status) {
+            return res.status(202).json({ status, message });
+        }
+
+        return res.status(201).json({ status, message, data });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
+
 module.exports = {
     AddUserController,
     ResetPasswordController,
 
     GetAllUsersController,
     GetUserDetailController,
+    UpdateUserSalaryController,
 };

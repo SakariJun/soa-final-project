@@ -2,6 +2,13 @@ const { Schema, model } = require('mongoose');
 
 const RoleSchema = Schema(
     {
+        role_id: {
+            type: Schema.Types.Number,
+            // required: true,
+            unique: true,
+            index: true,
+        },
+
         name: {
             type: Schema.Types.String,
             required: true,
@@ -13,9 +20,8 @@ const RoleSchema = Schema(
         },
 
         permissions: {
-            type: Schema.Types.Array,
-            required: true,
-            default: [],
+            type: Schema.Types.Number,
+            default: 0,
         },
     },
     {
