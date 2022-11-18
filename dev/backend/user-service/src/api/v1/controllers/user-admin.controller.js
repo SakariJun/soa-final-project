@@ -1,10 +1,6 @@
-const {
-    validateAddUser,
-    addUser,
-    resetPassword,
-    getAllUsers,
-    getUserDetail,
-} = require('../services/user-admin.service');
+const { validateAddUser, addUser, resetPassword, getAllUsers } = require('../services/user-admin.service');
+
+const { getUserInformation } = require('../services/user.service');
 
 const AddUserController = async function (req, res, next) {
     try {
@@ -59,7 +55,8 @@ const GetAllUsersController = async (req, res, next) => {
 
 const GetUserDetailController = async (req, res, next) => {
     try {
-        const { status, message, data } = await getUserDetail(req.query);
+        // Admin sử dụng JWT Admin và Query Params để đọc thông tin nhân viên
+        const { status, message, data } = await getUserInformation(req.query);
 
         if (!status) {
             return res.status(202).json({ status, message });

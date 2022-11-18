@@ -49,4 +49,9 @@ function validateInput(input) {
     return input;
 }
 
-module.exports = { validatePhoneNumber, validateEmail, formatDate, validateInput };
+module.exports = {
+    validatePhoneNumber,
+    validateEmail,
+    formatDate,
+    validateInput,
+};

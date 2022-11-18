@@ -1,29 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-// Thông tin nghỉ phép của nhân viên
-const AbsenceSchema = Schema(
-    {
-        max_absence_day: {
-            type: Schema.Types.Number,
-            require: true,
-            default: 12,
-        },
-
-        day_absence: {
-            type: Schema.Types.Number,
-            default: 0,
-        },
-
-        last_absence_request: {
-            type: Schema.Types.Date,
-            default: new Date(),
-        },
-    },
-    {
-        timestamps: true,
-    },
-);
-
 // Tài khoản
 const AccountSchema = new Schema(
     {
@@ -117,11 +93,6 @@ const UserSchema = new Schema(
 
         account: {
             type: AccountSchema,
-            required: true,
-        },
-
-        absence: {
-            type: AbsenceSchema,
             required: true,
         },
     },

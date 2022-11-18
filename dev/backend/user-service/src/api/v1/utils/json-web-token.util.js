@@ -4,7 +4,7 @@ const { SECRET_KEY_ACCESS_TOKEN, SECRET_KEY_REFRESH_TOKEN } = process.env;
 
 const signAccessToken = async (payload) => {
     return new Promise((resolve, reject) => {
-        // Access token only valid in 1 year
+        // Access token only valid in 1 weeks
         const options = {
             expiresIn: '1w',
         };

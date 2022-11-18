@@ -10,28 +10,13 @@ const {
     SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
     ROLE_NAME_EMPLOYEE,
 } = require('../constants/global.constant');
+
 const PublishServiceEvent = require('../utils/service-communicate.util');
+
 const { createNewIDWithOutPrefix } = require('../utils/generate-prefix-id.util');
 
-const createDepartment = async function ({ name, room, leader_id = '', description }) {
-    const session = await startSession();
+const createDepartment = async function ({ name, room, description }) {
     try {
-        session.startTransaction();
-
-        if (leader_id !== '') {
-            // TODO: Check xem hiện tại leader_id có đang làm trưởng phòng của phòng ban nào không
-            // Nếu có thì báo lỗi
-            const checkIsAlreadyLeader = await _Department.findOne({ leader_id }).session(session).lean();
-
-            if (checkIsAlreadyLeader) {
-                await session.abortTransaction();
-                return {
-                    status: false,
-                    message: `Nhân viên ${leader_id} đã là trưởng phòng của phòng ban ${checkIsAlreadyLeader.name}`,
-                };
-            }
-        }
-
         let maxCurrentID = await _Department.find().sort('-department_id').limit(1).lean();
 
         // Nếu chưa có phòng ban nào thì mã phòng ban là PB00000
@@ -47,46 +32,21 @@ const createDepartment = async function ({ name, room, leader_id = '', descripti
 
         maxCurrentID = createNewIDWithOutPrefix(maxCurrentID);
 
-        const department = await _Department.create(
-            {
-                department_id: maxCurrentID,
-                name,
-                room,
-                leader_id,
-                description,
-            },
-            {
-                session,
-            },
-        );
+        const department = await _Department.create({
+            department_id: maxCurrentID,
+            name,
+            room,
+            description,
+        });
 
         if (!department) {
-            await session.abortTransaction();
             return { status: false, message: 'Tạo phòng ban không thành công!' };
         }
 
-        if (leader_id !== '') {
-            // TODO: Tạo thành công department => Gọi qua User Service set Role cho nhân viên
-            // Thành trưởng phòng (nếu có)
-            const assignLeaderResult = await assignLeaderDepartment({
-                department_id: department.department_id,
-                leader_id,
-            });
-
-            if (!assignLeaderResult.status) {
-                await session.abortTransaction();
-                return assignLeaderResult;
-            }
-        }
-
-        await session.commitTransaction();
         return { status: true, message: 'Tạo phòng ban thành công!', data: department };
     } catch (error) {
         console.error(error);
-        await session.abortTransaction();
         return { status: false, message: error.message };
-    } finally {
-        await session.endSession();
     }
 };
 
@@ -142,6 +102,8 @@ const deleteDepartment = async function ({ department_id = '' }) {
         const deletedDepartment = await _Department.deleteOne({ department_id }).lean();
 
         // TODO: Gọi service User để set role của trưởng phòng về nhân viên
+        // và cập nhật lại phognf ban cho tất cả nhân viên
+
         if (!deletedDepartment || deletedDepartment.deletedCount === 0) {
             return {
                 status: false,
@@ -205,6 +167,7 @@ const assignLeaderDepartment = async function ({ leader_id, department_id }) {
 
         let userServiceResponse = await PublishServiceEvent(payload, SERVICE_USER);
 
+        // Nếu cập nhật role của nhân viên thành trưởng phòng không thành công thì abortTransaction
         if (userServiceResponse.statusText !== 'OK') {
             await session.abortTransaction();
             return userServiceResponse;
@@ -236,31 +199,31 @@ const removeLeaderDepartment = async function ({ department_id }) {
             };
         }
 
-        if (department.leader_id !== '') {
-            department.leader_id = '';
-            await department.save();
-        } else {
-            // Cập nhật trưởng phòng của phòng ban về '' và cập nhật lại role của trưởng phòng cũ
-            const payload = {
-                payload: {
-                    event: SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
-                    data: {
-                        user_id: department.leader_id,
-                        role_name: ROLE_NAME_EMPLOYEE,
-                    },
+        if (department.leader_id === '') {
+            await session.abortTransaction();
+            return { status: true, messsage: `Phòng ban ${department_id} hiện tại chưa có trưởng phòng!` };
+        }
+
+        // Cập nhật trưởng phòng của phòng ban về '' và cập nhật lại role của trưởng phòng cũ
+        const payload = {
+            payload: {
+                event: SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
+                data: {
+                    user_id: department.leader_id,
+                    role_name: ROLE_NAME_EMPLOYEE,
                 },
-            };
+            },
+        };
 
-            let userServiceResponse = await PublishServiceEvent(payload, SERVICE_USER);
+        let userServiceResponse = await PublishServiceEvent(payload, SERVICE_USER);
 
-            if (userServiceResponse.statusText !== 'OK') {
-                await session.abortTransaction();
-                return userServiceResponse;
-            }
+        if (userServiceResponse.statusText !== 'OK') {
+            await session.abortTransaction();
+            return userServiceResponse;
         }
 
         await session.commitTransaction();
-        return { status: true, message: 'Xóa chức trưởng phòng thành công!' };
+        return { status: true, message: `Xóa chức trưởng phòng của phòng ban ${department_id} thành công!` };
     } catch (error) {
         console.error(error);
         await session.abortTransaction();

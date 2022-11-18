@@ -4,6 +4,7 @@ const {
     changePasswordRequire,
     changePasswordOptional,
     requestResetPassword,
+    getUserInformation,
 } = require('../services/user.service');
 
 const LoginController = async function (req, res, next) {

@@ -1,7 +1,7 @@
-const _User = require('./user.model');
-const _Role = require('./role.model');
+const _Absence = require('./absence.model');
+const _AbsenceRequest = require('./absence-request.model');
 
 module.exports = {
-    _Role,
-    _User,
+    _Absence,
+    _AbsenceRequest,
 };

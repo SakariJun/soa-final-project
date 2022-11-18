@@ -11,7 +11,7 @@ content-type: application/json
     "gender": "Nam"
 }
 
-# Đăng nhập = account Giám đốc
+# Đăng nhập
 ###
 POST http://localhost:5001/user/login
 content-type: application/json
@@ -20,6 +20,10 @@ content-type: application/json
     "username": "02200001",
     "password": "123456"
 }
+
+# Xem thông tin người dùng
+###
+GET http://localhost:5001/user/get-user-information
 
 # Đổi mật khẩu
 ###

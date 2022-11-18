@@ -1,10 +1,9 @@
 const {
-    SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID,
-    SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
+    SERVICE_ABSENCE_EVENTS_CREATE_ABSENCE_INFORMATION,
+    SERVICE_ABSENCE_EVENTS_UPDATE_ABSENCE_INFORMATION,
 } = require('../constants/global.constant');
 
-const { updateUserRole } = require('./user-admin.service');
-const { getUserInformation } = require('./user.service');
+const { createAbsenceInformation, updateAbsenceInformation } = require('./absence.service');
 
 // Hàm này có nhiệm vụ
 // Nhận loại sự kiện cần xử lý
@@ -13,14 +12,10 @@ const { getUserInformation } = require('./user.service');
 const SubscribeEvents = async function ({ event, data }) {
     try {
         switch (event) {
-            case SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID:
-                const result = await getUserInformation(data);
-                if (result.status) {
-                    result.data = result.data.role_id.name;
-                }
-                return result;
-            case SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID:
-                return await updateUserRole(data);
+            case SERVICE_ABSENCE_EVENTS_CREATE_ABSENCE_INFORMATION:
+                return await createAbsenceInformation(data);
+            case SERVICE_ABSENCE_EVENTS_UPDATE_ABSENCE_INFORMATION:
+                return await updateAbsenceInformation(data);
             default:
                 return {
                     status: false,
