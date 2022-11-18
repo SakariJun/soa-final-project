@@ -108,7 +108,7 @@ def create_task():
         abort(403)
 
     task = Task(
-        manager_id=str(1),
+        manager_id=user_id,
         officer_id=data.get("officer_id"),
         title=data.get("title", ""),
         description=data.get("description", ""),
@@ -209,6 +209,10 @@ def get_all_tasks(page=1):
         task["_id"] = str(task["_id"])
         task["files"] = urls
         task["conversations"] = conversations
+        task["status"] = TaskStatus.objects(id=task["status"]).first()
+        if task.get("rate") is not None:
+            task["rate"] = TaskRate.objects(id=task["rate"]).first()
+
         map_tasks.append(task)
 
     return jsonify(
@@ -423,6 +427,18 @@ def approve_task(id):
         if task.status != TaskStatus.objects(id=TaskStatusDefined.WAITING).first():
             return (
                 jsonify(status=False, message="Task không trong trạng thái chờ duyệt"),
+                400,
+            )
+
+        if (
+            str(data.get("rate").id) == str(Rate.GOOD)
+            and task.deadline < task.updated_at
+        ):
+            return (
+                jsonify(
+                    status=False,
+                    message='Hoàn thành trễ không được đánh giá "Tốt/Good"',
+                ),
                 400,
             )
 
