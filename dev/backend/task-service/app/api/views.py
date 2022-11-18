@@ -26,12 +26,17 @@ def before_request():
         access_token = request.headers.get("Cookie")
         if access_token is None:
             abort(403)
+        access_token = access_token.split("=")
+        if "accessToken" not in access_token:
+            abort(403)
         pass
 
 
 def verify_payload(access_token):
     try:
-        access_token = access_token.split("=")[1]
+        access_token = access_token.split("=")
+        access_token = access_token[access_token.index("accessToken") + 1]
+
         secret = current_app.config["SECRET_KEY"]
 
         payload = decode(access_token, key=secret, algorithms=["HS256"])
