@@ -1,0 +1,37 @@
+Đường dẫn thư mục:
+
+root/
+- app: chứa front-end, view khác trang chủ ( index.php )
+	+ tasks: chứa list thư mục con tên theo mặc định là TASK_ID ( id của task trên db ).
+		** Trong mỗi thư mục con của TASK_ID gồm attachment chứa tệp đính kèm nếu lúc tạo có thêm file vào.
+		** Trong mỗi thư mục con TASK_ID gồm thư mục conversation/ CONVERSATION_ID /: tương tự như attachment bên trên của task.
+
+-> Mỗi lần lấy dữ liệu về 1 task hay 1 conversation thì dir thư mục đường dẫn trên, nếu không có tệp đính kèm thì sẽ tự trả về mảng rỗng và không cần hiển thị lên.
+
+
+	+ users: chứa list thư mục con tên theo mặc định là USER_ID ( id của user trên db ).
+		** Trong mỗi thư mục USER_ID sẽ gồm avatar ( chứa hình avatar, đặt tên theo mặc định là "avatar.jpg"  -> đổi tên file khi user upload hình lên db )
+		** Và Absence... chứa các dữ liệu về xin nghỉ phép
+
+	+ tất cả các file view, page khác index.
+
+- assets: chứa dữ liệu hình ảnh, video, icon,... mà web sử dụng
+	+ images: file ảnh các loại mà web mình có sử dụng.
+		** trong images sẽ có phân loại ra các loại img sử dụng cho các phần khác nhau như: layout ( như background ), user ( default avatar đó ), profile ( các loại icon về thông tin user ),...
+	+ videos ( nếu có videos )...
+
+
+- backend: chứa dữ liệu về các API, DB, DAO,... nói chung là các phương thức, chức năng của trang web.
+	+ API: thư mục chứa các web services, RESTFUL API,...
+	+ DAO: thư mục chứa các loại DAO để truy cập db... 
+	+ Support: chứa các function hỗ trợ create id, validate,... ( cái này mấy chú làm đó :V ).
+
+
+- front end template: THƯ MỤC NÀY CHỈ LÀ TẠM THỜI để lấy template front-end trong lúc dev.
+
+
+- Ngoài root chỉ để main.js, style.css và index.php.
+* Với mấy file docker.
+
+** Test, sử dụng,... insert dữ liệu sai, đúng,... lên db nhớ xóa các dữ liệu sai ( không hợp lý,.. ) nha :V. Chừa dữ liệu đúng, đầy đủ để làm db cuối nộp luôn cho phẻ.
+

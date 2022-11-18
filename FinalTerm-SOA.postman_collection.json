@@ -1,0 +1,538 @@
+{
+	"info": {
+		"_postman_id": "7685f538-1ed4-404d-ba80-473d038ed45d",
+		"name": "FinalTerm-SOA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18159742"
+	},
+	"item": [
+		{
+			"name": "Department Service",
+			"item": [
+				{
+					"name": "Lấy danh sách phòng ban",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.get(\"DEPARTMENT_SERVICE_URL\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzczNDliODU5NDg4ODM1YjljMDk4NDQiLCJ1c2VyX2lkIjoiMTIyMDAwMDEiLCJyb2xlX2lkIjoiNjM3MzJjMWUzZTVmMDBmZWUwYWFiNzY5IiwicGhvbmVfbnVtYmVyIjoiMTIzIiwiZW1haWwiOiJ0cnVuZzEyM0BnbWFpbC5jb20iLCJpc19hY3RpdmF0ZSI6dHJ1ZSwiaWF0IjoxNjY4NjEwMDQzLCJleHAiOjE2NjkyMTQ4NDN9.luEGCkg718N5DHdI1kPbVPlDVjmOn20sr3n1u-IndSo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5003/department/get-all-departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"department",
+								"get-all-departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Thêm phòng ban",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Phòng Kinh doanh\",\r\n    \"room\": \"A0069\",\r\n    \"description\": \"Phòng Kinh doanh gái xinh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5003/department/create-department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"department",
+								"create-department"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sửa thông tin phòng ban",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"name\": \"ITA\",\r\n    \"room\": \"223\",\r\n    \"description\": \"Phòng IT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5003/department/update-department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"department",
+								"update-department"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Xem thông tin chi tiết phòng ban",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5003/department/get-department-detail?department_id=PB00001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"department",
+								"get-department-detail"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "PB00001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bổ nhiệm trưởng phòng",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"leader_id\": \"12200001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5003/department/assign-leader-department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"department",
+								"assign-leader-department"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Xóa chức trưởng phòng",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"department_id\": \"PB00001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5003/department/remove-leader-department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"department",
+								"remove-leader-department"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"DEPARTMENT_SERVICE_URL\", \"http://localhost:5003\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User Service",
+			"item": [
+				{
+					"name": "Giám đốc",
+					"item": [
+						{
+							"name": "Thêm nhân viên",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"full_name\": \"Trương Tuấn Thịnh\",\r\n    \"phone_number\": \"0323456789\",\r\n    \"email\": \"thinhtruongwibu@gmail.com\",\r\n    \"day_of_birth\": \"1/2/2001\",\r\n    \"department_id\": \"PB00001\",\r\n    \"gender\": \"Nữ\",\r\n    \"salary\": 100000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user-admin/add-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user-admin",
+										"add-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Đặt lại mật khẩu cho nhân viên",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": \"12200001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user-admin/reset-password",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user-admin",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy danh sách nhân viên",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/user-admin/get-all-users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user-admin",
+										"get-all-users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cập nhật lương nhân viên",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": \"02200001\",\r\n    \"salary\": 123456789\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user-admin/update-user-salary",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user-admin",
+										"update-user-salary"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Đăng nhập",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"02200001\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy thông tin người dùng",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/user/get-user-information",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"get-user-information"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đổi ảnh đại diện",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/trung/Desktop/315820423_1328494937898010_8033284530312052497_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5001/user/change-user-avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"change-user-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đổi mật khẩu (Bắt buộc)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/user/change-password-require",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"change-password-require"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đổi mật khẩu (Tùy chọn)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"old_password\": \"123456789\",\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/user/change-password-optional",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"change-password-optional"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gửi yêu cầu đặt lại mật khẩu",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"thinhtruongwibu@gmail.com\",\r\n    \"phone_number\": \"0323456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/user/request-reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"request-reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy danh sách chức vụ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/role/get-all-role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"role",
+								"get-all-role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Absence Service",
+			"item": []
+		}
+	],
+	"variable": [
+		{
+			"key": "DEPARTMENT_SERVICE_URL",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,1 @@
+Thư mục utils: Chứa các function tiện ích có thể được sử dụng trong khắp project.
