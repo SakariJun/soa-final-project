@@ -21,7 +21,7 @@ body {
 
 /* Toast Message */
 .gradient-progress-bar {
-    background: linear-gradient(90deg, #4568dc, #e96443) !important;
+    background: linear-gradient(90deg, #fa0, #0c9) !important;
 }
 
 h1,
@@ -550,7 +550,7 @@ a.text-primary:focus {
 #loading {
     display: flex;
     position: fixed;
-    z-index: 99999999999;
+    z-index: 1001;
     top: 0;
     left: 0;
     width: 100%;

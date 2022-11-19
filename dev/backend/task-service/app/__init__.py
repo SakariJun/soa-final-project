@@ -8,7 +8,6 @@ import firebase_admin
 from firebase_admin import credentials
 from datetime import datetime
 
-mail = Mail()
 db = MongoEngine()
 cors = CORS()
 

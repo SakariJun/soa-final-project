@@ -3,8 +3,7 @@ $(document).ready(function () {
     $("body").removeClass("sidebar-main");
     var urlPath = window.location.pathname;
     updateNavMenu(urlPath);
-    loadComponent(urlPath);
-    window.history.replaceState(urlPath, null, urlPath);
+    loadRedirect(urlPath)
 })
 
 // Update sidebar active state
@@ -70,6 +69,17 @@ function showToast(comment) {
     })
 }
 
+// function load content from redirect url
+function loadRedirect(urlPath) {
+    if (urlPath.includes("login")) {
+        $('body').html(`<header></header><div id="page-content" class="full-page"></div>`)
+        $("#page-content").removeClass('content-page');
+        window.history.replaceState(urlPath, null, urlPath);
+    }
+    window.history.replaceState(urlPath, null, urlPath);
+    loadComponent(urlPath)
+}
+
 // #region Ajax page-content
 function loadComponent(urlPath) {
     // fadein loading animation
@@ -82,7 +92,8 @@ function loadComponent(urlPath) {
     fetch(baseUrl + urlPath + "?load=1")
         .then((response) => {
             console.log(response)
-            if (response.status == 400) {
+            // Redirect
+            if (response.status == 303) {
                 return response.json()
             }
             return response.text();
@@ -90,8 +101,10 @@ function loadComponent(urlPath) {
         .then((html) => {
             // Check redirect
             if (html.redirect && html.redirect != 'undefined') {
-                window.history.replaceState(html.redirect, null, html.redirect);
-                loadComponent(html.redirect)
+                if (html.message) {
+                    showToast(html.message)
+                }
+                loadRedirect(html.redirect)
                 return;
             }
             $("#loading").fadeOut(500);
@@ -127,6 +140,32 @@ function loadComponent(urlPath) {
         })
         .catch(function (err) {
             showToast("Có lỗi xảy ra. Vui lòng thử lại sau." + err.message)
+        });
+}
+
+async function loadHeader() {
+    fetch('/header' + "?load=1")
+        .then((response) => {
+            console.log(response)
+            // Redirect
+            if (response.status == 303) {
+                return response.json()
+            }
+            return response.text();
+        })
+        .then((html) => {
+            // Check redirect
+            if (html.redirect && html.redirect != 'undefined') {
+                loadRedirect(html.redirect)
+                return false;
+            }
+            $("header").html(html);
+            $("#page-content").addClass('content-page');
+            return true
+        })
+        .catch(function (err) {
+            showToast("Có lỗi xảy ra. Vui lòng thử lại sau." + err.message)
+            return false
         });
 }
 
@@ -615,6 +654,8 @@ function validateLogin() {
 
     if ($('#remember').is(":checked")) {
         document.cookie = "username=" + usernameValue;
+    } else {
+        document.cookie = "username=";
     }
 
     if (usernameValue.length == 0) {
@@ -631,7 +672,6 @@ function validateLogin() {
         return false;
     }
 
-    // TODO: Change url request and post login
     // GỌI AJAX VALIDATE 
     let userData = JSON.stringify({ username: usernameValue, password: passwordValue });
 
@@ -641,22 +681,18 @@ function validateLogin() {
         dataType: "json",
         contentType: "application/json",
         data: userData,
-        success: function (result) {
+        success: async function (result) {
             if (!result['status']) {
-                fadeError(result['errorMessage'])
-                return false;
-            } else if (result['code'] == '300') {
-                // Đăng nhập thành công nhưng chưa đổi mật khẩu lần đầu
-                window.location.href = 'set-new-password.php';
-                return false;
-            } else {
-                // Đăng nhập thành công + đã đổi mật khẩu
-                window.location.href = '../index.php';
+                fadeError(result['message'])
                 return false;
             }
+            showToast(result['message'])
+            const header = await loadHeader()
+            window.history.pushState('/', null, '/');
+            loadComponent('/')
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown + "\n" + textStatus);
+            showToast(errorThrown + "\n" + textStatus)
         }
     });
 
@@ -1561,14 +1597,13 @@ function departmentDetail(departmentID) {
 
 function fadeError(errorMessage) {
     let errorDiv = $("#responseMessage");
-
     if (errorDiv.hasClass('alert alert-success')) {
         errorDiv.removeClass('alert alert-success').addClass('alert alert-danger');
     } else {
         errorDiv.addClass('alert alert-danger');
     }
 
-    errorDiv.html(errorMessage).fadeIn(1500).fadeOut(3000);
+    errorDiv.html(errorMessage).fadeIn('slow')
 }
 
 function fadeResult(resultMessage) {
@@ -2372,21 +2407,6 @@ function appointLeader(department, name) {
         }
     })
 }
-
-function logout() {
-    let countDown = 5;
-    let id = setInterval(() => {
-        countDown--;
-        if (countDown >= 0) {
-            $('#counter').html(countDown);
-        }
-        if (countDown == -1) {
-            clearInterval(id);
-            window.location.href = './login.php';
-        }
-    }, 1000);
-}
-//#endregion
 
 // Phần TASK$
 // Load nhân viên trong phòng ban

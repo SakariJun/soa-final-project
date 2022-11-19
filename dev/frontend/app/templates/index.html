@@ -1,1 +1,127 @@
-<p>Hello</p>
+<div class="container">
+  <div class="card badge-primary">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <h3>Số liệu tổng quát</h3>
+        <h3><i class="fas fa-chart-bar mr-2"></i></h3>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {% if Role.get(user.get('role_id')).has_permission(Permission.MODIFY_USER)
+    %}
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-info">
+        <div class="card-body text-center">
+          <h4 class="">Nhân viên</h4>
+          <span class="h5"
+            ><i class="fas fa-users mr-2"></i
+            ><?= $result['users'] ?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-danger">
+        <div class="card-body text-center">
+          <h4 class="">Đang nghỉ phép</h4>
+          <span class="h5"
+            ><i class="fas fa-bed mr-2"></i
+            >{{ Role.get(user.get('role_id')).permission }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-warning">
+        <div class="card-body text-center">
+          <h4 class="">Phòng ban</h4>
+          <span class="h5"
+            ><i class="fas fa-cubes mr-2"></i
+            ><?= $result['departments'] ?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-default">
+        <div class="card-body text-center">
+          <h4 class="">Công việc</h4>
+          <span class="h5"
+            ><i class="fas fa-clipboard-list mr-2"></i
+            ><?= $result['tasks'] ?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-xl-8">
+      <div class="card badge-success">
+        <div class="card-body text-center">
+          <h4 class="">Công việc hoàn thành</h4>
+          <span class="h5"
+            ><i class="fas fa-clipboard-check mr-2"></i
+            ><?= $result['tasks-completed'] ?></span
+          >
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <!-- Nhân viên / trưởng phòng -->
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-info">
+        <div class="card-body text-center">
+          <h4 class="">Đồng nghiệp</h4>
+          <span class="h5"
+            ><i class="fas fa-users mr-2"></i
+            ><?= $result['teamates'] ?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-danger">
+        <div class="card-body text-center">
+          <h4 class="">Lương</h4>
+          <span class="h5"
+            ><i class="fas fa-coins mr-2"></i
+            ><?= number_format($result['salary'], 0, ',', '.')  ?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-warning">
+        <div class="card-body text-center">
+          <h4 class="">Thưởng tháng</h4>
+          <span class="h5"
+            ><i class="fas fa-hand-holding-usd mr-2"></i
+            ><?= number_format($result['bonus-salary'], 0, ',', '.') ?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card badge-default">
+        <div class="card-body text-center">
+          <h4 class="">Công việc</h4>
+          <span class="h5"
+            ><i class="fas fa-clipboard-list mr-2"></i
+            ><?= $result['tasks'] . ' (Tổng)'?></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-xl-8">
+      <div class="card badge-success">
+        <div class="card-body text-center">
+          <h4 class="">Công việc hoàn thành</h4>
+          <span class="h5"
+            ><i class="fas fa-clipboard-check mr-2"></i
+            ><?= $result['tasks-completed-month']." (tháng " . $month = date('n') .")/". $result['tasks-completed-total'] . " (tổng)"?></span
+          >
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

@@ -20,8 +20,8 @@
               <span class="ml-4">Trang Chủ</span>
             </a>
           </li>
-          {% if Role.get(user.get(role_id)) and
-          Role[role_id].has_permission(Permission.READ_TASK) %}
+          {% if Role.get(user.get('role_id')) and
+          Role[user.get('role_id')].has_permission(Permission.READ_TASK) %}
           <li class="">
             <a href="#" data-path="/tasks" id="tasks">
               <i class="fas fa-tasks"></i>
@@ -32,12 +32,13 @@
           <li>
             <a href="#" data-toggle="collapse" data-target="#Staff">
               <i class="fas fa-users"></i>
-              <span class="ml-4">Nhân Sự</span>
+              <span class="ml-4">Nhân sự</span>
               <i class="fas fa-angle-right menu-arrow"></i>
             </a>
             <ul id="Staff" class="submenu collapse">
-              {% if Role.get(user.get(role_id)) and
-              Role[role_id].has_permission(Permission.MODIFY_USER) %}
+              {% if Role.get(user.get('role_id')) and
+              Role[user.get('role_id')].has_permission(Permission.MODIFY_USER)
+              %}
               <li class="">
                 <a href="#" data-path="/users/add" id="add-user">
                   <i class="fas fa-user-plus"></i>Thêm nhân viên mới
@@ -56,8 +57,9 @@
               {% endif %}
 
               <!-- Nhân viên không được sử dụng chức năng quản lý nghỉ phép -->
-              {% if Role.get(user.get(role_id)) and
-              Role[role_id].has_permission(Permission.REVIEW_ABSENT) %}
+              {% if Role.get(user.get('role_id')) and
+              Role[user.get('role_id')].has_permission(Permission.REVIEW_ABSENT)
+              %}
               <li class="">
                 <a href="#" data-path="/absents" id="list-absence">
                   <i class="fas fa-bed"></i>Quản lý nghỉ phép
@@ -66,8 +68,9 @@
               {% endif %}
 
               <!-- Chỉ có người lao động 'Trưởng phòng' hoặc 'Nhân viên' có thể xem thông tin nghỉ phép -->
-              {% if Role.get(user.get(role_id)) and
-              Role[role_id].has_permission(Permission.REQUEST_ABSENT) %}
+              {% if Role.get(user.get('role_id')) and
+              Role[user.get('role_id')].has_permission(Permission.REQUEST_ABSENT)
+              %}
               <li class="">
                 <a
                   href="#"
@@ -80,8 +83,9 @@
               {% endif %}
             </ul>
           </li>
-          {% if Role.get(user.get(role_id)) and
-          Role[role_id].has_permission(Permission.MODIFY_DEPARTMENT) %}
+          {% if Role.get(user.get('role_id')) and
+          Role[user.get('role_id')].has_permission(Permission.MODIFY_DEPARTMENT)
+          %}
           <li class="">
             <a href="#" data-toggle="collapse" data-target="#Department">
               <i class="fas fa-cube"></i>
@@ -144,13 +148,13 @@
               >
                 <img
                   id="navbar-avatar"
-                  src=""
+                  src="{{ user.get('avatar', '/static/img/users/Male_Default.png') }}"
                   class="img-fluid rounded-circle"
                   alt="user"
                 />
                 <div class="caption ml-3">
                   <h6 class="mb-0">
-                    {{ user.get("user_name") }}<i
+                    {{ user.get("full_name", "Unkown User") }}<i
                       class="fas fa-chevron-down ml-2"
                     ></i>
                   </h6>
