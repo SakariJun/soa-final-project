@@ -365,7 +365,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"12200001\",\r\n    \"password\": \"123456\"\r\n}",
+									"raw": "{\r\n    \"username\": \"02200001\",\r\n    \"password\": \"123456\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -573,7 +573,19 @@
 							"name": "Lấy danh sách nhân viên thuộc phòng ban",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/user/get-all-user-by-leader",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"get-all-user-by-leader"
+									]
+								}
 							},
 							"response": []
 						}
@@ -779,6 +791,52 @@
 							"path": [
 								"absence-request",
 								"update-absence-request-state"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Xem chi tiết đơn xin nghỉ phép",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5002/absence-request/get-absence-request-detail?absence_request_id=6378bb91e174ff555cfdca03",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence-request",
+								"get-absence-request-detail"
+							],
+							"query": [
+								{
+									"key": "absence_request_id",
+									"value": "6378bb91e174ff555cfdca03"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy tổng số nhân viên nghỉ hôm nay",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5002/absence/get-absence-information",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence",
+								"get-absence-information"
 							]
 						}
 					},
