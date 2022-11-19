@@ -58,3 +58,9 @@ URL: /department/get-all-department
 METHOD: GET
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: a1b69d50-4c36-49d8-86a4-7a3c06b31e71
+TIME: 19-11-2022	12:23:19
+URL: /department/remove-leader-department
+METHOD: PUT
+MESSAGE: Not Found !
+--------------------------------------------------------

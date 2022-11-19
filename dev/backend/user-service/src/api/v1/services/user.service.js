@@ -16,7 +16,7 @@ const {
 const { signAccessToken } = require('../utils/json-web-token.util');
 const PublishServiceEvent = require('../utils/service-communicate.util');
 
-// #region Đổi ảnh đại diện
+// #region Đổi ảnh đại diện [DONE]
 const changeUserAvatar = async function (file, { user_id }) {
     try {
         if (!file) {
@@ -98,12 +98,11 @@ const getUserInformation = async function ({ user_id }) {
                 select: '-_id',
             })
             .lean();
-        console.log('🚀 ~ file: user.service.js ~ line 101 ~ getUserInformation ~ user', user);
 
         if (!user) {
             return {
                 status: false,
-                message: `Không tìm thấy thông tin nhân viên với mã ${user_id}!`,
+                message: `Không tìm thấy thông tin của nhân viên với mã nhân viên ${user_id}!`,
             };
         }
 
@@ -133,11 +132,6 @@ const getUserInformation = async function ({ user_id }) {
                 PublishServiceEvent(payload_department, SERVICE_DEPARTMENT),
                 PublishServiceEvent(payload_absence, SERVICE_ABSENCE),
             ]);
-
-            console.log(
-                '🚀 ~ file: user.service.js ~ line 132 ~ getUserInformation ~ extraInformationResult',
-                extraInformationResult,
-            );
 
             if (extraInformationResult[0].statusText !== 'OK' && extraInformationResult[1].statusText !== 'OK') {
                 return {
@@ -176,7 +170,12 @@ const getUserInformation = async function ({ user_id }) {
 //#region Log-in [DONE]
 const login = async function ({ username, password }) {
     try {
-        const user = await _User.findOne({ 'account.username': username }).lean();
+        const user = await _User
+            .findOne({ 'account.username': username })
+            .populate({
+                path: 'role_id',
+            })
+            .lean();
 
         if (!user) {
             return { status: false, message: 'Sai tên tài khoản hoặc mật khẩu!' };
@@ -192,7 +191,8 @@ const login = async function ({ username, password }) {
         const payload = {
             _id: user._id,
             user_id: user.user_id,
-            role_id: user.role_id,
+            role_id: user.role_id._id,
+            role_name: user.role_id.name,
             phone_number: user.phone_number,
             email: user.email,
             is_activate: user.account.is_activate,

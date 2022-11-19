@@ -141,7 +141,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"leader_id\": \"12200001\"\r\n}",
+							"raw": "{   \r\n    \"department_id\": \"PB00002\",\r\n    \"leader_id\": \"22200001\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -164,13 +164,13 @@
 					"response": []
 				},
 				{
-					"name": "Xóa chức trưởng phòng",
+					"name": "Thay thế trưởng phòng",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"department_id\": \"PB00001\"\r\n}",
+							"raw": "{   \r\n    \"department_id\": \"PB00002\",\r\n    \"leader_id\": \"22200002\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -178,7 +178,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5003/department/remove-leader-department",
+							"raw": "http://localhost:5003/department/change-leader-department",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -186,7 +186,7 @@
 							"port": "5003",
 							"path": [
 								"department",
-								"remove-leader-department"
+								"change-leader-department"
 							]
 						}
 					},
@@ -227,7 +227,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"full_name\": \"Trương Tuấn Thịnh\",\r\n    \"phone_number\": \"0323456789\",\r\n    \"email\": \"thinhtruongwibu@gmail.com\",\r\n    \"day_of_birth\": \"1/2/2001\",\r\n    \"department_id\": \"PB00001\",\r\n    \"gender\": \"Nữ\",\r\n    \"salary\": 100000\r\n}",
+									"raw": "{\r\n    \"full_name\": \"Trần Bảo Gà\",\r\n    \"phone_number\": \"0923456729\",\r\n    \"email\": \"gakha@gmail.com\",\r\n    \"day_of_birth\": \"6/2/2001\",\r\n    \"department_id\": \"PB00002\",\r\n    \"gender\": \"Nữ\",\r\n    \"salary\": 100000\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -322,6 +322,32 @@
 									"path": [
 										"user-admin",
 										"update-user-salary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Xem chi tiết thông tin nhân viên",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/user-admin/get-user-detail?user_id=22200001",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user-admin",
+										"get-user-detail"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "22200001"
+										}
 									]
 								}
 							},

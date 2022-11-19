@@ -76,3 +76,9 @@ URL: /user-admin/reset-password
 METHOD: PUT
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: e46c4e7c-aed1-4a7f-bd3c-c19c7759e7c9
+TIME: 19-11-2022	12:51:14
+URL: /user/get-user-detail?user_id=22200001
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------

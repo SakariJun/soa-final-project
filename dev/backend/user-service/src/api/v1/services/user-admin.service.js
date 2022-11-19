@@ -270,23 +270,18 @@ const updateUserRole = async function ({ user_id, role_name }) {
             return { status: false, message: 'Chức vụ không hợp lệ!' };
         }
 
-        const user = await _User.findOneAndUpdate(
-            {
-                user_id,
-            },
-            {
-                role_id: role._id,
-            },
-            {
-                new: true,
-                session,
-            },
-        );
+        const user = await _User.findOne({ user_id }).session(session);
 
         if (!user) {
             await session.abortTransaction();
-            return { status: false, message: 'Không thể cập nhật chức vụ của nhân viên! Vui lòng thử lại sau!' };
+            return {
+                status: false,
+                message: `Không thể cập nhật chức vụ của nhân viên do không tìm thấy nhân viên với mã ${user_id}!`,
+            };
         }
+
+        user.role_id = role._id;
+        await user.save();
 
         // TODO: Gọi Absence Service cập nhật số ngày nghỉ phép tối đa
         const payload = {

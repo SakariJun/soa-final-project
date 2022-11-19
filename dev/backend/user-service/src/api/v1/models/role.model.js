@@ -4,7 +4,6 @@ const RoleSchema = Schema(
     {
         role_id: {
             type: Schema.Types.Number,
-            // required: true,
             unique: true,
             index: true,
         },
