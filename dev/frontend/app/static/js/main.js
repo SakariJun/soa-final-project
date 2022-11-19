@@ -32,6 +32,7 @@ $(document).on("click", "a[data-path]", function (e) {
     e.preventDefault();
 
     var urlPath = $(this).data("path");
+    $('body').removeClass("sidebar-main")
 
     // Logout không pushState
     if (!urlPath.includes("logout")) {
@@ -72,6 +73,7 @@ function showToast(comment) {
 // function load content from redirect url
 function loadRedirect(urlPath) {
     if (urlPath.includes("login")) {
+        $('body').removeClass("sidebar-main")
         $('body').html(`<header></header><div id="page-content" class="full-page"></div>`)
         $("#page-content").removeClass('content-page');
         window.history.replaceState(urlPath, null, urlPath);
@@ -1620,7 +1622,6 @@ function fadeResult(resultMessage) {
 
 function validateAddUser() {
     let fullname = document.forms["addUserForm"]["fullname-add"].value;
-    let username = document.forms["addUserForm"]["username-add"].value;
     let email = document.forms["addUserForm"]["email-add"].value;
     let dob = document.forms["addUserForm"]["dob-add"].value;
     let phone = document.forms["addUserForm"]["phone-add"].value;
@@ -1629,7 +1630,6 @@ function validateAddUser() {
     let department = document.forms["addUserForm"]["department-add"].value;
 
     let namebox = document.getElementById('fullname-add');
-    let usernamebox = document.getElementById('username-add');
     let emailbox = document.getElementById('email-add');
     let dobbox = document.getElementById('dob-add');
     let phonebox = document.getElementById('phone-add');
@@ -1641,7 +1641,6 @@ function validateAddUser() {
 
     const remail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const rephone = /^0\d{9,10}$/
-    const reuser = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g
 
     if (fullname == "") {
         message.innerHTML = "Hãy nhập tên nhân viên.";
@@ -1649,47 +1648,7 @@ function validateAddUser() {
         message.removeAttribute("hidden");
         return false;
     }
-    var accentArray = ["á", "à", "ã", "ả", "ạ", "ă", "ắ", "ằ", "ẳ", "ẵ", "ặ", "â", "ấ", "ầ", "ẩ", "ẫ", "ậ", "é", "è", "ẻ", "ẽ", "ẹ", "ê", "ế", "ề", "ể", "ễ", "ệ", "í", "ì", "ỉ", "ĩ", "ị", "î", "õ", "ó", "ò", "ỏ", "ọ", "ô", "ố", "ổ", "ồ", "ỗ", "ộ", "ú", "ù", "ủ", "ũ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự", "ý", "ỳ", "ỷ", "ỹ", "ỵ", "û"]
 
-    if (username == "") {
-        message.innerHTML = "Hãy nhập tên đăng nhập (username).";
-        usernamebox.focus();
-        message.removeAttribute("hidden");
-        return false;
-    }
-    if (!reuser.test(username)) {
-        message.innerHTML = "Tên đăng nhập (username) không được chứa ký tự đặc biệt.";
-        usernamebox.focus();
-        message.removeAttribute("hidden");
-        return false;
-    }
-
-    let testAccent = '';
-    accentArray.forEach((i) => {
-        if (username.includes(String(i))) {
-            testAccent = i;
-        }
-    })
-
-    if (testAccent != '') {
-        message.innerHTML = "Tên đăng nhập (username) không thể chứa ký tự đặc biệt - <strong>" + testAccent + "</strong>";
-        usernamebox.focus();
-        message.removeAttribute("hidden");
-        return false;
-    }
-
-    if (username.length < 6) {
-        message.innerHTML = "Tên đăng nhập (username) bắt buộc phải dài hơn 6 ký tự.";
-        usernamebox.focus();
-        message.removeAttribute("hidden");
-        return false;
-    }
-    if (username.includes(" ")) {
-        message.innerHTML = "Tên đăng nhập (username) không được chứa dấu cách.";
-        usernamebox.focus();
-        message.removeAttribute("hidden");
-        return false;
-    }
     if (email == "") {
         message.innerHTML = "Hãy nhập email.";
         emailbox.focus();
@@ -1760,78 +1719,35 @@ function validateAddUser() {
     var departmentname = departmentbox.options[departmentbox.selectedIndex].text;
     message.innerHTML = "";
     message.setAttribute("hidden", "true");
-    showAddDialog(fullname, username, email, dob, phone, salary, gender, department, departmentname);
+    showAddDialog(fullname, email, dob, phone, salary, gender, department, departmentname);
     return false;
 }
 
-function showAddDialog(fullname, username, email, dob, phone, salary, gender, department, departmentname) {
+function showAddDialog(fullname, email, dob, phone, salary, gender, department, departmentname) {
     $("#addUserModal").modal();
     document.getElementById('add-name').innerHTML = fullname;
-    document.getElementById('add-username').innerHTML = username;
     let cf = document.getElementById('confirm-add');
-    cf.setAttribute("onclick", "addUser('" + fullname + "','" + username + "','" + email + "','" + dob + "','" + phone + "'," + salary + ",'" + gender + "','" + department + "')");
+    cf.setAttribute("onclick", "addUser('" + fullname + "','" + email + "','" + dob + "','" + phone + "'," + salary + ",'" + gender + "','" + department + "')");
 }
 
-function addUser(fullname, username, email, dob, phone, salary, gender, department) {
-    $(".content-page").html = "";
-    let userAddData = JSON.stringify({ username: username, fullname: fullname, email: email, dob: dob, phonenumber: phone, salary: salary, gender: gender, department: department });
+function addUser(fullname, email, dob, phone, salary, gender, department) {
+    let userAddData = JSON.stringify({ 'full_name': fullname, 'email': email, 'day_of_birth': dob, 'phone_number': phone, 'salary': salary, 'gender': gender, 'department_id': department });
 
     $.ajax({
-        url: './backend/API/AdminManagerAccount/create-account.php',
+        url: '/users/add',
         type: 'POST',
         dataType: "json",
         contentType: "application/json",
-        async: true,
         data: userAddData,
-
         success: function (result) {
-            // console.log(result)
-            if (result['status'] == 6) {
-                document.getElementById('message-add').innerHTML = "";
-                document.getElementById('message-add').setAttribute("hidden", "true");
-                $.ajax({
-                    url: './app/account-management.php',
-                    type: 'POST',
-                    data: {
-                        'action': "LOAD"
-                    },
-                    success: function (result) {
-                        $(".content-page").html(result);
-
-                        $("body").removeClass("sidebar-main");
-                        loadAccountList();
-                        $("#add-success-alert").fadeTo(2000, 500).slideUp(500, function () {
-                            $("#add-success-alert").slideUp(500);
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
-                        });
-                        $(".container").fadeIn();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown + "\n" + textStatus);
-                    }
-                });
-            } else if (result['status'] == 7) {
-                let message = document.getElementById('message-add');
-                message.innerHTML = "Tên người dùng (username) này đã tồn tại. Vui lòng nhập lại tên người dùng (username) mới."
-                document.getElementById('username-add').focus();
-                message.removeAttribute("hidden");
-
-            } else if (result['status'] == 9) {
-                let message = document.getElementById('message-add');
-                message.innerHTML = "Email này đã tồn tại. Vui lòng nhập lại email mới."
-                document.getElementById('email-add').focus();
-                message.removeAttribute("hidden");
-            } else if (result['status'] == 10) {
-                let message = document.getElementById('message-add');
-                message.innerHTML = "Số điện thoại này đã tồn tại. Vui lòng nhập lại số điện thoại mới."
-                document.getElementById('phone-add').focus();
-                message.removeAttribute("hidden");
+            if (result.status) {
+                $("form[name='addUserForm'")[0].reset();
             }
+
+            showToast(result.message)
         },
         error: function (result) {
-            console.log(result);
-            console.log("Không thể thêm vào CSDL");
+            showToast("Có lỗi xảy ra. Vui lòng thử lại sau.")
         }
     });
 }
@@ -2410,35 +2326,6 @@ function appointLeader(department, name) {
 
 // Phần TASK$
 // Load nhân viên trong phòng ban
-function loadEmployeeList() {
-    $.ajax({
-        url: './backend/API/AdminManagerTask/get-department-employee.php',
-        method: 'GET',
-        success: function (result) {
-
-            result = JSON.parse(result)
-            if (!result['status']) {
-                fadeError(result['errorMessage']);
-                return;
-            }
-
-            let employeeList = document.getElementById("employee");
-            employeeList.innerHTML = '<option value="" selected>Chọn nhân viên</option>';
-
-            $(result['result']).each(function (index, data) {
-                var staff = document.createElement("option");
-                staff.textContent = data['FullName'];
-                staff.value = data['UserID'];
-
-                employeeList.appendChild(staff);
-            }, "json")
-        },
-        error: function (result) {
-            console.log(result)
-        }
-    })
-}
-
 // List file - thêm files
 $(document).on("change", "#attachment", function () {
     if ($("#attachment")[0].files.length < 1) {

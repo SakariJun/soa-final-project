@@ -6,21 +6,21 @@
           <h1 class="text-center text-uppercase">Thêm nhân viên mới</h1>
         </div>
         <div class="card-body">
-          <form action="" method="post" name="addUserForm" onsubmit="return validateAddUser()" id="add-account-form">
+          <form action="" method="post" name="addUserForm" id="add-account-form">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="fullname-add"><strong>Họ và tên: </strong></label>
                 <input type="text" class="form-control" placeholder="Nhập họ và tên" id="fullname-add" name="fullname-add">
               </div>
               <div class="form-group col-md-6">
-                <label for="username-add"><strong>Tên tài khoản: </strong></label>
-                <input type="text" class="form-control" placeholder="Nhập username" id="username-add" name="username-add">
+                <label for="email-add"><strong>Email: </strong></label>
+                <input type="text" class="form-control" placeholder="Nhập email" id="email-add" name="email-add">
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="email-add"><strong>Email: </strong></label>
-                <input type="text" class="form-control" placeholder="Nhập email" id="email-add" name="email-add">
+            <div class="form-group col-md-6">
+                <label for="phone-add"><strong>Số điện thoại: </strong></label>
+                <input type="text" class="form-control" placeholder="Nhập số điện thoại" id="phone-add" name="phone-add">
               </div>
               <div class="form-group col-md-6">
                 <label for="dob-add"><strong>Ngày sinh: </strong></label>
@@ -29,12 +29,17 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-5">
-                <label for="phone-add"><strong>Số điện thoại: </strong></label>
-                <input type="text" class="form-control" placeholder="Nhập số điện thoại" id="phone-add" name="phone-add">
-              </div>
-              <div class="form-group col-md-5">
                 <label for="salary-add"><strong>Mức lương: </strong></label>
                 <input type="number" class="form-control" placeholder="Nhập lương căn bản" id="salary-add" name="salary-add">
+              </div>
+              <div class="form-group col-md-5">
+                <label for="department-add"><strong>Phòng ban: </strong></label>
+                <select class="form-control" id="department-add" name="department-add">
+                  <option selected disabled>Chọn phòng ban</option>
+                  {% for department in departments %}
+                  <option value ="{{ department.get('department_id') }}">{{ department.get('name') }}</option>
+                  {% endfor %}
+                </select>
               </div>
               <div class="form-group col-md-2">
                 <label for="gender-add"><strong>Giới tính: </strong></label>
@@ -53,23 +58,9 @@
                   </label>
                 </div>
               </div>
-
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label for="department-add"><strong>Phòng ban: </strong></label>
-                <select class="form-control" id="department-add" name="department-add">
-                  <option selected disabled>Chọn phòng ban</option>
-                  <?php
-                  foreach ($departments as $department) {
-                    echo "<option value =" . $department[0] . ">" . $department[1] . "</option>";
-                  }
-                  ?>
-                </select>
-              </div>
             </div>
             <div id="message-add" class="alert alert-danger" hidden="true"></div>
-            <button type="submit" class="btn btn-primary" id="submit-add-button">Thêm</button>
+            <button type="button" onclick="return validateAddUser()" class="btn btn-primary" id="submit-add-button">Thêm</button>
           </form>
         </div>
       </div>
@@ -86,7 +77,7 @@
           </div>
           <div class="modal-body">
             <p>Xác nhận thêm người dùng:</p>
-            <p><strong id="add-name"></strong> - <strong id="add-username"></strong></p>
+            <p><strong id="add-name"></strong></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>

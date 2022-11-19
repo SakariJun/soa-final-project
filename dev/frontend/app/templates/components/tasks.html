@@ -48,6 +48,11 @@
               <select id="employee" class="form-select form-control">
                 <option value="" selected>Chọn nhân viên</option>
                 <!-- Thêm option nhân viên tại đây -->
+                {% for employee in employees %}
+                {% if employee.get('user_id')!=user.user_id %}
+                <option value="{{ employee['user_id'] }}">{{ employee['full_name'] }}</option>
+                {% endif %}
+                {% endfor %}
               </select>
             </div>
           </div>

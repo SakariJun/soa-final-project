@@ -8,11 +8,12 @@ from requests import post, put, get
 @login_required
 def index(payload):
 
-    resp = get(current_app.config["TASK_SERVICE"] + "/api/users/me", cookies=request.cookies)
+    resp = get(
+        current_app.config["TASK_SERVICE"] + "/api/users/me", cookies=request.cookies
+    )
     data = resp.json()
-    print(data)
     if data.get("status") == False:
-        abort(404)
+        abort(403)
 
     data = data.get("data")
     return render_template(
@@ -20,7 +21,7 @@ def index(payload):
         users=data.get("tasks"),
         max_pages=data.get("max_pages"),
         current_page=data.get("current_page"),
-        user=payload
+        user=payload,
     )
 
 
@@ -29,7 +30,27 @@ def index(payload):
 @login_required
 def add_user(payload):
     if request.method == "GET":
-        return render_template('components/add-user.html')
+        resp = get(
+            current_app.config["DEPARTMENT_SERVICE"]
+            + "/department/get-all-departments",
+            cookies=request.cookies,
+        )
+        data = resp.json()
+        if data.get("status") == False:
+            abort(403)
+        departments = data.get("data")
+        return render_template("components/add-user.html", departments=departments)
+
+    # ADD USER service
+    resp = post(
+        current_app.config["USER_SERVICE"] + "/user-admin/add-user",
+        cookies=request.cookies,
+        json=request.json,
+    )
+    data = resp.json()
+    if data.get('status')==True:
+        return jsonify(status=True, message="Thêm nhân viên thành công. Mã nhân viên là: %s\n Tài khoản = Mật khẩu là Mã số nhân viên" %(data.get('data')[0].get('user_id')))
+    return jsonify(data)
 
 
 @users.route("/submit-task/<id>", methods=["PUT"])
