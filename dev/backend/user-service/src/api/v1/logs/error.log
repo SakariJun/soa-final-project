@@ -1,0 +1,84 @@
+LOG_ERROR_ID: b8d38cf9-255d-4c1f-aa90-1ba0402daa32
+TIME: 15-11-2022	11:37:32
+URL: /api/v1/employee-mangement/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 2e50c69a-6cf5-4860-b3ec-4275a26658ea
+TIME: 15-11-2022	11:38:23
+URL: /employee-mangement/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 274de280-173e-4c31-8341-a1a4c2c632b6
+TIME: 15-11-2022	15:07:36
+URL: /api/v1/employee-management/user/add-user
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 9ff6e0f1-80fe-45f7-986a-c0185412ac9a
+TIME: 15-11-2022	15:07:36
+URL: /favicon.ico
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 00d4a166-1243-4cfa-bd78-d133c0d07166
+TIME: 15-11-2022	16:21:19
+URL: /api/v1/employee-management/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: d561c82e-3d0a-47db-b23b-c35e413a6ae0
+TIME: 15-11-2022	21:12:30
+URL: /api/v1/employee-management/user-admin/reset-password
+METHOD: POST
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 2bb01161-8a03-4f1f-88b3-aab59b0176b9
+TIME: 18-11-2022	18:31:43
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 421672c0-7c73-4704-bd82-1adfed069492
+TIME: 18-11-2022	21:28:40
+URL: /user-admin/update-user-avatar
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 0f5b84cb-eabb-46c9-993d-4a2af94d46b8
+TIME: 18-11-2022	21:29:42
+URL: /user/login
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 2a0e28e7-2321-4cbd-9086-dc416ccb35bf
+TIME: 18-11-2022	21:30:12
+URL: /user-admin/update-user-avatar
+METHOD: PUT
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 63dab36e-bb2c-44dc-afc7-c2704d4fd9c1
+TIME: 18-11-2022	21:30:31
+URL: /user-admin/change-user-avatar
+METHOD: PUT
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 20c50750-98d0-48d3-bbb2-ea995a8631e5
+TIME: 18-11-2022	22:31:48
+URL: /user-admin/add-user
+METHOD: POST
+MESSAGE: Unexpected token } in JSON at position 230
+--------------------------------------------------------
+LOG_ERROR_ID: 8f0e0808-ca66-4887-9a74-fad55b00a18c
+TIME: 18-11-2022	22:34:41
+URL: /user-admin/reset-password
+METHOD: PUT
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: e46c4e7c-aed1-4a7f-bd3c-c19c7759e7c9
+TIME: 19-11-2022	12:51:14
+URL: /user/get-user-detail?user_id=22200001
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------

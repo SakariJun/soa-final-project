@@ -1,0 +1,72 @@
+LOG_ERROR_ID: b8d38cf9-255d-4c1f-aa90-1ba0402daa32
+TIME: 15-11-2022	11:37:32
+URL: /api/v1/employee-mangement/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 2e50c69a-6cf5-4860-b3ec-4275a26658ea
+TIME: 15-11-2022	11:38:23
+URL: /employee-mangement/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 274de280-173e-4c31-8341-a1a4c2c632b6
+TIME: 15-11-2022	15:07:36
+URL: /api/v1/employee-management/user/add-user
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 9ff6e0f1-80fe-45f7-986a-c0185412ac9a
+TIME: 15-11-2022	15:07:36
+URL: /favicon.ico
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 00d4a166-1243-4cfa-bd78-d133c0d07166
+TIME: 15-11-2022	16:21:19
+URL: /api/v1/employee-management/user/add-user
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: d561c82e-3d0a-47db-b23b-c35e413a6ae0
+TIME: 15-11-2022	21:12:30
+URL: /api/v1/employee-management/user-admin/reset-password
+METHOD: POST
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 9c72ac7a-c03b-4236-8f6a-caf62c25bc45
+TIME: 16-11-2022	21:33:48
+URL: /department-management/create-department
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 980c2124-b0de-4d7c-9e42-2e5be1ba8499
+TIME: 16-11-2022	21:47:01
+URL: /department
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: da1e40ce-9a28-43cf-9b68-08de2569ae70
+TIME: 17-11-2022	09:57:54
+URL: /department/assign-leader-department
+METHOD: PUT
+MESSAGE: Unexpected token } in JSON at position 69
+--------------------------------------------------------
+LOG_ERROR_ID: 0ea60cc7-3a27-4b94-a8c4-a67466c7837a
+TIME: 18-11-2022	22:30:46
+URL: /department/get-all-department
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: a1b69d50-4c36-49d8-86a4-7a3c06b31e71
+TIME: 19-11-2022	12:23:19
+URL: /department/remove-leader-department
+METHOD: PUT
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: d4d4a0eb-6b60-4916-9a8b-259d2fcfe422
+TIME: 19-11-2022	15:46:28
+URL: /absence/get-absence-information
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------

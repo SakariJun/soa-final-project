@@ -23,17 +23,18 @@ from mongoengine.queryset.visitor import Q
 @api.before_request
 def before_request():
     if "task-status" not in request.path and "task-rate" not in request.path:
-        access_token = request.headers.get("Cookie")
+        access_token = request.cookies
+
         if access_token is None:
+            abort(403)
+        if "accessToken" not in access_token:
             abort(403)
         pass
 
 
 def verify_payload(access_token):
     try:
-        access_token = access_token.split("=")[1]
         secret = current_app.config["SECRET_KEY"]
-
         payload = decode(access_token, key=secret, algorithms=["HS256"])
         if datetime.now().timestamp() > payload.get("exp", 0):
             abort(403)
@@ -82,6 +83,16 @@ def task_rate(id):
     return jsonify(status=True, data=task_rate.rate), 200
 
 
+# API for getting statistic of tasks
+# - Task - status
+@api.route("/tasks/all/", methods=["GET"])
+@api.route("/tasks/all/<int:status>", methods=["GET"])
+def count_task_by_status(status=-1):
+    if status == -1:
+        return jsonify(status=True, data=Task.objects().count())
+    return jsonify(status=True, data=Task.objects(status=status).count())
+
+
 # API for create a new task
 # body -> form data: {
 #     officer_id -> str
@@ -102,13 +113,13 @@ def create_task():
     data = data.get("data")
 
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
 
     task = Task(
-        manager_id=str(1),
+        manager_id=user_id,
         officer_id=data.get("officer_id"),
         title=data.get("title", ""),
         description=data.get("description", ""),
@@ -151,7 +162,7 @@ def create_task():
 @api.route("/tasks/me/<int:page>/", methods=["GET"])
 def get_all_tasks(page=1):
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
@@ -209,6 +220,10 @@ def get_all_tasks(page=1):
         task["_id"] = str(task["_id"])
         task["files"] = urls
         task["conversations"] = conversations
+        task["status"] = TaskStatus.objects(id=task["status"]).first()
+        if task.get("rate") is not None:
+            task["rate"] = TaskRate.objects(id=task["rate"]).first()
+
         map_tasks.append(task)
 
     return jsonify(
@@ -224,7 +239,7 @@ def get_all_tasks(page=1):
 def get_task(id):
     # data = request.json
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
@@ -264,7 +279,7 @@ def get_task(id):
 def accept_task(id):
     # data = request.json
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
@@ -296,7 +311,7 @@ def accept_task(id):
 @api.route("/cancel-task/<id>", methods=["PUT"])
 def cancel_task(id):
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
@@ -330,7 +345,7 @@ def submit_task(id):
     data = request.form
 
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
@@ -399,7 +414,7 @@ def submit_task(id):
 def approve_task(id):
     data = request.json
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)
@@ -426,6 +441,18 @@ def approve_task(id):
                 400,
             )
 
+        if (
+            str(data.get("rate").id) == str(Rate.GOOD)
+            and task.deadline < task.updated_at
+        ):
+            return (
+                jsonify(
+                    status=False,
+                    message='Hoàn thành trễ không được đánh giá "Tốt/Good"',
+                ),
+                400,
+            )
+
         task.status = TaskStatus.objects(id=TaskStatusDefined.COMPLETED).get()
         task.rate = data.get("rate")
 
@@ -442,7 +469,7 @@ def approve_task(id):
 def reject_task(id):
     data = request.form
     # Xử lý get user_id từ request cookie (JWT)
-    payload = verify_payload(request.headers.get("Cookie"))
+    payload = verify_payload(request.cookies.get("accessToken"))
     user_id = payload.get("user_id")
     if user_id is None:
         abort(403)

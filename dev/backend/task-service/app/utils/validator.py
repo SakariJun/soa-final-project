@@ -17,7 +17,12 @@ def validate_task_data(data):
     if deadline is None:
         return dict(status=False, message="Vui lòng nhập deadline công việc")
     try:
-        datetime.strptime(deadline, "%Y-%m-%d")
+        deadline = datetime.strptime(deadline, "%Y-%m-%d")
+        # Sử dụng "<" vì thời gian deadline mặc định là cuối ngày ( 23h59'59s )
+        # Thời gian cùng ngày vẫn được tạo
+        if deadline.date() < datetime.now().date():
+            return dict(status=False, message="Deadline không phải trong quá khứ")
+
     except ValueError:
         return dict(status=False, message="Format Deadline không hợp lệ")
 
@@ -34,7 +39,10 @@ def validate_reject_task_data(data):
         return dict(status=False, message="Vui lòng nhập deadline công việc")
     try:
         deadline = datetime.strptime(deadline, "%Y-%m-%d")
-        deadline = deadline.replace(hour=23, minute=59, second=59)
+        # Sử dụng "<" vì thời gian deadline mặc định là cuối ngày ( 23h59'59s )
+        # Thời gian cùng ngày vẫn được tạo
+        if deadline.date() < datetime.now().date():
+            return dict(status=False, message="Deadline không phải trong quá khứ")
     except ValueError:
         return dict(status=False, message="Format Deadline không hợp lệ")
     return dict(status=True, data=dict(data))
@@ -48,7 +56,9 @@ def validate_task_rate_data(data):
             status=False, message="Vui lòng đánh giá mức độ hoàn thành công việc"
         )
     try:
-        rate = TaskRate.objects(id=rate).first()
+        # Sử dụng get() thay vì first()
+        # get() không tìm thấy sẽ thrown DoesNotExist để bắt lỗi
+        rate = TaskRate.objects(id=rate).get()
     except TaskRate.DoesNotExist:
         return dict(status=False, message="Loại đánh giá không đúng")
 

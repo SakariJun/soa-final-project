@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "63732c0c3e5f00fee0aab768"
+  },
+  "name": "Trưởng phòng",
+  "description": "Trưởng phòng CTY",
+  "permissions": []
+},{
+  "_id": {
+    "$oid": "63732c1e3e5f00fee0aab769"
+  },
+  "name": "Giám đốc",
+  "description": "Giám đốc CTY",
+  "permissions": []
+},{
+  "_id": {
+    "$oid": "63732c453e5f00fee0aab76b"
+  },
+  "name": "Nhân viên",
+  "description": "Nhân viên CTY",
+  "permissions": []
+}]

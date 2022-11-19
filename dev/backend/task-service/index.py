@@ -2,7 +2,7 @@ import os
 from app import create_app, db
 from app.documents import TaskStatus, TaskRate
 
-envr = os.getenv("FLASK_CONFIG") or "development"
+envr = os.getenv("FLASK_CONFIG") or "default"
 app = create_app(envr)
 
 if __name__ == "__main__":
@@ -12,4 +12,4 @@ if __name__ == "__main__":
         if TaskRate.objects.count() == 0:
             TaskRate.insert_task_rate()
 
-    app.run(port=os.getenv("PORT") or 5000)
+    app.run(port=os.getenv("PORT") or 5004)
