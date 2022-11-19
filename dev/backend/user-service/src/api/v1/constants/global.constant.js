@@ -17,6 +17,10 @@ exports.SERVICE_USER = process.env.USER_SERVICE_URL;
 exports.SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID = 1;
 // Set role nhân viên = mã nhân viên
 exports.SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID = 2;
+// Lấy danh sách user_id bằng tên chức vụ
+exports.SERVICE_USER_EVENTS_GET_USERS_ID_BY_ROLE_NAME = 3;
+// Lấy danh sách user_id bằng mã phòng ban
+exports.SERVICE_USER_EVENTS_GET_USERS_ID_BY_DEPARTMENT_ID = 4;
 
 // Events của Service Absence
 exports.SERVICE_ABSENCE = process.env.ABSENCE_SERVICE_URL;

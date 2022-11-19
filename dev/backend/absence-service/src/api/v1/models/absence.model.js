@@ -23,7 +23,7 @@ const AbsenceSchema = Schema(
 
         last_absence_request: {
             type: Schema.Types.Date,
-            default: new Date(),
+            default: null,
         },
     },
     {

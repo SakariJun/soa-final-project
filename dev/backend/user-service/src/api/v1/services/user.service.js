@@ -16,7 +16,7 @@ const {
 const { signAccessToken } = require('../utils/json-web-token.util');
 const PublishServiceEvent = require('../utils/service-communicate.util');
 
-// #region Đổi ảnh đại diện
+// #region Đổi ảnh đại diện [DONE]
 const changeUserAvatar = async function (file, { user_id }) {
     try {
         if (!file) {
@@ -98,12 +98,11 @@ const getUserInformation = async function ({ user_id }) {
                 select: '-_id',
             })
             .lean();
-        console.log('🚀 ~ file: user.service.js ~ line 101 ~ getUserInformation ~ user', user);
 
         if (!user) {
             return {
                 status: false,
-                message: `Không tìm thấy thông tin nhân viên với mã ${user_id}!`,
+                message: `Không tìm thấy thông tin của nhân viên với mã nhân viên ${user_id}!`,
             };
         }
 
@@ -133,11 +132,6 @@ const getUserInformation = async function ({ user_id }) {
                 PublishServiceEvent(payload_department, SERVICE_DEPARTMENT),
                 PublishServiceEvent(payload_absence, SERVICE_ABSENCE),
             ]);
-
-            console.log(
-                '🚀 ~ file: user.service.js ~ line 132 ~ getUserInformation ~ extraInformationResult',
-                extraInformationResult,
-            );
 
             if (extraInformationResult[0].statusText !== 'OK' && extraInformationResult[1].statusText !== 'OK') {
                 return {
@@ -176,7 +170,12 @@ const getUserInformation = async function ({ user_id }) {
 //#region Log-in [DONE]
 const login = async function ({ username, password }) {
     try {
-        const user = await _User.findOne({ 'account.username': username }).lean();
+        const user = await _User
+            .findOne({ 'account.username': username })
+            .populate({
+                path: 'role_id',
+            })
+            .lean();
 
         if (!user) {
             return { status: false, message: 'Sai tên tài khoản hoặc mật khẩu!' };
@@ -190,11 +189,12 @@ const login = async function ({ username, password }) {
         // Trong JWT gửi kèm
         // Mã nhân viên, mã quyền, có đổi mật khẩu mặc định hay chưa?
         const payload = {
-            _id: user._id,
             user_id: user.user_id,
-            role_id: user.role_id,
-            phone_number: user.phone_number,
-            email: user.email,
+            full_name: user.full_name,
+            avatar: user.avatar,
+            role_id: user.role_id._id,
+            role_name: user.role_id.name,
+            department_id: user.department_id,
             is_activate: user.account.is_activate,
         };
 
@@ -352,6 +352,61 @@ const requestResetPassword = async function ({ email, phone_number }) {
 };
 //#endregion
 
+// #region Statistic
+const countAllUsers = async function () {
+    try {
+        const countAllUsers = await _User.count();
+
+        return {
+            status: true,
+            message: 'Lấy tổng số nhân viên trong công ty thành công!',
+            data: countAllUsers,
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const countAllUsersByDepartmentID = async function ({ department_id }) {
+    try {
+        const countAllUsers = await _User.count({ department_id });
+
+        return {
+            status: true,
+            message: 'Lấy tổng số nhân viên trong công ty theo phòng ban thành công!',
+            data: countAllUsers,
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const getAllUserByLeader = async function ({ department_id }) {
+    try {
+        const allUserByLeader = await _User
+            .find({ department_id })
+            .populate({
+                path: 'role_id',
+                select: '-_id name',
+            })
+            .select('-_id user_id full_name email department_id')
+            .lean();
+
+        return {
+            status: true,
+            message: `Lấy danh sách nhân viên phòng ban ${department_id} thành công!`,
+            data: allUserByLeader,
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+// #endregion
+
 //#region Validate
 function validateWithoutCustom(req) {
     const validateResult = validationResult(req);
@@ -376,4 +431,8 @@ module.exports = {
 
     getUserInformation,
     changeUserAvatar,
+
+    countAllUsers,
+    countAllUsersByDepartmentID,
+    getAllUserByLeader,
 };

@@ -14,6 +14,6 @@ router.put('/update-department', createDepartmentValidator, departmentController
 // Bổ nhiệm trưởng phòng
 // Xóa bổ nhiệm trưởng phòng
 router.put('/assign-leader-department', departmentController.AssignLeaderDepartmentController);
-router.put('/remove-leader-department', departmentController.RemoveLeaderDepartmentController);
+router.put('/change-leader-department', departmentController.ChangeLeaderDepartmentController);
 
 module.exports = router;

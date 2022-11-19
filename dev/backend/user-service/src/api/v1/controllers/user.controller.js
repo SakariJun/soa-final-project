@@ -6,7 +6,56 @@ const {
     requestResetPassword,
     getUserInformation,
     changeUserAvatar,
+
+    countAllUsers,
+    countAllUsersByDepartmentID,
+    getAllUserByLeader,
 } = require('../services/user.service');
+
+const GetAllUserByLeaderController = async function (req, res, next) {
+    try {
+        const { status, message, data } = await getAllUserByLeader(req.payload);
+
+        if (!status) {
+            return res.status(200).json({ status, message });
+        }
+
+        return res.status(200).json({ status, message, data });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+const CountAllUsersController = async function (req, res, next) {
+    try {
+        const { status, message, data } = await countAllUsers();
+
+        if (!status) {
+            return res.status(200).json({ status, message });
+        }
+
+        return res.status(200).json({ status, message, data });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
+
+const CountAllUsersByDepartmentIDController = async function (req, res, next) {
+    try {
+        const { status, message, data } = await countAllUsersByDepartmentID(req.query);
+
+        if (!status) {
+            return res.status(200).json({ status, message });
+        }
+
+        return res.status(200).json({ status, message, data });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
 
 const LoginController = async function (req, res, next) {
     try {
@@ -165,4 +214,9 @@ module.exports = {
 
     GetUserInformationController,
     ChangeUserAvatarController,
+
+    CountAllUsersController,
+    CountAllUsersByDepartmentIDController,
+
+    GetAllUserByLeaderController,
 };

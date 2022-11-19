@@ -3,7 +3,9 @@ const upload = multer({
     storage: multer.memoryStorage(),
 });
 
-const { verifyIsActiveMiddleware, verifyAccessTokenMiddleware } = require('../middlewares');
+const { ROLE_NAME_LEADER } = require('../constants/global.constant');
+
+const { verifyIsActiveMiddleware, verifyRoleMiddleware, verifyAccessTokenMiddleware } = require('../middlewares');
 
 const {
     loginValidator,
@@ -15,6 +17,11 @@ const {
 const router = require('express').Router();
 const userController = require('../controllers/user.controller');
 
+// Thống kê
+router.get('/count-all-users', userController.CountAllUsersController);
+
+router.get('/count-all-users-by-department-id', userController.CountAllUsersByDepartmentIDController);
+
 // Đăng nhập
 router.post('/login', loginValidator, userController.LoginController);
 
@@ -23,6 +30,14 @@ router.get(
     verifyAccessTokenMiddleware,
     verifyIsActiveMiddleware(true),
     userController.GetUserInformationController,
+);
+
+router.get(
+    '/get-all-user-by-leader',
+    verifyAccessTokenMiddleware,
+    verifyIsActiveMiddleware(true),
+    verifyRoleMiddleware([ROLE_NAME_LEADER]),
+    userController.GetAllUserByLeaderController,
 );
 
 // Đổi ảnh đại diện

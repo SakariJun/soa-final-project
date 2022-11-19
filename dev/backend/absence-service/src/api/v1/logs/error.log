@@ -34,3 +34,15 @@ URL: /api/v1/employee-management/user-admin/reset-password
 METHOD: POST
 MESSAGE: Unauthorized
 --------------------------------------------------------
+LOG_ERROR_ID: d0a68f02-9f9d-4327-bfb2-b344dbde1786
+TIME: 19-11-2022	15:48:13
+URL: /absence/get-all-absence-request-by-manager
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: be60f657-f9df-47fe-9171-a3e4f8ab2c6f
+TIME: 19-11-2022	15:48:18
+URL: /absence/get-all-absence-request-by-manager
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------

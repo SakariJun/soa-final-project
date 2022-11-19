@@ -21,7 +21,7 @@ const DepartmentSchema = Schema(
 
         leader_id: {
             type: Schema.Types.String,
-            default: '',
+            default: null,
         },
 
         description: {

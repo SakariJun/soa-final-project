@@ -1,9 +1,11 @@
 const {
     SERVICE_USER_EVENTS_GET_ROLE_BY_USER_ID,
     SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID,
+    SERVICE_USER_EVENTS_GET_USERS_ID_BY_ROLE_NAME,
+    SERVICE_USER_EVENTS_GET_USERS_ID_BY_DEPARTMENT_ID,
 } = require('../constants/global.constant');
 
-const { updateUserRole } = require('./user-admin.service');
+const { updateUserRole, getAllUserIDByRoleName, getAllUserIDByDepartment } = require('./user-admin.service');
 const { getUserInformation } = require('./user.service');
 
 // Hàm này có nhiệm vụ
@@ -21,6 +23,10 @@ const SubscribeEvents = async function ({ event, data }) {
                 return result;
             case SERVICE_USER_EVENTS_SET_ROLE_BY_USER_ID:
                 return await updateUserRole(data);
+            case SERVICE_USER_EVENTS_GET_USERS_ID_BY_ROLE_NAME:
+                return await getAllUserIDByRoleName(data);
+            case SERVICE_USER_EVENTS_GET_USERS_ID_BY_DEPARTMENT_ID:
+                return await getAllUserIDByDepartment(data);
             default:
                 return {
                     status: false,

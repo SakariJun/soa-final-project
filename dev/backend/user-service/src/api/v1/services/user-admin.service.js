@@ -270,23 +270,18 @@ const updateUserRole = async function ({ user_id, role_name }) {
             return { status: false, message: 'Chức vụ không hợp lệ!' };
         }
 
-        const user = await _User.findOneAndUpdate(
-            {
-                user_id,
-            },
-            {
-                role_id: role._id,
-            },
-            {
-                new: true,
-                session,
-            },
-        );
+        const user = await _User.findOne({ user_id }).session(session);
 
         if (!user) {
             await session.abortTransaction();
-            return { status: false, message: 'Không thể cập nhật chức vụ của nhân viên! Vui lòng thử lại sau!' };
+            return {
+                status: false,
+                message: `Không thể cập nhật chức vụ của nhân viên do không tìm thấy nhân viên với mã ${user_id}!`,
+            };
         }
+
+        user.role_id = role._id;
+        await user.save();
 
         // TODO: Gọi Absence Service cập nhật số ngày nghỉ phép tối đa
         const payload = {
@@ -321,6 +316,34 @@ const updateUserRole = async function ({ user_id, role_name }) {
         return { status: false, message: error.message };
     } finally {
         await session.endSession();
+    }
+};
+
+const getAllUserIDByRoleName = async function ({ role_name }) {
+    try {
+        const role = await _Role.findOne({ name: role_name }).lean();
+
+        if (!role) {
+            return { status: false, message: 'Không tìm thấy chức vụ tương ứng!' };
+        }
+
+        const users = await _User.find({ role_id: role._id }).select('user_id -_id').lean();
+
+        return { status: true, message: 'Lấy danh sách nhân viên theo chức vụ thành công!', data: users };
+    } catch (error) {
+        console.error(error.message);
+        return { status: false, message: error.message };
+    }
+};
+
+const getAllUserIDByDepartment = async function ({ department_id }) {
+    try {
+        const users = await _User.find({ department_id }).select('user_id').lean();
+
+        return { status: true, message: 'Lấy danh sách nhân viên theo mã phòng ban thành công!', data: users };
+    } catch (error) {
+        console.error(error.message);
+        return { status: false, message: error.message };
     }
 };
 // #endregion
@@ -369,4 +392,7 @@ module.exports = {
 
     updateUserRole,
     updateUserSalary,
+
+    getAllUserIDByRoleName,
+    getAllUserIDByDepartment,
 };

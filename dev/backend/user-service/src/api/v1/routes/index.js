@@ -10,12 +10,12 @@ const ServiceEventsController = require('../controllers/service-events.controlle
 
 const routes = function (app) {
     app.use(`/user`, userRoute);
-    app.use(`/role`, verifyServiceAPIKeyMiddleware, roleRoute);
 
     // Để sử dụng các chức năng quản lý người dùng của admin
     // Cần có JWT và ROLe = Giám đốc
     app.use(`/user-admin`, verifyAccessTokenMiddleware, verifyRoleMiddleware([ROLE_NAME_DIRECTOR]), userAdminRoute);
 
+    app.use(`/role`, verifyServiceAPIKeyMiddleware, roleRoute);
     app.use(`/service-events`, verifyServiceAPIKeyMiddleware, ServiceEventsController);
 };
 

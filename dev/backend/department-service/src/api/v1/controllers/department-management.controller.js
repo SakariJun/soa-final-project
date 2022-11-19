@@ -6,7 +6,7 @@ const {
     deleteDepartment,
 
     assignLeaderDepartment,
-    removeLeaderDepartment,
+    changeLeaderDepartment,
 
     validateWithoutCustom,
 } = require('../services/department-management.service');
@@ -119,7 +119,7 @@ const AssignLeaderDepartmentController = async function (req, res, next) {
     }
 };
 
-const RemoveLeaderDepartmentController = async function (req, res, next) {
+const ChangeLeaderDepartmentController = async function (req, res, next) {
     try {
         const validationResult = await validateWithoutCustom(req);
 
@@ -127,7 +127,7 @@ const RemoveLeaderDepartmentController = async function (req, res, next) {
             return res.status(403).json(validationResult);
         }
 
-        const { status, message, data } = await removeLeaderDepartment(req.body);
+        const { status, message, data } = await changeLeaderDepartment(req.body);
 
         if (!status) {
             return res.status(202).json({ status, message });
@@ -148,5 +148,5 @@ module.exports = {
     DeleteDepartmentController,
 
     AssignLeaderDepartmentController,
-    RemoveLeaderDepartmentController,
+    ChangeLeaderDepartmentController,
 };

@@ -76,21 +76,9 @@ URL: /user-admin/reset-password
 METHOD: PUT
 MESSAGE: Not Found !
 --------------------------------------------------------
-LOG_ERROR_ID: 440471b8-cd50-4e74-bfec-06f9386ff2a2
-TIME: 19-11-2022	16:19:40
-URL: /user/login/hello
-METHOD: POST
-MESSAGE: Not Found !
---------------------------------------------------------
-LOG_ERROR_ID: 319d3f0c-7743-4a83-bafb-ebb7c36df383
-TIME: 19-11-2022	16:19:48
-URL: /user/login/hello
-METHOD: POST
-MESSAGE: Not Found !
---------------------------------------------------------
-LOG_ERROR_ID: 4839a646-0a1a-459f-869e-7230ba639fbf
-TIME: 19-11-2022	16:20:08
-URL: /user/login/hello
-METHOD: POST
+LOG_ERROR_ID: e46c4e7c-aed1-4a7f-bd3c-c19c7759e7c9
+TIME: 19-11-2022	12:51:14
+URL: /user/get-user-detail?user_id=22200001
+METHOD: GET
 MESSAGE: Not Found !
 --------------------------------------------------------
