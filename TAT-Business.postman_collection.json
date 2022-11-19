@@ -1,0 +1,1055 @@
+{
+	"info": {
+		"_postman_id": "2a9c153f-cec8-4a45-b036-15f6f4594d42",
+		"name": "TAT-Business",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Task Status Constraint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/task-status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"task-status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Task Status Constraint",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"task-status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 12:14:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "371"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"_id\": 0,\n            \"status\": \"New\"\n        },\n        {\n            \"_id\": 1,\n            \"status\": \"In progress\"\n        },\n        {\n            \"_id\": 2,\n            \"status\": \"Canceled\"\n        },\n        {\n            \"_id\": 3,\n            \"status\": \"Waiting\"\n        },\n        {\n            \"_id\": 4,\n            \"status\": \"Rejected\"\n        },\n        {\n            \"_id\": 5,\n            \"status\": \"Completed\"\n        }\n    ],\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Task Status by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/task-status/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"task-status",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Task Status by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-status/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"task-status",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 12:14:34 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": \"In progress\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Task Rate Constraint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/task-rate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"task-rate"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Task Rate Constraint",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-rate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"task-rate"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 12:14:21 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "184"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"_id\": 0,\n            \"rate\": \"Bad\"\n        },\n        {\n            \"_id\": 1,\n            \"rate\": \"Ok\"\n        },\n        {\n            \"_id\": 2,\n            \"rate\": \"Good\"\n        }\n    ],\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Task Rate by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/task-rate/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"task-rate",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Task Rate by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-rate/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"task-rate",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 12:14:03 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "37"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": \"Ok\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Create a Task",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officer_id",
+							"value": "5",
+							"type": "default"
+						},
+						{
+							"key": "title",
+							"value": "Xây dựng Task-API",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\nSử dụng framework, công nghệ tự chọn.",
+							"type": "text"
+						},
+						{
+							"key": "deadline",
+							"value": "2022-11-18",
+							"type": "text"
+						},
+						{
+							"key": "files",
+							"type": "file",
+							"src": [],
+							"disabled": true
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/create-task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"create-task"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create a Task",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officer_id",
+									"value": "5",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "Xây dựng Task-API",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\nSử dụng framework, công nghệ tự chọn.",
+									"type": "text"
+								},
+								{
+									"key": "deadline",
+									"value": "2023-12-22",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Pictures/GIF/chitoge.gif",
+									"disabled": true
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/create-task",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"create-task"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 12:40:44 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "97"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Tạo công việc mới thành công.\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/tasks/me/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"tasks",
+						"me",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Tasks",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/tasks/me/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tasks",
+								"me",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 13:38:48 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2272"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"current_page\": 1,\n        \"max_pages\": 1,\n        \"tasks\": [\n            {\n                \"_id\": \"63762f0cb3d273541eb2d616\",\n                \"conversations\": [\n                    {\n                        \"_id\": \"637633e36b0fae70bd85925a\",\n                        \"content\": \"hihi\",\n                        \"created_at\": \"Thu, 17 Nov 2022 20:15:13 GMT\",\n                        \"files\": [\n                            {\n                                \"filename\": \"anime-list.xlsx\",\n                                \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/task_conversations/task_id_63762f0cb3d273541eb2d616/637633e36b0fae70bd85925a/anime-list.xlsx?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=KqD3O%2BqTZ%2FrnJYri7QXCPQLsHGpJR3BlywH1yMby8QECNr3wspOZgxQkgCXkPufMwLpWfNXj3R5DMna8linnkiAaTQQsLD4QlRQIbsH2YxWc0xB9eoMQEe9uJHfLfNUCIZhXOVTbIbWhLZS1%2BrZM0qm%2FRmIQSiLAZS4tmxAgl09j7QIiLvJigXa1TPd1ER9B1FRtC3inUpBzd%2BMhJpwn53zjV%2FF7d9WmKliliU%2FNbSo1l39JMqLXR%2FaA%2BcZ2F7iMfd9uA5mwMcCVhJQJPMwPkSSzSi682AxaaoUBInhjpXbA%2FlKNH%2BigKql1ZzozA7B8TOrLmKByWQzd8q%2FEG3nLsQ%3D%3D\"\n                            }\n                        ],\n                        \"user_id\": \"5\"\n                    }\n                ],\n                \"deadline\": \"Fri, 22 Dec 2023 00:00:00 GMT\",\n                \"description\": \"Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\\nSử dụng framework, công nghệ tự chọn.\",\n                \"files\": [\n                    {\n                        \"filename\": \"requirements.txt\",\n                        \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/tasks/63762f0cb3d273541eb2d616/requirements.txt?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=SMyGGcZXwHg6Srs6tjFOMgnl%2Fot1GNGTgMFYzZTfunCRaf3HNZ8sbky2eqYG3OvYzlbc3YIT%2FnhNHUlhmcnZrGkHhdJZdWxv1NYeU4w7gMSRYoxTvXws4X6muJbyfUKLW4odHD8v%2Fc3cGb9kBIx1HN7LgVt2pa4q7d1B2Gz6r7cALOtURs0pLJdyegOfr%2Fm8JVucHo4iHj3M6Tl9n1oNlqsesd0IJFCKycKpdnaMdd1yOSqVw7b3xz9hIxmKtLikufGlwLGFu6nnBF640O%2BechB69qUUQvasahg68RbUbg3IL8sTzk7o0FCVcQBrNgHaQqe0Sw6q1ODjxyqF%2F5M0qA%3D%3D\"\n                    }\n                ],\n                \"manager_id\": \"1\",\n                \"officer_id\": \"5\",\n                \"status\": 3,\n                \"title\": \"Xây dựng Task-API\",\n                \"updated_at\": \"Thu, 17 Nov 2022 20:15:16 GMT\"\n            }\n        ]\n    },\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Accept Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/accept-task/63765595f21530dd0f359d20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"accept-task",
+						"63765595f21530dd0f359d20"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/accept-task/63761896dbf2e3d078fb619f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"accept-task",
+								"63761896dbf2e3d078fb619f"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 11:56:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "96"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Chấp nhận Task thành công\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Cancel Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/accept-task/63751f555b2813d6fbb9485a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"accept-task",
+						"63751f555b2813d6fbb9485a"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Cancel Task",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/cancel-task/63751f555b2813d6fbb9485a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"cancel-task",
+								"63751f555b2813d6fbb9485a"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 11:25:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "83"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Hủy bỏ Task thành công\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Submit Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "em nọp bài",
+							"type": "text"
+						},
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/submit-task/63765595f21530dd0f359d20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"submit-task",
+						"63765595f21530dd0f359d20"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Submit Task",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "Pls check it out",
+									"type": "default"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/flasky.py"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/submit-task/63762f0cb3d273541eb2d616",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"submit-task",
+								"63762f0cb3d273541eb2d616"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 14:33:52 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Submit Task thành công\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Approve Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rate\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/approve-task/63762f0cb3d273541eb2d616",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"approve-task",
+						"63762f0cb3d273541eb2d616"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Approve Task",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rate\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/approve-task/63762f0cb3d273541eb2d616",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"approve-task",
+								"63762f0cb3d273541eb2d616"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 14:38:02 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "103"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Đánh giá hoàn thành thành công\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Reject Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "I need more information",
+							"type": "default"
+						},
+						{
+							"key": "deadline",
+							"value": "2022-12-24",
+							"type": "default"
+						},
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/reject-task/63765595f21530dd0f359d20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"reject-task",
+						"63765595f21530dd0f359d20"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Reject Task",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "I need more information",
+									"type": "default"
+								},
+								{
+									"key": "deadline",
+									"value": "2022-12-24",
+									"type": "default"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/reject-task/63762f0cb3d273541eb2d616",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"reject-task",
+								"63762f0cb3d273541eb2d616"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 14:34:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "83"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Phản hồi Task thành công\",\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Task Statistic",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5004/api/tasks/all/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"tasks",
+						"all",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Tasks",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/tasks/me/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tasks",
+								"me",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.9.0"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 17 Nov 2022 13:38:48 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2272"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"current_page\": 1,\n        \"max_pages\": 1,\n        \"tasks\": [\n            {\n                \"_id\": \"63762f0cb3d273541eb2d616\",\n                \"conversations\": [\n                    {\n                        \"_id\": \"637633e36b0fae70bd85925a\",\n                        \"content\": \"hihi\",\n                        \"created_at\": \"Thu, 17 Nov 2022 20:15:13 GMT\",\n                        \"files\": [\n                            {\n                                \"filename\": \"anime-list.xlsx\",\n                                \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/task_conversations/task_id_63762f0cb3d273541eb2d616/637633e36b0fae70bd85925a/anime-list.xlsx?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=KqD3O%2BqTZ%2FrnJYri7QXCPQLsHGpJR3BlywH1yMby8QECNr3wspOZgxQkgCXkPufMwLpWfNXj3R5DMna8linnkiAaTQQsLD4QlRQIbsH2YxWc0xB9eoMQEe9uJHfLfNUCIZhXOVTbIbWhLZS1%2BrZM0qm%2FRmIQSiLAZS4tmxAgl09j7QIiLvJigXa1TPd1ER9B1FRtC3inUpBzd%2BMhJpwn53zjV%2FF7d9WmKliliU%2FNbSo1l39JMqLXR%2FaA%2BcZ2F7iMfd9uA5mwMcCVhJQJPMwPkSSzSi682AxaaoUBInhjpXbA%2FlKNH%2BigKql1ZzozA7B8TOrLmKByWQzd8q%2FEG3nLsQ%3D%3D\"\n                            }\n                        ],\n                        \"user_id\": \"5\"\n                    }\n                ],\n                \"deadline\": \"Fri, 22 Dec 2023 00:00:00 GMT\",\n                \"description\": \"Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\\nSử dụng framework, công nghệ tự chọn.\",\n                \"files\": [\n                    {\n                        \"filename\": \"requirements.txt\",\n                        \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/tasks/63762f0cb3d273541eb2d616/requirements.txt?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=SMyGGcZXwHg6Srs6tjFOMgnl%2Fot1GNGTgMFYzZTfunCRaf3HNZ8sbky2eqYG3OvYzlbc3YIT%2FnhNHUlhmcnZrGkHhdJZdWxv1NYeU4w7gMSRYoxTvXws4X6muJbyfUKLW4odHD8v%2Fc3cGb9kBIx1HN7LgVt2pa4q7d1B2Gz6r7cALOtURs0pLJdyegOfr%2Fm8JVucHo4iHj3M6Tl9n1oNlqsesd0IJFCKycKpdnaMdd1yOSqVw7b3xz9hIxmKtLikufGlwLGFu6nnBF640O%2BechB69qUUQvasahg68RbUbg3IL8sTzk7o0FCVcQBrNgHaQqe0Sw6q1ODjxyqF%2F5M0qA%3D%3D\"\n                    }\n                ],\n                \"manager_id\": \"1\",\n                \"officer_id\": \"5\",\n                \"status\": 3,\n                \"title\": \"Xây dựng Task-API\",\n                \"updated_at\": \"Thu, 17 Nov 2022 20:15:16 GMT\"\n            }\n        ]\n    },\n    \"status\": true\n}"
+				}
+			]
+		}
+	]
+}
