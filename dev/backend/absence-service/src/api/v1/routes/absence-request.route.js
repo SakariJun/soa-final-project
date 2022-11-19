@@ -2,12 +2,16 @@ const router = require('express').Router();
 const multer = require('multer');
 const upload = multer({
     storage: multer.memoryStorage(),
+    limits: { fileSize: 524288 },
 });
 
 const { verifyRoleMiddleware } = require('../middlewares');
 const { ROLE_NAME_DIRECTOR, ROLE_NAME_LEADER, ROLE_NAME_EMPLOYEE } = require('../constants/global.constant');
 
 const absenceRequestController = require('../controllers/absence-request.controller');
+
+// Giám đốc, trưởng phòng lấy danh sách đơn xin nghỉ phép của cấp dưới
+router.get('/get-all-user-absence-today', absenceRequestController.GetAllUserAbsenceTodayController);
 
 // Tạo đơn xin nghỉ phép
 router.post(

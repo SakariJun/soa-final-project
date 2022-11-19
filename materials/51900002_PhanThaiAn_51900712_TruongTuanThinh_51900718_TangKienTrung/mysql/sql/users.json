@@ -1,0 +1,139 @@
+[{
+  "_id": {
+    "$oid": "637349b859488835b9c09844"
+  },
+  "user_id": "12200001",
+  "full_name": "Tang Trung",
+  "phone_number": "123",
+  "email": "trung123@gmail.com",
+  "day_of_birth": {
+    "$date": {
+      "$numberLong": "1001955600000"
+    }
+  },
+  "gender": "Nam",
+  "department_id": "PB00001",
+  "role_id": "63732c1e3e5f00fee0aab769",
+  "add_by": null,
+  "account": {
+    "username": "12200001",
+    "password": "$2b$10$W6Dfxxr5O3eLbUVnVwXw.eLWnRcuF00qLV4.RkjTIp8coOMmHMkiy",
+    "_id": {
+      "$oid": "637349b859488835b9c09845"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1668499896944"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1668524361479"
+      }
+    },
+    "is_activate": true,
+    "request_reset_password": false
+  },
+  "absence": {
+    "max_absence_day": 12,
+    "day_absence": 0,
+    "last_absence_request": {
+      "$date": {
+        "$numberLong": "1668499894415"
+      }
+    },
+    "_id": {
+      "$oid": "637349b859488835b9c09846"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1668499896945"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1668499896945"
+      }
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1668499896945"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1668524361480"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63734a3d712ea9ce70b32041"
+  },
+  "user_id": "12200002",
+  "full_name": "Tang Trung",
+  "phone_number": "1234",
+  "email": "trung1223@gmail.com",
+  "day_of_birth": {
+    "$date": {
+      "$numberLong": "1001955600000"
+    }
+  },
+  "gender": "Nam",
+  "department_id": "PB00001",
+  "role_id": "63732c0c3e5f00fee0aab768",
+  "add_by": null,
+  "account": {
+    "username": "12200002",
+    "password": "$2b$10$3wW/T.jZR88E3Ha0SBQcuO6f4HfXMRjoTaOiV/dqmG.uci2t/dOwy",
+    "_id": {
+      "$oid": "63734a3d712ea9ce70b32042"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1668500029929"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1668500029929"
+      }
+    },
+    "is_activate": false,
+    "request_reset_password": false
+  },
+  "absence": {
+    "max_absence_day": 12,
+    "day_absence": 0,
+    "last_absence_request": {
+      "$date": {
+        "$numberLong": "1668500018702"
+      }
+    },
+    "_id": {
+      "$oid": "63734a3d712ea9ce70b32043"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1668500029930"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1668500029930"
+      }
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1668500029931"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1668500029931"
+    }
+  },
+  "__v": 0
+}]

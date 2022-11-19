@@ -1,3 +1,5 @@
+const router = require('express').Router();
+
 const multer = require('multer');
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -14,7 +16,6 @@ const {
     requestResetPasswordValidator,
 } = require('../validators');
 
-const router = require('express').Router();
 const userController = require('../controllers/user.controller');
 
 // Thống kê
@@ -25,6 +26,7 @@ router.get('/count-all-users-by-department-id', userController.CountAllUsersByDe
 // Đăng nhập
 router.post('/login', loginValidator, userController.LoginController);
 
+// Người dùng lấy thông tin của tài khoản đang đăng nhập
 router.get(
     '/get-user-information',
     verifyAccessTokenMiddleware,
@@ -32,6 +34,7 @@ router.get(
     userController.GetUserInformationController,
 );
 
+// Trưởng phòng lấy thông tin tất cả nhân viên mình quản lý
 router.get(
     '/get-all-user-by-leader',
     verifyAccessTokenMiddleware,
