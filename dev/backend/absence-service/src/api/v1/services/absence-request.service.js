@@ -212,7 +212,23 @@ const getAbsenceRequestDetail = async function ({ absence_request_id }) {
             return { status: false, message: 'Không tìm thấy thông tin chi tiết xin nghỉ phép!' };
         }
 
+        let listFiles = await firebase.bucket.getFiles({
+            prefix: `${absenceRequestDetail.user_id}/absence/${absenceRequestDetail._id}`,
+        });
+
+        listFiles = listFiles[0].map((element) => {
+            const data = {
+                url: element.metadata.mediaLink,
+                name: element.metadata.name.split('/').pop(),
+                size: element.metadata.size,
+                type: element.metadata.contentType,
+            };
+
+            return data;
+        });
+
         // TODO: Load danh sách file đính kèm
+        absenceRequestDetail.files = listFiles;
 
         return { status: true, message: 'Xem chi tiết đơn xin nghỉ phép thành công!', data: absenceRequestDetail };
     } catch (error) {
@@ -263,6 +279,24 @@ const updateAbsenceRequestState = async function (
     }
 };
 
+const getAllUserAbsenceToday = async function () {
+    try {
+        const absenceRequestDetail = await _AbsenceRequest.count({
+            date_begin: {
+                $lt: new Date(),
+            },
+            date_end: {
+                $gt: new Date(),
+            },
+            state: ABSENCE_REQUEST_STATE_APPROVED,
+        });
+
+        return { status: true, message: 'Lấy tổng số nhân viên nghỉ hôm nay thành công!', data: absenceRequestDetail };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
 module.exports = {
     createAbsenceRequest,
 
@@ -270,4 +304,5 @@ module.exports = {
     getAllAbsenceRequestByEmployee,
     getAbsenceRequestDetail,
     updateAbsenceRequestState,
+    getAllUserAbsenceToday,
 };
