@@ -141,7 +141,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"department_id\": \"PB00002\",\r\n    \"leader_id\": \"22200001\"\r\n}",
+							"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"leader_id\": \"12200001\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -333,7 +333,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5001/user-admin/get-user-detail?user_id=22200001",
+									"raw": "http://localhost:5001/user-admin/get-user-detail?user_id=22200002",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -346,7 +346,7 @@
 									"query": [
 										{
 											"key": "user_id",
-											"value": "22200001"
+											"value": "22200002"
 										}
 									]
 								}
@@ -356,177 +356,228 @@
 					]
 				},
 				{
-					"name": "Đăng nhập",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"02200001\",\r\n    \"password\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Người dùng",
+					"item": [
+						{
+							"name": "Đăng nhập",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"12200001\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"login"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5001/user/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"user",
-								"login"
-							]
+						{
+							"name": "Lấy thông tin người dùng",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/user/get-user-information",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"get-user-information"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Đổi ảnh đại diện",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/C:/Users/trung/Desktop/315820423_1328494937898010_8033284530312052497_n.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5001/user/change-user-avatar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"change-user-avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Đổi mật khẩu (Bắt buộc)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user/change-password-require",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"change-password-require"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Đổi mật khẩu (Tùy chọn)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"old_password\": \"123456789\",\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user/change-password-optional",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"change-password-optional"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Gửi yêu cầu đặt lại mật khẩu",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"thinhtruongwibu@gmail.com\",\r\n    \"phone_number\": \"0323456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/user/request-reset-password",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"user",
+										"request-reset-password"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Lấy thông tin người dùng",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5001/user/get-user-information",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"user",
-								"get-user-information"
-							]
+					"name": "Service Events",
+					"item": [
+						{
+							"name": "Lấy danh sách nhân viên theo tên chức vụ",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"payload\": {\r\n        \"event\": 3,\r\n        \"data\": {\r\n            \"role_name\": \"Trưởng phòng\"\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/service-events",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"service-events"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Đổi ảnh đại diện",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "avatar",
-									"type": "file",
-									"src": "/C:/Users/trung/Desktop/315820423_1328494937898010_8033284530312052497_n.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:5001/user/change-user-avatar",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"user",
-								"change-user-avatar"
-							]
+					"name": "Trưởng phòng",
+					"item": [
+						{
+							"name": "Lấy danh sách nhân viên thuộc phòng ban",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Đổi mật khẩu (Bắt buộc)",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5001/user/change-password-require",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"user",
-								"change-password-require"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Đổi mật khẩu (Tùy chọn)",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"old_password\": \"123456789\",\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5001/user/change-password-optional",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"user",
-								"change-password-optional"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Gửi yêu cầu đặt lại mật khẩu",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"thinhtruongwibu@gmail.com\",\r\n    \"phone_number\": \"0323456789\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5001/user/request-reset-password",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"user",
-								"request-reset-password"
-							]
-						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "Lấy danh sách chức vụ",
@@ -547,12 +598,193 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Lấy tổng số nhân viên",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/user/count-all-users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"count-all-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy tổng số nhân viên theo phòng ban",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/user/count-all-users-by-department-id?department_id=PB00001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								"count-all-users-by-department-id"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "PB00001"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Absence Service",
-			"item": []
+			"item": [
+				{
+					"name": "Lấy thông tin nghỉ phép cá nhân",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5002/absence/get-absence-information",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence",
+								"get-absence-information"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy danh sách đơn xin nghỉ phép của người lao động",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5002/absence-request/get-all-absence-request-by-manager",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence-request",
+								"get-all-absence-request-by-manager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tạo đơn xin nghỉ phép",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "date_begin",
+									"value": "11/19/2022",
+									"type": "text"
+								},
+								{
+									"key": "date_end",
+									"value": "11/20/2022",
+									"type": "text"
+								},
+								{
+									"key": "reason",
+									"value": "Xin nghỉ",
+									"type": "text"
+								},
+								{
+									"key": "absence_request_files",
+									"type": "file",
+									"src": "/C:/Users/trung/Desktop/Firebase/New Text Document.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5002/absence-request/create-absence-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence-request",
+								"create-absence-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Xem danh sách đơn xin nghỉ phép đã yêu cầu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5002/absence-request/get-all-absence-request-by-employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence-request",
+								"get-all-absence-request-by-employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Duyệt đơn xin nghỉ phép",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"absence_request_id\": \"6378bb91e174ff555cfdca03\",\r\n    \"response_message\": \"Không cho nghỉ\",\r\n    \"state\": -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5002/absence-request/update-absence-request-state",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"absence-request",
+								"update-absence-request-state"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [

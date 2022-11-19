@@ -189,12 +189,12 @@ const login = async function ({ username, password }) {
         // Trong JWT gửi kèm
         // Mã nhân viên, mã quyền, có đổi mật khẩu mặc định hay chưa?
         const payload = {
-            _id: user._id,
             user_id: user.user_id,
+            full_name: user.full_name,
+            avatar: user.avatar,
             role_id: user.role_id._id,
             role_name: user.role_id.name,
-            phone_number: user.phone_number,
-            email: user.email,
+            department_id: user.department_id,
             is_activate: user.account.is_activate,
         };
 
@@ -352,6 +352,61 @@ const requestResetPassword = async function ({ email, phone_number }) {
 };
 //#endregion
 
+// #region Statistic
+const countAllUsers = async function () {
+    try {
+        const countAllUsers = await _User.count();
+
+        return {
+            status: true,
+            message: 'Lấy tổng số nhân viên trong công ty thành công!',
+            data: countAllUsers,
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const countAllUsersByDepartmentID = async function ({ department_id }) {
+    try {
+        const countAllUsers = await _User.count({ department_id });
+
+        return {
+            status: true,
+            message: 'Lấy tổng số nhân viên trong công ty theo phòng ban thành công!',
+            data: countAllUsers,
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+const getAllUserByLeader = async function ({ department_id }) {
+    try {
+        const allUserByLeader = await _User
+            .find({ department_id })
+            .populate({
+                path: 'role_id',
+                select: '-_id name',
+            })
+            .select('-_id user_id full_name email department_id')
+            .lean();
+
+        return {
+            status: true,
+            message: `Lấy danh sách nhân viên phòng ban ${department_id} thành công!`,
+            data: allUserByLeader,
+        };
+    } catch (error) {
+        console.error(error);
+        return { status: false, message: error.message };
+    }
+};
+
+// #endregion
+
 //#region Validate
 function validateWithoutCustom(req) {
     const validateResult = validationResult(req);
@@ -376,4 +431,8 @@ module.exports = {
 
     getUserInformation,
     changeUserAvatar,
+
+    countAllUsers,
+    countAllUsersByDepartmentID,
+    getAllUserByLeader,
 };

@@ -318,6 +318,34 @@ const updateUserRole = async function ({ user_id, role_name }) {
         await session.endSession();
     }
 };
+
+const getAllUserIDByRoleName = async function ({ role_name }) {
+    try {
+        const role = await _Role.findOne({ name: role_name }).lean();
+
+        if (!role) {
+            return { status: false, message: 'Không tìm thấy chức vụ tương ứng!' };
+        }
+
+        const users = await _User.find({ role_id: role._id }).select('user_id -_id').lean();
+
+        return { status: true, message: 'Lấy danh sách nhân viên theo chức vụ thành công!', data: users };
+    } catch (error) {
+        console.error(error.message);
+        return { status: false, message: error.message };
+    }
+};
+
+const getAllUserIDByDepartment = async function ({ department_id }) {
+    try {
+        const users = await _User.find({ department_id }).select('user_id').lean();
+
+        return { status: true, message: 'Lấy danh sách nhân viên theo mã phòng ban thành công!', data: users };
+    } catch (error) {
+        console.error(error.message);
+        return { status: false, message: error.message };
+    }
+};
 // #endregion
 
 // #region Update User Salary [DONE]
@@ -364,4 +392,7 @@ module.exports = {
 
     updateUserRole,
     updateUserSalary,
+
+    getAllUserIDByRoleName,
+    getAllUserIDByDepartment,
 };

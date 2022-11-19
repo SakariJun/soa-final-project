@@ -29,7 +29,7 @@ const AbsenceRequestSchema = Schema(
             require: true,
         },
 
-        status: {
+        state: {
             type: Schema.Types.Number,
             enum: [ABSENCE_REQUEST_STATE_WAITING, ABSENCE_REQUEST_STATE_APPROVED, ABSENCE_REQUEST_STATE_REFUSED],
             default: ABSENCE_REQUEST_STATE_WAITING,

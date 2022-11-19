@@ -64,3 +64,9 @@ URL: /department/remove-leader-department
 METHOD: PUT
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: d4d4a0eb-6b60-4916-9a8b-259d2fcfe422
+TIME: 19-11-2022	15:46:28
+URL: /absence/get-absence-information
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
