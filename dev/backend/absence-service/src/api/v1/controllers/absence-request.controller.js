@@ -4,7 +4,23 @@ const {
     getAllAbsenceRequestByEmployee,
     getAbsenceRequestDetail,
     updateAbsenceRequestState,
+    getAllUserAbsenceToday,
 } = require('../services/absence-request.service');
+
+const GetAllUserAbsenceTodayController = async (req, res, next) => {
+    try {
+        const { status, message, data } = await getAllUserAbsenceToday();
+
+        if (!status) {
+            return res.status(202).json({ status, message, data });
+        }
+
+        return res.status(200).json({ status, message, data });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: false, message: err.message });
+    }
+};
 
 // Tạo đơn xin nghỉ phép
 const CreateAbsenceRequestController = async (req, res, next) => {
@@ -92,4 +108,5 @@ module.exports = {
     GetAllAbsenceRequestByEmployeeController,
     GetAbsenceRequestDetailController,
     UpdateAbsenceRequestStateController,
+    GetAllUserAbsenceTodayController,
 };

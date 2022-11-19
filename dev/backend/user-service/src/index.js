@@ -18,7 +18,7 @@ routes(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    next(createError(404, 'Not Found !'));
+    next(createError(404, `Không tìm thấy ${req.url}! Vui lòng kiểm tra lại URL!`));
 });
 
 // error handler
