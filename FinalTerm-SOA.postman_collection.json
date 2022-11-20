@@ -425,7 +425,7 @@
 										{
 											"key": "avatar",
 											"type": "file",
-											"src": "/C:/Users/trung/Desktop/315820423_1328494937898010_8033284530312052497_n.jpg"
+											"src": "/C:/Users/trung/Desktop/QLNS_ERD.drawio.png"
 										}
 									]
 								},
@@ -728,7 +728,11 @@
 								{
 									"key": "absence_request_files",
 									"type": "file",
-									"src": "/C:/Users/trung/Desktop/Firebase/New Text Document.txt"
+									"src": [
+										"/E:/Backup Folder/Desktop/Unsorted/Funny/105369307_263481944875167_8963380356647894052_n.jpg",
+										"/E:/Backup Folder/Desktop/Unsorted/Funny/203963410_352746359545936_5225233483698844369_n.jpg",
+										"/E:/Backup Folder/Desktop/Unsorted/Funny/210611125_358555108965061_3091594345297570892_n.jpg"
+									]
 								}
 							]
 						},
@@ -802,7 +806,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence-request/get-absence-request-detail?absence_request_id=6378bb91e174ff555cfdca03",
+							"raw": "http://localhost:5002/absence-request/get-absence-request-detail?absence_request_id=637a3f0a46574ed3d128f97e",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -815,7 +819,7 @@
 							"query": [
 								{
 									"key": "absence_request_id",
-									"value": "6378bb91e174ff555cfdca03"
+									"value": "637a3f0a46574ed3d128f97e"
 								}
 							]
 						}
@@ -828,15 +832,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence/get-absence-information",
+							"raw": "http://localhost:5002/absence-request/get-all-user-absence-today",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5002",
 							"path": [
-								"absence",
-								"get-absence-information"
+								"absence-request",
+								"get-all-user-absence-today"
 							]
 						}
 					},

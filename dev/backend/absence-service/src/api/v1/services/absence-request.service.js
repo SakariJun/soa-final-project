@@ -69,7 +69,10 @@ const createAbsenceRequest = async function ({ user_id, role_name }, { date_begi
         console.log(absenceRequest);
 
         for (let i = 0; i < files.length; i++) {
-            await uploadFile(path, files[i]);
+            const upFileStatus = await uploadFile(path, files[i]);
+            if (!upFileStatus.status) {
+                return upFileStatus;
+            }
         }
 
         absence.last_absence_request = new Date();
@@ -90,7 +93,6 @@ async function uploadFile(path, file) {
         const options = {
             resumable: false,
             metadata: { contentType: file.mimetype },
-            predefinedAcl: 'publicRead',
             public: true,
         };
 
@@ -132,7 +134,8 @@ const getAllAbsenceByManager = async function ({ user_id, role_name, department_
             });
 
             const absenceRequests = await _AbsenceRequest
-                .find({ user_id: { $in: user_id }, status: ABSENCE_REQUEST_STATE_WAITING })
+                .find({ user_id: { $in: user_id }, state: ABSENCE_REQUEST_STATE_WAITING })
+                .sort({ request_time: 'desc' })
                 .lean();
 
             return {
@@ -172,7 +175,8 @@ const getAllAbsenceByManager = async function ({ user_id, role_name, department_
             });
 
             const absenceRequests = await _AbsenceRequest
-                .find({ user_id: { $in: user_id_array }, status: ABSENCE_REQUEST_STATE_WAITING })
+                .find({ user_id: { $in: user_id_array }, state: ABSENCE_REQUEST_STATE_WAITING })
+                .sort({ request_time: 'desc' })
                 .lean();
 
             return {
@@ -216,19 +220,32 @@ const getAbsenceRequestDetail = async function ({ absence_request_id }) {
             prefix: `${absenceRequestDetail.user_id}/absence/${absenceRequestDetail._id}`,
         });
 
-        listFiles = listFiles[0].map((element) => {
+        // listFiles = listFiles[0].map((element) => {
+        //     const data = {
+        //         url: element.getSignedUrl(),
+        //         name: element.metadata.name.split('/').pop(),
+        //         size: element.metadata.size,
+        //         type: element.metadata.contentType,
+        //     };
+
+        //     return data;
+        // });
+        const newListFiles = [];
+        for (let i = 0; i < listFiles[0].length; i++) {
+            const element = listFiles[0][i];
+
             const data = {
-                url: element.metadata.mediaLink,
+                url_public: element.publicUrl(),
+                url_media_link: element.metadata.mediaLink,
                 name: element.metadata.name.split('/').pop(),
                 size: element.metadata.size,
                 type: element.metadata.contentType,
             };
-
-            return data;
-        });
+            newListFiles.push(data);
+        }
 
         // TODO: Load danh sách file đính kèm
-        absenceRequestDetail.files = listFiles;
+        absenceRequestDetail.files = newListFiles;
 
         return { status: true, message: 'Xem chi tiết đơn xin nghỉ phép thành công!', data: absenceRequestDetail };
     } catch (error) {

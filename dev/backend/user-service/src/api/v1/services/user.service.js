@@ -61,11 +61,16 @@ const changeUserAvatar = async function (file, { user_id }) {
             public: true,
         };
 
+        // Upload binary file
         await bucketFile.save(file.buffer, options);
 
-        const avatar_url = bucketFile.metadata.mediaLink;
+        // Lấy link public
+        const avatar_url = bucketFile.publicUrl();
+
+        // Update user instance
         user.avatar = avatar_url;
         await user.save();
+
 
         return {
             status: true,
