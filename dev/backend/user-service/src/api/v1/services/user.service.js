@@ -92,7 +92,7 @@ const getUserInformation = async function ({ user_id }) {
         }
 
         const user = await _User
-            .findOne({ user_id }, '-_id -account')
+            .findOne({ user_id }, '-_id -account.password -account._id')
             .populate({
                 path: 'role_id',
                 select: '-_id',
