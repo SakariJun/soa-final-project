@@ -9,7 +9,7 @@ from requests import post, put, get
 def login():
     if request.method != "POST":
         return render_template(
-            "auth/login.html", username=request.cookies.get("username", "")
+            "components/auth/login.html", username=request.cookies.get("username", "")
         )
     # Request login service
     if request.content_type != "application/json":

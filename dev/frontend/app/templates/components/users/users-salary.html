@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center text-uppercase">Lương - Thưởng Nhân viên</h1>
+        </div>
+    </div>
+    <div class="col-12">
+        <div id="responseMessage" role="alert">
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body table-responsive-lg table-hover">
+            <table class="rounded  table " id="user-account-table ">
+                <thead>
+                    <tr>
+                        <th style="border-top: None;" class="text-center text-uppercase">ID</th>
+                        <th style="border-top: None;" class="text-center text-uppercase">Họ và Tên</th>
+                        <th style="border-top: None;" class="text-center text-uppercase">Chức vụ</th>
+                        <th style="border-top: None;" class="text-center text-uppercase">Lương cơ bản</th>
+                        <th style="border-top: None;" class="text-center text-uppercase">Công việc giao/hoàn thành</th>
+                        <th style="border-top: None;" class="text-center text-uppercase">Lương thưởng</th>
+                    </tr>
+                </thead>
+                <tbody id="user-salary-table-body">
+                    {% for employee in employees %}
+                    {% if user.get('role_id')!=employee.get('user_id') %}
+                    <tr>
+                        <td class="text-center">
+                            {{ employee.get('user_id') }}
+                        </td>
+                        <td class="text-center">
+                            <?= $user['FullName'] ?>
+                        </td>
+                        <td class="text-center">
+                            <?= $user['Role'] ?>
+                        </td>
+                        <td class="text-center">
+                            <?= number_format($salary, 0, ',', '.').' VNĐ' ?>
+                        </td>
+                        <td class="text-center">
+                            <?= $tasks_completed ?>
+                        </td>
+                        <td class="text-center">
+                            <?= number_format($bonus, 0, ',', '.') .' VNĐ'?>
+                        </td>
+                        <td class="text-center">
+                            <button onclick="editSalary('<?= $user['UserID'] ?>')" class="btn btn-sm btn-primary">Điều
+                                chỉnh</button>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                <tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

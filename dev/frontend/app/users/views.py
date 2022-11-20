@@ -4,12 +4,13 @@ from ..decorators import login_required
 from requests import post, put, get
 
 
+# Danh sách users - account
 @users.route("/", methods=["GET"])
 @login_required
 def index(payload):
 
     resp = get(
-        current_app.config["TASK_SERVICE"] + "/api/users/me", cookies=request.cookies
+        current_app.config["USER_SERVICE"] + "/user-admin/get-all-users", cookies=request.cookies
     )
     data = resp.json()
     if data.get("status") == False:
@@ -17,13 +18,28 @@ def index(payload):
 
     data = data.get("data")
     return render_template(
-        "components/users.html",
-        users=data.get("tasks"),
-        max_pages=data.get("max_pages"),
-        current_page=data.get("current_page"),
+        "components/users/users.html",
+        employees=data,
         user=payload,
     )
 
+# Danh sách thông tin lương thưởng
+@users.route("/salary", methods=["GET"])
+@login_required
+def users_salary(payload):
+    resp = get(
+        current_app.config["USER_SERVICE"] + "/user-admin/get-all-users", cookies=request.cookies
+    )
+    data = resp.json()
+    if data.get("status") == False:
+        abort(403)
+
+    data = data.get("data")
+    return render_template(
+        "components/users/users-salary.html",
+        employees=data,
+        user=payload,
+    )
 
 # Add user
 @users.route("/add", methods=["GET", "POST"])
@@ -39,7 +55,7 @@ def add_user(payload):
         if data.get("status") == False:
             abort(403)
         departments = data.get("data")
-        return render_template("components/add-user.html", departments=departments)
+        return render_template("components/users/add-user.html", departments=departments)
 
     # ADD USER service
     resp = post(

@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2a9c153f-cec8-4a45-b036-15f6f4594d42",
+		"_postman_id": "c71bd8d5-5494-4221-86fa-772acc052373",
 		"name": "TAT-Business",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24433821"
 	},
 	"item": [
 		{
@@ -327,12 +328,7 @@
 							"src": [],
 							"disabled": true
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/create-task",
@@ -998,21 +994,21 @@
 			},
 			"response": [
 				{
-					"name": "Get All Tasks",
+					"name": "Get Task Statistic",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/tasks/me/1",
+							"raw": "http://localhost:5004/api/tasks/all/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5000",
+							"port": "5004",
 							"path": [
 								"api",
 								"tasks",
-								"me",
+								"all",
 								"1"
 							]
 						}
@@ -1023,11 +1019,11 @@
 					"header": [
 						{
 							"key": "Server",
-							"value": "Werkzeug/2.2.2 Python/3.9.0"
+							"value": "Werkzeug/2.2.2 Python/3.8.5"
 						},
 						{
 							"key": "Date",
-							"value": "Thu, 17 Nov 2022 13:38:48 GMT"
+							"value": "Sun, 20 Nov 2022 02:11:31 GMT"
 						},
 						{
 							"key": "Content-Type",
@@ -1035,7 +1031,7 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "2272"
+							"value": "34"
 						},
 						{
 							"key": "Access-Control-Allow-Origin",
@@ -1047,7 +1043,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"data\": {\n        \"current_page\": 1,\n        \"max_pages\": 1,\n        \"tasks\": [\n            {\n                \"_id\": \"63762f0cb3d273541eb2d616\",\n                \"conversations\": [\n                    {\n                        \"_id\": \"637633e36b0fae70bd85925a\",\n                        \"content\": \"hihi\",\n                        \"created_at\": \"Thu, 17 Nov 2022 20:15:13 GMT\",\n                        \"files\": [\n                            {\n                                \"filename\": \"anime-list.xlsx\",\n                                \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/task_conversations/task_id_63762f0cb3d273541eb2d616/637633e36b0fae70bd85925a/anime-list.xlsx?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=KqD3O%2BqTZ%2FrnJYri7QXCPQLsHGpJR3BlywH1yMby8QECNr3wspOZgxQkgCXkPufMwLpWfNXj3R5DMna8linnkiAaTQQsLD4QlRQIbsH2YxWc0xB9eoMQEe9uJHfLfNUCIZhXOVTbIbWhLZS1%2BrZM0qm%2FRmIQSiLAZS4tmxAgl09j7QIiLvJigXa1TPd1ER9B1FRtC3inUpBzd%2BMhJpwn53zjV%2FF7d9WmKliliU%2FNbSo1l39JMqLXR%2FaA%2BcZ2F7iMfd9uA5mwMcCVhJQJPMwPkSSzSi682AxaaoUBInhjpXbA%2FlKNH%2BigKql1ZzozA7B8TOrLmKByWQzd8q%2FEG3nLsQ%3D%3D\"\n                            }\n                        ],\n                        \"user_id\": \"5\"\n                    }\n                ],\n                \"deadline\": \"Fri, 22 Dec 2023 00:00:00 GMT\",\n                \"description\": \"Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\\nSử dụng framework, công nghệ tự chọn.\",\n                \"files\": [\n                    {\n                        \"filename\": \"requirements.txt\",\n                        \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/tasks/63762f0cb3d273541eb2d616/requirements.txt?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=SMyGGcZXwHg6Srs6tjFOMgnl%2Fot1GNGTgMFYzZTfunCRaf3HNZ8sbky2eqYG3OvYzlbc3YIT%2FnhNHUlhmcnZrGkHhdJZdWxv1NYeU4w7gMSRYoxTvXws4X6muJbyfUKLW4odHD8v%2Fc3cGb9kBIx1HN7LgVt2pa4q7d1B2Gz6r7cALOtURs0pLJdyegOfr%2Fm8JVucHo4iHj3M6Tl9n1oNlqsesd0IJFCKycKpdnaMdd1yOSqVw7b3xz9hIxmKtLikufGlwLGFu6nnBF640O%2BechB69qUUQvasahg68RbUbg3IL8sTzk7o0FCVcQBrNgHaQqe0Sw6q1ODjxyqF%2F5M0qA%3D%3D\"\n                    }\n                ],\n                \"manager_id\": \"1\",\n                \"officer_id\": \"5\",\n                \"status\": 3,\n                \"title\": \"Xây dựng Task-API\",\n                \"updated_at\": \"Thu, 17 Nov 2022 20:15:16 GMT\"\n            }\n        ]\n    },\n    \"status\": true\n}"
+					"body": "{\n    \"data\": 1,\n    \"status\": true\n}"
 				}
 			]
 		}

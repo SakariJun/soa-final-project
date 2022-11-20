@@ -93,7 +93,6 @@ function loadComponent(urlPath) {
 
     fetch(baseUrl + urlPath + "?load=1")
         .then((response) => {
-            console.log(response)
             // Redirect
             if (response.status == 303) {
                 return response.json()
@@ -645,7 +644,7 @@ function createAbsenceRequest() {
     return false;
 }
 
-
+// DONE - Chức năng đăng nhập
 // Xác thực input lúc đăng nhập
 function validateLogin() {
     let username = $('#username')
@@ -948,8 +947,8 @@ $(document).on("click", "#setNewAvatar", function () {
         fadeError('Không hỗ trợ dịnh dạng ảnh này !!!');
     }
 });
-
 // #endregion
+
 
 //#region FUNCTION Hỗ trợ
 function formatVNDate(date) {
@@ -982,179 +981,12 @@ function validateEmail(email) { //Validates the email address
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return emailRegex.test(email);
 }
+// #endregion
 
-function loadAccountList() {
-    // clear table
-
-    let tbody = document.getElementById('user-account-table-body');
-    if (tbody != null) {
-        tbody.innerHTML = '';
-    }
-    let ajax = new XMLHttpRequest();
-    ajax.open('GET', './backend/API/AdminManagerAccount/get-forgot-account-first.php', 'true');
-    ajax.send();
-    ajax.reponseType = 'json';
-    ajax.addEventListener('readystatechange', () => {
-        if (ajax.readyState === 4 && ajax.status === 200) {
-            let json = JSON.parse(ajax.response);
-            json.data.forEach((i) => {
-                // console.log(i)
-
-                let id = document.createElement('td');
-                let name = document.createElement('td');
-                let username = document.createElement('td');
-                let role = document.createElement('td');
-                let gmail = document.createElement('td')
-                let active = document.createElement('td');
-
-                //id
-                let div1 = document.createElement('div');
-                div1.classList.add('text-center');
-                let h6 = document.createElement('h6');
-                h6.id = "userID";
-                h6.innerHTML = i[0];
-                let userID = i[0];
-                div1.appendChild(h6);
-                id.append(div1)
-                let tr = document.createElement('tr');
-                id.classList.add('py-4')
-                tr.appendChild(id);
-
-
-                //name
-                name.id = "user-name";
-                name.innerHTML = i[1];
-                let userName = i[1];
-                name.classList.add('py-4')
-                name.classList.add('text-center');
-                tr.appendChild(name);
-
-                username.id = "username";
-                username.innerHTML = i[2];
-                username.classList.add('py-4');
-                username.classList.add('text-center');
-                tr.appendChild(username);
-
-                role.id = "role";
-                role.innerHTML = i[3];
-                role.classList.add('py-4');
-                role.classList.add('text-center');
-                tr.appendChild(role);
-
-                gmail.id = "user-gmail";
-                gmail.innerHTML = i[4];
-                gmail.classList.add('py-4')
-                gmail.classList.add('text-center');
-                tr.appendChild(gmail)
-
-                let div2 = document.createElement('div');
-                let i2 = document.createElement('i');
-                let strong = document.createElement('strong');
-                i2.setAttribute("aria-hidden", "true");
-                div2.classList.add('small')
-                div2.classList.add('d-inline');
-
-                if (i[5] == "0") {
-                    i2.classList.add('fa');
-                    i2.classList.add('fa-circle');
-                    i2.classList.add('text-danger');
-                    strong.innerHTML = ' Inactive';
-                } else {
-                    i2.classList.add('fa');
-                    i2.classList.add('fa-circle');
-                    i2.classList.add('text-info');
-                    strong.innerHTML = ' Activated';
-                }
-                div2.appendChild(i2);
-                active.appendChild(div2);
-                active.appendChild(strong);
-                active.classList.add('text-center');
-                active.classList.add('py-4');
-                tr.appendChild(active);
-
-
-                let actions = document.createElement('td');
-
-                if (i[5] == "0") {
-                    i2.classList.add('fa');
-                    i2.classList.add('fa-circle');
-                    i2.classList.add('text-danger');
-                    strong.innerHTML = ' Non-activated';
-                } else {
-                    i2.classList.add('fa');
-                    i2.classList.add('fa-circle');
-                    i2.classList.add('text-info');
-                    strong.innerHTML = ' Activated';
-                }
-                div2.appendChild(i2);
-                active.appendChild(div2);
-                active.appendChild(strong);
-                tr.appendChild(active);
-
-
-                let view = document.createElement('button');
-                let reset = document.createElement('button');
-
-                view.classList.add('btn');
-                view.classList.add('btn-primary');
-                view.classList.add('btn-sm');
-                view.classList.add('w-100');
-                view.innerHTML = "Xem chi tiết";
-                view.setAttribute('onclick', 'userDetail("' + userID + '")');
-
-
-                reset.innerHTML = "Đặt lại mật khẩu";
-                if (i[6] == "0") {
-                    reset.classList.add('btn');
-                    reset.classList.add('btn-sm');
-                    reset.classList.add('btn-outline-danger');
-                    reset.removeAttribute("enabled", "");
-                    reset.setAttribute("disabled", "");
-                } else {
-                    reset.classList.add('btn');
-                    reset.classList.add('btn-sm');
-                    reset.classList.add('btn-danger');
-                    reset.removeAttribute("disabled", "");
-                    reset.setAttribute("enabled", "");
-                    reset.setAttribute('onclick', 'showResetPasswordForUser("' + userID + '", "' + userName + '")');
-                    reset.setAttribute('data-toggle', 'modal');
-                    reset.setAttribute('data-target', "#resetPasswordModal")
-
-                }
-
-                view.classList.add('d-block')
-                view.classList.add('mb-2')
-                view.setAttribute('onclick', 'userDetail("' + i[0] + '")');
-                let div3 = document.createElement('div');
-                div3.appendChild(view);
-                div3.appendChild(reset);
-                actions.appendChild(div3);
-
-                // console.log(tr);
-                tr.appendChild(actions);
-                tbody.appendChild(tr);
-            })
-        }
-    })
-}
-
-function loadUserSalary() {
-    $.ajax({
-        url: './backend/API/AdminManagerSalary/get-users-salary.php',
-        method: 'GET',
-        success: function (result) {
-            $("#user-salary-table-body").html(result);
-
-            $('#edit-salary-modal').on('hidden.bs.modal', function () {
-                $("#edit-salary-error").removeClass('alert-warning').html('')
-                $("#salary").val('')
-            })
-        },
-        error: function (result) {
-            console.log(result)
-        }
-    })
-}
+$(document).on('hidden.bs.modal', '#edit-salary-modal', function () {
+    $("#edit-salary-error").removeClass('alert-warning').html('')
+    $("#salary").val('')
+})
 
 function editSalary(userID) {
     $.ajax({
@@ -1617,9 +1449,12 @@ function fadeResult(resultMessage) {
         resultDiv.addClass('alert alert-success');
     }
 
-    resultDiv.html(resultMessage).fadeIn(1500).fadeOut(3000);
+    resultDiv.html(resultMessage).fadeIn(1500);
 }
 
+
+// Done - chức năng add user mới
+// Add user
 function validateAddUser() {
     let fullname = document.forms["addUserForm"]["fullname-add"].value;
     let email = document.forms["addUserForm"]["email-add"].value;
@@ -1751,7 +1586,10 @@ function addUser(fullname, email, dob, phone, salary, gender, department) {
         }
     });
 }
+// End add user
 
+
+// Function load trưởng phòng phòng ban
 function loadLeader(department) {
     $.ajax({
         url: './backend/API/AdminManagerDepartment/get-leader.php?department=' + department,
@@ -1828,6 +1666,7 @@ function loadLeader(department) {
     })
 }
 
+// Function load Nhân viên phòng ban
 function LoadStaff(department) {
     let staffTable = document.getElementById('staff-table')
     staffTable.innerHTML = ''
@@ -1906,6 +1745,7 @@ function LoadStaff(department) {
     })
 }
 
+// Add Phòng ban mới
 function validateAddDepartment() {
     let depName = document.forms["add-department-form"]["department-name-add"].value;
     let depDesc = document.forms["add-department-form"]["department-desc-add"].value;
@@ -2007,6 +1847,7 @@ function addDepartment(depName, depRoom, depDesc) {
         }
     });
 }
+// End add phòng ban
 
 function LoadLeadedDepartment() {
     let tbody = document.getElementById('leader-department-table-body');
@@ -2078,6 +1919,7 @@ function LoadLeadedDepartment() {
     })
 }
 
+// Cắt chức
 function removeLeader(department, name, leader) {
     $('#leader-name').html(leader);
     $('#de-name').html(name);
@@ -2189,6 +2031,7 @@ function LoadNonLeadedDepartment() {
     })
 }
 
+// Thăng chức trưởng phòng
 function appointLeader(department, name) {
 
     $('#dep-name').html(name);
