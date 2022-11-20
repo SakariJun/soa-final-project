@@ -153,6 +153,19 @@ const getUserInformation = async function ({ user_id }) {
 
             user.department = departmentInfo.data;
             user.absence = absenceInfo.data;
+
+            if (department.leader_id !== null) {
+                const leader = await _User
+                    .find({ user_id: user.department.leader_id })
+                    .select('-_id user_id full_name email phone_number')
+                    .lean();
+
+                if (!leader) {
+                    return { status: false, message: 'Không tìm thấy thông tin trưởng phòng!' };
+                }
+
+                user.leader = leader;
+            }
         }
 
         return {
