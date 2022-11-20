@@ -1,0 +1,97 @@
+<div
+  class="container"
+  style="background-color: rgb(246, 245, 246); width: 100%; display: block"
+>
+  <div class="mt-5 px-0">
+    <div class="mr-4">
+      <div class="card pt-2">
+        <div class="card-body">
+          <h3>Chi tiết người dùng</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col col-md-5 float-left mr-4 pt-3" id="">
+      <div class="user-avatar">
+        <img
+          src="{{ employee.get('avatar', url_for('static', filename='img/users/Male_Default.png')) }}"
+          alt="Avatar của userUS009"
+          id="avatar-detail"
+        />
+      </div>
+      <div class="card-body">
+        <h4 id="name-detail">{{ employee.get('full_name', 'Unknown') }}</h4>
+        <div>
+          <i class="fas fa-certificate mr-3 my-2"></i>
+          <span id="department-detail"
+            >{{ employee.get('department', {}).get('name', 'Unknown') }}</span
+          >
+        </div>
+        <div>
+          <i class="fas fa-birthday-cake mr-3 my-2"></i>
+          <span id="dob-detail"
+            >{{ employee.get('day_of_birth', 'Unknown') }}</span
+          >
+        </div>
+        <div>
+          <i class="fas fa-phone mr-3 my-2"></i>
+          <span id="phone-number-detail"
+            >{{ employee.get('phone_number', 'Unknown') }}</span
+          >
+        </div>
+        <div>
+          <i class="fas fa-envelope mr-3 my-2"></i>
+          <span id="email-detail">{{ employee.get('email', 'Unknown') }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card col col-md-6 mr-0 float-left pr-4 pt-3">
+      <div class="card-body">
+        <div>
+          <i class="fas fa-id-badge mr-3 my-3"></i>
+          <span
+            ><strong>Mã nhân viên :</strong> <span id="id-detail"
+              >{{ employee.get('user_id', 'Unknown') }}</span
+            ></span
+          >
+        </div>
+
+        <div>
+          <i class="fas fa-bookmark mr-3 my-3"></i>
+          <span
+            ><strong>Chức vụ :</strong> <span id="role-detail"
+              >{{ employee.get('role_id', {}).get('name', 'Unknow') }}</span
+            ></span
+          >
+        </div>
+        <div>
+          {% if employee.get('account', {}).get('is_activate') %}
+          <i class="fas mr-3 my-3 fa-toggle-on" id="account-status-detail"></i>
+          <span
+            ><strong>Trạng thái tài khoản :</strong> <span id="activated-detail"
+              ><i class="fa fa-circle text-success"></i
+              ><strong> Activated</strong></span
+            ></span
+          >
+          {% else %}
+          <i class="fas mr-3 my-3 fa-toggle-off" id="account-status-detail"></i>
+          <span
+            ><strong>Trạng thái tài khoản :</strong> <span id="activated-detail"
+              ><i class="fa fa-circle text-danger"></i
+              ><strong> Non-activated</strong></span
+            ></span
+          >
+          {% endif %}
+        </div>
+        <div>
+          <i class="fas fa-tag mr-3 my-3"></i>
+          <span
+            ><strong>Giới tính :</strong> <span id="gender-detail"
+              >{{ employee.get('gender', 'Secret') }}</span
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

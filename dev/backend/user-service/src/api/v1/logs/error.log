@@ -82,3 +82,99 @@ URL: /user/get-user-detail?user_id=22200001
 METHOD: GET
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: b8861759-7d64-4f45-ae60-bf7a11bbd5c1
+TIME: 20-11-2022	16:44:15
+URL: /user/get-user-information
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 6d8d4c1d-c467-4fe4-ab3f-1c239e145ded
+TIME: 20-11-2022	16:46:03
+URL: /user/get-user-information
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 358001f0-43fc-4d4f-9d91-4df4fc187dd9
+TIME: 20-11-2022	16:47:28
+URL: /user/get-user-information
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 58626816-cab7-47d1-914b-4fb8e2f3dcbb
+TIME: 20-11-2022	16:47:46
+URL: /user/get-user-information
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 31b177c4-f436-4410-8009-474c4d7229aa
+TIME: 20-11-2022	17:15:50
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: 1ae4506d-d627-4b12-91bb-1991f477dbd7
+TIME: 20-11-2022	17:16:32
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: 9d92359a-4043-4987-b7af-13965fb4bf6c
+TIME: 20-11-2022	17:16:41
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: fd33dd44-675c-4316-8240-0649972e0c46
+TIME: 20-11-2022	17:20:35
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: 4a6edd2c-fc82-4fa5-83b2-ddba71b21443
+TIME: 20-11-2022	17:20:43
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: eb049b34-0b03-4def-8550-b1aa441536b5
+TIME: 20-11-2022	17:20:48
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: b07f2299-0f9f-48bc-8542-0450b0f69171
+TIME: 20-11-2022	17:21:01
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: e273b41a-3526-417a-a84e-bcbdaf668617
+TIME: 20-11-2022	17:21:11
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: 07b9776b-fed4-4f38-95f1-2fe755691218
+TIME: 20-11-2022	17:21:30
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: a6eb3463-31c8-46b5-ac40-8bb44fefc3f2
+TIME: 20-11-2022	17:23:10
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: 9b384253-7ad6-4636-a7ab-0375129fa9e9
+TIME: 20-11-2022	17:25:46
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------
+LOG_ERROR_ID: e63d3725-d8c0-4726-b9d7-8530ebc06963
+TIME: 20-11-2022	17:26:26
+URL: /user/change-user-avatar
+METHOD: PUT
+MESSAGE: Unexpected end of form
+--------------------------------------------------------

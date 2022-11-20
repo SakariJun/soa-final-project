@@ -72,11 +72,17 @@ function showToast(comment) {
 
 // function load content from redirect url
 function loadRedirect(urlPath) {
-    if (urlPath.includes("login")) {
+    // Clear header cho 1 số pages
+    if (urlPath.includes("login") || urlPath.includes("activate")) {
         $('body').removeClass("sidebar-main")
-        $('body').html(`<header></header><div id="page-content" class="full-page"></div>`)
+        $('header').html('')
         $("#page-content").removeClass('content-page');
         window.history.replaceState(urlPath, null, urlPath);
+    } else {
+        // Load header
+        if ($('header').html() == '') {
+            loadHeader()
+        }
     }
     window.history.replaceState(urlPath, null, urlPath);
     loadComponent(urlPath)
@@ -654,9 +660,9 @@ function validateLogin() {
     let passwordValue = password.val().trim();
 
     if ($('#remember').is(":checked")) {
-        document.cookie = "username=" + usernameValue;
+        $.cookie('username', usernameValue);
     } else {
-        document.cookie = "username=";
+        $.removeCookie('username')
     }
 
     if (usernameValue.length == 0) {
@@ -734,7 +740,7 @@ function changePassword() {
     }
 
     // GỌI AJAX VALIDATE 
-    let userData = JSON.stringify({ password: passwordValue, password_confirm: password_confirmValue });
+    let userData = JSON.stringify({ new_password: passwordValue, new_password_confirm: password_confirmValue });
 
     $.ajax({
         url: '/auth/change-password',
@@ -747,8 +753,8 @@ function changePassword() {
                 fadeError(result['message'])
                 return false;
             }
-
-            window.location.href = '../index.php';
+            showToast(result['message'])
+            loadRedirect(result['redirect'])
             return false;
         }
     });
@@ -804,22 +810,22 @@ function userChangePassword() {
     }
 
     // GỌI AJAX Đổi mật khẩu user
-    let userData = JSON.stringify({ oldPassword: oldPasswordValue, newPassword: newPasswordValue, newPassword_confirm: newPassword_confirmValue });
+    let userData = JSON.stringify({ old_password: oldPasswordValue, new_password: newPasswordValue, new_password_confirm: newPassword_confirmValue });
 
     $.ajax({
-        url: '../backend/API/BaseFunction/user-change-password.php',
+        url: '/auth/change-password',
         type: 'POST',
         dataType: "json",
         contentType: "application/json",
         data: userData,
         success: function (result) {
             if (!result['status']) {
-                fadeError(result['errorMessage'])
+                fadeError(result['message'])
                 return false;
             }
 
-            fadeResult(result['message'])
-            window.location.href = './logout.php'
+            showToast(result['message'])
+            loadRedirect('/auth/logout')
             return false;
         }
     });
@@ -905,13 +911,12 @@ $(document).on("change", "#avatarUploaded", function () {
 
     reader.onload = function () {
         document.getElementById("userAvatar").setAttribute('src', reader.result);
-        // $("#userAvatar").attr("src", reader.result);
     }
 
     reader.readAsDataURL($('#avatarUploaded')[0].files[0]);
 })
 
-
+// Xong chức năng change ảnh đại diện
 $(document).on("click", "#setNewAvatar", function () {
     let avatarUploaded = $('#avatarUploaded').prop('files')[0];
 
@@ -922,11 +927,11 @@ $(document).on("click", "#setNewAvatar", function () {
     if (supportedExtension.includes(avatarUploadedExtension)) {
 
         var form_data = new FormData();
-        form_data.append('avatarUploaded', avatarUploaded);
+        form_data.append('avatar', avatarUploaded);
 
         $.ajax({
-            url: './backend/API/BaseFunction/change-user-avatar.php',
-            type: 'POST',
+            url: '/auth/change-avatar',
+            type: 'PUT',
             dataType: 'json',
             cache: false,
             contentType: false,
@@ -934,17 +939,17 @@ $(document).on("click", "#setNewAvatar", function () {
             data: form_data,
             success: function (result) {
                 if (result['status']) {
-                    fadeResult(result['message']);
-                    $("#navbar-avatar").prop("src", $("#userAvatar").attr("src"));
+                    showToast(result['message']);
+                    $("#navbar-avatar").prop("src", result['data']['avatar_url']);
                     $('#avatarUploaded').val('')
                     $("#setNewAvatar").prop('disabled', true);
                 } else {
-                    fadeError(result['errorMessage']);
+                    showToast(result['message']);
                 };
             }
         });
     } else {
-        fadeError('Không hỗ trợ dịnh dạng ảnh này !!!');
+        showToast('Không hỗ trợ dịnh dạng ảnh này !!!');
     }
 });
 // #endregion
@@ -988,24 +993,10 @@ $(document).on('hidden.bs.modal', '#edit-salary-modal', function () {
     $("#salary").val('')
 })
 
-function editSalary(userID) {
-    $.ajax({
-        url: './backend/API/AdminManagerSalary/get-user-salary.php?id=' + userID,
-        method: 'GET',
-        dataType: 'json',
-        success: function (result) {
-            if (!result['status']) {
-                fadeError(result['errorMessage']);
-                return
-            }
-            $("#salary-old").val(result['result']['Salary']);
-            $("#confirm-edit-salary").data('id', userID);
-            $("#edit-salary-modal").modal('show');
-        },
-        error: function (xhr, status, error) {
-            console.log(error)
-        }
-    })
+function editSalary(e, userID) {
+    $("#salary-old").val(e.parentNode.parentNode.dataset.salary);
+    $("#confirm-edit-salary").data('id', userID);
+    $("#edit-salary-modal").modal('show');
 }
 
 $(document).on('click', '#confirm-edit-salary', function () {
@@ -1025,7 +1016,7 @@ $(document).on('click', '#confirm-edit-salary', function () {
 
     let formData = JSON.stringify({ salary: salary });
     $.ajax({
-        url: './backend/API/AdminManagerSalary/update-user-salary.php?id=' + $("#confirm-edit-salary").data('id'),
+        url: '/users/salary/' + $("#confirm-edit-salary").data('id'),
         type: 'PUT',
         dataType: "json",
         contentType: "application/json",
@@ -1035,10 +1026,9 @@ $(document).on('click', '#confirm-edit-salary', function () {
                 $("#edit-salary-error").removeClass('alert-warning').addClass('alert-warning').html(result['errorMessage'])
                 return
             }
-            loadUserSalary();
-            fadeResult(result['message']);
+            showToast(result['message']);
             $("#edit-salary-modal").modal('hide');
-            loadUserSalary();
+            loadComponent('/users/salary')
         },
         error: function (xhr, status, error) {
             console.log(error);
@@ -1070,92 +1060,6 @@ function resetPasswordForUser(userID) {
             console.log(result);
         }
     })
-}
-
-function userDetail(userID) {
-    $.ajax({
-        url: './app/user-detail-manager.php',
-        type: 'POST',
-        data: {
-            'action': "LOAD"
-        },
-        success: function (result) {
-            $(".content-page").html(result);
-
-            $("body").removeClass("sidebar-main");
-            $.ajax({
-                url: './backend/API/AdminManagerAccount/get-account.php?id=' + userID,
-                type: 'GET',
-                async: true,
-                success: function (results) {
-                    let userName = document.getElementById('name-detail');
-                    let username = document.getElementById('username-detail');
-                    let role = document.getElementById('role-detail');
-                    let id = document.getElementById('id-detail');
-                    let activated = document.getElementById('activated-detail');
-                    let gender = document.getElementById('gender-detail');
-                    let email = document.getElementById('email-detail');
-                    let dob = document.getElementById('dob-detail');
-                    let phone = document.getElementById('phone-number-detail');
-                    let avatar = document.getElementById('avatar-detail');
-                    let department = document.getElementById('department-detail');
-                    user = results.data[0];
-
-                    id.innerHTML = user[0];
-
-                    userName.innerHTML = user[1];
-                    role.innerHTML = user[2];
-                    email.innerHTML = user[3];
-                    dob.innerHTML = formatVNDate(user[4]);
-                    phone.innerHTML = user[5];
-
-
-                    let dir = './assets/images/users/' + user[0];
-
-                    if (user[10] == null) {
-                        let defaultAvatar = 'Female_Default.png';
-                        if (user[9] == 'Nam') {
-                            defaultAvatar = 'Male_Default.png';
-                        }
-                        dir = './assets/images/users/DefaultAvatar/' + defaultAvatar;
-                    } else {
-                        dir = './app/users/' + user[0] + '/' + user[10];
-                    }
-                    avatar.setAttribute('src', dir);
-                    avatar.setAttribute('alt', 'Avatar của user' + user[0]);
-                    department.innerHTML = user[6];
-                    let i2 = document.createElement('i')
-
-                    let strong = document.createElement('strong')
-                    let status = document.getElementById('account-status-detail')
-                    if (user[8] == 0) {
-                        i2.classList.add('fa');
-                        i2.classList.add('fa-circle');
-                        i2.classList.add('text-danger');
-                        status.classList.add('fa-toggle-off')
-                        strong.innerHTML = ' Non-activated';
-                    } else {
-                        i2.classList.add('fa');
-                        i2.classList.add('fa-circle');
-                        i2.classList.add('text-info');
-                        status.classList.add('fa-toggle-on')
-                        strong.innerHTML = ' Activated';
-                    }
-                    username.innerHTML = user[7];
-                    activated.appendChild(i2);
-                    activated.appendChild(strong);
-                    gender.innerHTML = user[9];
-                },
-                error: function (results) {
-                    console.log(results)
-                }
-            })
-            $(".container").fadeIn();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown + "\n" + textStatus);
-        }
-    });
 }
 
 function loadDepartmentList() {
@@ -2265,7 +2169,8 @@ function checkFileList(files, file) {
     }
     return -1;
 }
-// Reset form
+
+// Reset create task form
 $(document).on("click", "#reset", function () {
     resetTaskInfo();
 })
@@ -2281,6 +2186,7 @@ function resetTaskInfo() {
     $("#attachment").val('');
 }
 
+// Done
 // Submit tạo task
 $(document).on("click", "#create-task", function () {
     let title = $("#task-title").val().trim();
@@ -2305,7 +2211,7 @@ $(document).on("click", "#create-task", function () {
         return;
     }
 
-    if (Date.parse(deadline) < Date.now()) {
+    if (Date.parse(deadline) < new Date(Date.now() - 24 * 60 * 60 * 1000)) {
         fadeError("Thời hạn phải sau thời điểm hiện tại");
         return;
     }
@@ -2317,16 +2223,16 @@ $(document).on("click", "#create-task", function () {
 
     var formData = new FormData();
     formData.append("title", title)
-    formData.append("userID", employee)
-    formData.append("desc", desc)
+    formData.append("officer_id", employee)
+    formData.append("description", desc)
     formData.append("deadline", deadline)
     for (let i = 0; i < files.length; i++) {
-        formData.append("attachment[]", files[i])
+        formData.append("files", files[i])
     }
 
     $("#upload-complete").attr("disabled", true);
     $.ajax({
-        url: './backend/API/AdminManagerTask/create-new-task.php',
+        url: '/tasks/create-task',
         type: 'POST',
         dataType: "json",
         caches: false,
@@ -2334,22 +2240,21 @@ $(document).on("click", "#create-task", function () {
         processData: false,
         data: formData,
         success: function (result) {
-            $("#upload-complete").attr("disabled", false);
-
+            $("#progress").hide();
             if (!result['status']) {
-                $("#message").html(result['errorMessage']);
-                $("#progress").hide();
+                $("#upload-complete").attr("disabled", false);
+                $("#message").html(result['message']);
                 return;
             }
-            $("#message").html(result['message']);
-            // reset form
-            $("#reset").click();
-            $("#new-task").modal("hide");
-            loadAllTask();
+            $("#message-dialog").modal('hide')
+            $("#new-task").modal('hide')
+            loadComponent('/tasks')
+            showToast(result['message'])
         },
         error: function (error) {
             console.log(error);
             $("#upload-complete").attr("disabled", false);
+            $("#progress").hide();
         },
         xhr: function () {
             var xhr = $.ajaxSettings.xhr();
@@ -2368,20 +2273,6 @@ $(document).on("click", "#create-task", function () {
     });
 })
 
-// Load task list
-function loadAllTask() {
-    $.ajax({
-        url: './backend/API/AdminManagerTask/get-tasks.php',
-        method: 'GET',
-        success: function (result) {
-            $("#task-list").html(result);
-        },
-        error: function (result) {
-            console.log(result)
-        }
-    })
-}
-
 // Cancel Task - Leader function
 $(document).on("click", "#task-cancel", function () {
     $("#confirm-task-cancel").modal({ backdrop: 'static', keyboard: false });
@@ -2395,23 +2286,22 @@ $(document).on("click", "#confirm", function () {
 
     $("#confirm-task-cancel").modal('hide');
     $.ajax({
-        url: './backend/API/AdminManagerTask/cancel-task.php',
-        method: 'POST',
+        url: '/tasks/cancel-task',
+        method: 'PUT',
         dataType: 'json',
-        data: {
-            'action': "cancel-task",
-            'TaskID': $(this).data("id")
-        },
+        contentType: 'application/json',
+        data: JSON.stringify({ 'task_id': $(this).data("id") }),
         success: function (result) {
             $("#message-dialog").modal({ backdrop: 'static', keyboard: false })
             $("#upload-complete").attr("disabled", false);
             $("#progress").hide();
             if (!result['status']) {
-                $("#message").html(result['errorMessage']);
+                $("#message").html(result['message']);
                 return;
             }
-            loadAllTask();
-            $("#message").html(result['message']);
+            $("#message-dialog").modal('hide')
+            loadComponent('/tasks')
+            showToast(result['message'])
         },
         error: function (result) {
             console.log(result)
@@ -2435,25 +2325,27 @@ function resetSubmitForm() {
     $("#submit-attachment").val('');
 }
 
+// Done
 // Accept Task - Staff function
 $(document).on("click", "#task-accept", function () {
     $.ajax({
-        url: './backend/API/AdminManagerTask/accept-task.php',
-        method: 'POST',
-        data: {
-            'action': "accept-task",
-            'TaskID': $(this).data('id')
-        },
+        url: '/tasks/accept-task',
+        method: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify({
+            'task_id': $(this).data('id')
+        }),
         success: function (result) {
             $("#message-dialog").modal({ backdrop: 'static', keyboard: false })
             $("#upload-complete").attr("disabled", false);
             $("#progress").hide();
             if (!result['status']) {
-                $("#message").html(result['errorMessage']);
+                $("#message").html(result['message']);
                 return;
             }
-            loadAllTask();
-            $("#message").html(result['message']);
+            $("#message-dialog").modal('hide')
+            loadComponent('/tasks')
+            showToast(result['message'])
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus + errorThrown)
@@ -2462,39 +2354,35 @@ $(document).on("click", "#task-accept", function () {
 })
 
 // Submit Task - Staff function
-
 $(document).on("click", "#submit", function () {
-    //Show dữ liệu về task sắp submit
     let id = $(this).data('id')
     $.ajax({
-        url: './backend/API/AdminManagerTask/get-task.php?id=' + id,
-        method: 'POST',
-        data: {
-            'action': "get-task"
-        },
+        url: '/tasks/task/' + id + '?api=1',
+        method: 'GET',
         dataType: 'json',
         success: function (result) {
             if (!result['status']) {
-                fadeErrorSubmit(result['errorMessage']);
+                fadeErrorSubmit(result['message']);
                 return;
             }
-            result = result['result'];
-            $("#task-submit-title").val(result['TaskTitle']);
-            $("#submit-deadline").val(result['Deadline'].split(" ")[0]);
-            $("#task-submit-desc").val(result['TaskDescription']);
+            result = result['data'];
+            console.log(result)
+            $("#task-submit-title").val(result['title']);
+            $("#submit-deadline").val(result['deadline'].split(" ")[0]);
+            $("#task-submit-desc").val(result['description']);
             $("#submit-task").data("id", id);
 
-            if (result['Status'] == "In progress") {
+            if (result['status'] == 1) {
                 $("#submit-deadline").attr("readonly", true);
             }
 
-            if (result['Status'] == "Waiting") {
+            if (result['status'] == 3) {
                 $("#submit-deadline").attr("readonly", false);
             }
             $("#submit-deadline").data("deadline", $("#submit-deadline").val());
         },
-        error: function (result) {
-            console.log(result)
+        error: function (err, textStatus) {
+            console.log(err + ": " + textStatus)
         }
     })
 })
@@ -2528,17 +2416,18 @@ $(document).on("click", "#submit-task", function () {
     }
 
     var formData = new FormData();
-    formData.append("message", msg);
+    formData.append("content", msg);
+    formData.append("action", msg);
     formData.append("deadline", deadline);
 
     for (let i = 0; i < files.length; i++) {
-        formData.append("attachment[]", files[i])
+        formData.append("files", files[i])
     }
 
     $("#upload-complete").attr("disabled", true);
     $.ajax({
-        url: './backend/API/AdminManagerTask/submit-task.php?id=' + $(this).data("id"),
-        type: 'POST',
+        url: '/tasks/approve-task/' + $(this).data("id"),
+        type: 'PUT',
         dataType: "json",
         caches: false,
         contentType: false,
@@ -2548,17 +2437,14 @@ $(document).on("click", "#submit-task", function () {
             $("#upload-complete").attr("disabled", false);
 
             if (!result['status']) {
-                $("#message").html(result['errorMessage']);
+                $("#message").html(result['message']);
                 $("#progress").hide();
                 return;
             }
-            $("#message").html(result['message']);
-            // reset form
-            $("#reset").click();
-
+            $("#message-dialog").modal("hide");
             $("#form-submit-task").modal("hide");
-            loadAllTask();
-            resetSubmitForm()
+            loadComponent('/tasks')
+            showToast(result['message'])
         },
         error: function (error) {
             console.log(error);
@@ -2691,46 +2577,42 @@ $(document).on("click", "#completed", function () {
     $("#task-rate").val('');
 
     $.ajax({
-        url: './backend/API/AdminManagerTask/get-task.php?id=' + id,
-        method: 'POST',
+        url: '/tasks/task/' + id + '?api=1',
+        method: 'GET',
         dataType: 'json',
-        data: {
-            'action': "rate-task"
-        },
         success: function (result) {
             if (!result['status']) {
-                fadeRateError(result['errorMessage']);
+                fadeRateError(result['message']);
                 return;
             }
-            result = result['result'];
-            $("#rate-task-title").val(result['TaskTitle']);
-            let deadline = result['Deadline'].split(" ")[0];
-            let submit = result['Time_Stamp'].split(" ")[0];
+            result = result['data'];
+            $("#rate-task-title").val(result['title']);
+            let deadline = result['deadline'].split(" ")[0];
+            let submit = result['updated_at'].split(" ")[0];
 
             $("#rate-deadline").val(deadline);
             $("#rate-submit-time").val(submit);
 
             if (Date.parse(deadline) < Date.parse(submit)) {
                 $("#feedback").removeClass().addClass("badge badge-warning").html("Hoàn thành trễ hạn");
-                var option = ["Bad", "OK"];
+                var option = [{ 0: "Bad" }, { 1: "OK" }];
             } else {
                 $("#feedback").removeClass().addClass("badge badge-success").html("Hoàn thành đúng hạn");
-                var option = ["Bad", "OK", "Good"];
+                var option = [{ 0: "Bad" }, { 1: "OK" }, { 2: "Good" }];
             }
 
             let taskRate = document.getElementById("task-rate");
-            option.forEach(rate => {
+            option.forEach((id, rate) => {
                 let option = document.createElement("option");
                 option.textContent = rate;
-                option.value = rate;
-
+                option.value = id;
                 taskRate.appendChild(option);
             });
 
-            $("#rateTask").data("id", result['TaskID']);
+            $("#rateTask").data("id", result['_id']);
         },
-        error: function (result) {
-            console.log(result)
+        error: function (err, text) {
+            console.log(err + ": " + text);
         }
     })
 })
@@ -2744,12 +2626,11 @@ $(document).on("click", "#rateTask", function () {
     }
 
     $.ajax({
-        url: './backend/API/AdminManagerTask/rate-task.php',
-        method: 'POST',
+        url: '/tasks/rate-task',
+        method: 'PUT',
         dataType: 'json',
         data: {
-            'action': "rate-task",
-            'TaskID': $(this).data("id"),
+            'task_id': $(this).data("id"),
             'rate': rate
         },
         success: function (result) {
@@ -2757,12 +2638,12 @@ $(document).on("click", "#rateTask", function () {
             $("#upload-complete").attr("disabled", false);
             $("#progress").hide();
             if (!result['status']) {
-                $("#message").html(result['errorMessage']);
+                $("#message").html(result['message']);
                 return;
             }
             $("#rate-task").modal("hide");
-            loadAllTask();
-            $("#message").html(result['message']);
+            loadComponent('/tasks')
+            showToast(result['message'])
         },
         error: function (result) {
             console.log(result)
@@ -2779,22 +2660,32 @@ function fadeRateError(errorMessage) {
         errorDiv.addClass('alert alert-danger');
     }
 
-    errorDiv.html(errorMessage).fadeIn(1500).fadeOut(3000);
+    errorDiv.html(errorMessage).fadeIn(1500);
 }
 
 // Click to download file
-$(document).on("click", "div .custom-file-item", function () {
+$(document).on("click", "div .custom-file-item", function (e) {
+    e.preventDefault();
     if ($(this).attr("href") != undefined) {
-
         //Download file
-        let href = $(this).attr("href");
-        var link = document.createElement('a');
-        link.href = href;
-        link.download = href.substring(href.lastIndexOf("/") + 1);
-        link.dispatchEvent(new MouseEvent('click'));
+        let url = $(this).attr("href");
+        var link = document.createElement("a");
 
-        // Mở file
-        // window.location.href = $(this).attr("href");
+        fetch(url)
+            .then((res) => res.blob())
+            .then((blob) => {
+                link.href = window.URL.createObjectURL(blob);
+                if (url.indexOf("?") > 0) {
+                    link.download = url.substring(
+                        url.lastIndexOf("/") + 1,
+                        url.indexOf("?")
+                    );
+                } else {
+                    link.download = url.substring(url.lastIndexOf("/") + 1);
+                }
+
+                link.click();
+            })
     }
 })
 
