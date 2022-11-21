@@ -45,6 +45,8 @@ class ProductionConfig(Config):
             "host": os.environ.get("host"),
             "port": os.environ.get("alias") or 27017,
             "alias": os.environ.get("alias") or "default",
+            "username": os.environ.get("username"),
+            "password": os.environ.get("password"),
         }
     ]
 
