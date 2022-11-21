@@ -5,14 +5,8 @@
         <h3 class="">Công việc</h3>
         {% if
         Role.get(user.get('role_id')).has_permission(Permission.MODIFY_TASK) %}
-        <a
-          href="#"
-          onclick="loadEmployeeList()"
-          class="btn btn-primary"
-          data-target="#new-task"
-          data-toggle="modal"
-          ><i class="far fa-calendar-plus mr-2"></i>Thêm việc</a
-        >
+        <a href="#" class="btn btn-primary" data-target="#new-task" data-toggle="modal"><i
+            class="far fa-calendar-plus mr-2"></i>Thêm việc</a>
         {% endif %}
       </div>
     </div>
@@ -21,7 +15,6 @@
   <div id="task-list">
     <!-- Item task -->
     {% for task in tasks %}
-    {% set officer = {} %}
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -30,71 +23,43 @@
               {% if task.get('rate') %}
               <h5 class="col-9">{{ task.get('title') }}</h5>
               {% if tast.get('rate').get('rate')==2 %}
-              <span class="col-1 badge badge-success"
-                >tast.get('rate').get('rate')</span
-              >
+              <span class="col-1 badge badge-success">tast.get('rate').get('rate')</span>
               {% elif tast.get('rate')==1 %}
-              <span class="col-1 badge badge-info"
-                >tast.get('rate').get('rate')</span
-              >
+              <span class="col-1 badge badge-info">tast.get('rate').get('rate')</span>
               {% else %}
-              <span class="col-1 badge badge-warning"
-                >tast.get('rate').get('rate')</span
-              >
+              <span class="col-1 badge badge-warning">tast.get('rate').get('rate')</span>
               {% endif %} {% else %}
               <h5 class="col-10">{{ task.get('title') }}</h5>
               {% endif %} {% if task.get('status', {}).get('status',
               'Unknown')=='Completed' %}
-              <span class="col-2 badge badge-success"
-                >{{ task.get('status', {}).get('status', 'Unknown') }}</span
-              >
+              <span class="col-2 badge badge-success">{{ task.get('status', {}).get('status', 'Unknown') }}</span>
               {% elif task.get('status', {}).get('status', 'Unknown')=='Rejected'
               %}
-              <span class="col-2 badge badge-danger"
-                >{{ task.get('status', {}).get('status', 'Unknown') }}</span
-              >
+              <span class="col-2 badge badge-danger">{{ task.get('status', {}).get('status', 'Unknown') }}</span>
               {% elif task.get('status', {}).get('status', 'Unknown')=='Waiting'
               %}
-              <span class="col-2 badge badge-warning"
-                >{{ task.get('status', {}).get('status', 'Unknown') }}</span
-              >
+              <span class="col-2 badge badge-warning">{{ task.get('status', {}).get('status', 'Unknown') }}</span>
               {% elif task.get('status', {}).get('status', 'Unknown')=='Canceled'
               %}
-              <span class="col-2 badge badge-secondary"
-                >{{ task.get('status', {}).get('status', 'Unknown') }}</span
-              >
+              <span class="col-2 badge badge-secondary">{{ task.get('status', {}).get('status', 'Unknown') }}</span>
               {% elif task.get('status', {}).get('status', 'Unknown')=='In progress'
               %}
-              <span class="col-2 badge badge-primary"
-                >{{ task.get('status', {}).get('status', 'Unknown') }}</span
-              >
+              <span class="col-2 badge badge-primary">{{ task.get('status', {}).get('status', 'Unknown') }}</span>
               {% else %}
-              <span class="col-2 badge badge-info"
-                >{{ task.get('status', {}).get('status', 'Unknown') }}</span
-              >
+              <span class="col-2 badge badge-info">{{ task.get('status', {}).get('status', 'Unknown') }}</span>
               {% endif %}
             </div>
             <div class="d-flex justify-content-between">
               {% if user.get('role_name')=='Trưởng phòng' %} {% for e in
               employees %} {% if e.get('user_id')==task.get('officer_id') %}
-              {% set _ = officer.update(e) %}
-              <span
-                ><i class="fas fa-user mr-2 ml-2"></i>{{ e.get('full_name')
-                }}</span
-              >
+              <span><i class="fas fa-user mr-2 ml-2"></i>{{ e.get('full_name')
+                }}</span>
               {% endif %} {% endfor %} {% else %}
-              <span
-                ><i class="fas fa-user mr-2 ml-2"></i>{{
-                manager.get('full_name', 'Unknown') }}</span
-              >
+              <span><i class="fas fa-user mr-2 ml-2"></i>{{
+                manager.get('full_name', 'Unknown') }}</span>
               {% endif %}
-              <a
-                class="col-2 btn badge-info collapsed"
-                href="#menu-{{ task.get('_id') }}"
-                data-toggle="collapse"
-                role="button"
-                aria-expanded="false"
-                >Chi tiết</a>
+              <a class="col-2 btn badge-info collapsed" href="#menu-{{ task.get('_id') }}" data-toggle="collapse"
+                role="button" aria-expanded="false">Chi tiết</a>
             </div>
           </div>
           <div class="border-top collapse" id="menu-{{ task.get('_id') }}">
@@ -104,68 +69,40 @@
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Mã Trưởng phòng</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control"
-                      value="{{ manager.get('user_id', 'Unknown') }}"
-                    />
+                    <input type="text" readonly class="form-control" value="{{ manager.get('user_id', 'Unknown') }}" />
                   </div>
                 </div>
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Tên Trưởng phòng</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control"
-                      value="{{ manager.get('full_name', 'Unknown') }}"
-                    />
+                    <input type="text" readonly class="form-control"
+                      value="{{ manager.get('full_name', 'Unknown') }}" />
                   </div>
                 </div>
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Email Trưởng phòng</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control"
-                      value="{{ manager.get('email', 'Unknown') }}"
-                    />
+                    <input type="text" readonly class="form-control" value="{{ manager.get('email', 'Unknown') }}" />
                   </div>
                 </div>
                 {% else %}
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Mã nhân viên đảm nhận</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control"
-                      value="{{ officer.get('user_id', 'Unknown') }}"
-                    />
+                    <input type="text" readonly class="form-control" value="{{ task.get('officer', {}).get('user_id', 'Unknown') }}" />
                   </div>
                 </div>
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Tên nhân viên</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control"
-                      value="{{ officer.get('full_name', 'Unknown') }}"
-                    />
+                    <input type="text" readonly class="form-control"
+                      value="{{ task.get('officer', {}).get('full_name', 'Unknown') }}" />
                   </div>
                 </div>
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Email nhân viên</label>
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control"
-                      value="{{ officer.get('email', 'Unknown') }}"
-                    />
+                    <input type="text" readonly class="form-control" value="{{ task.get('officer', {}).get('email', 'Unknown') }}" />
                   </div>
                 </div>
                 {% endif %}
@@ -173,7 +110,8 @@
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Ngày khởi tạo</label>
-                    <input type="date" readonly class="form-control" value="{{ get_time(task.get('_id')).strftime('%Y-%m-%d') }}">
+                    <input type="date" readonly class="form-control"
+                      value="{{ get_time(task.get('_id')).strftime('%Y-%m-%d') }}">
                   </div>
                 </div>
                 <div class="col-md-6 mb-2">
@@ -185,12 +123,7 @@
                 <div class="col-12 mb-2">
                   <div class="form-group">
                     <label class="h5">Mô tả</label>
-                    <textarea
-                      rows="3"
-                      type="text"
-                      class="form-control"
-                      readonly
-                    >{{ task.get('description', 'Nothing') }}
+                    <textarea rows="3" type="text" class="form-control" readonly>{{ task.get('description', 'Nothing') }}
                     </textarea>
                   </div>
                 </div>
@@ -198,25 +131,22 @@
                   <div class="form-group">
                     <h5>Tệp đính kèm</h5>
                     <div class="col-12">
-                      {% if task.get('files')|length <1 %}
-                      <input class='form-control' readonly placeholder='Không có tập tin đính kèm nào'>
-                      {% else %}
-                      <div class="custom-file-list">
-                        <!-- File list ở đây -->
-                        {% for file in task.get('files', {}) %}
-                        <div
-                          href="{{ file.get('url', '#') }}"
-                          class="custom-file-item"
-                        >
-                          <i class="fas {{ get_file_icon(file.get('filetype', 'Unknown')) }}"></i>
-                          <div class="custom-file-title">
-                            <span>{{ file.get('filename', 'Unknown') }}</span>
-                            <p>{{ file.get('filetype', 'Unknown') }}</p>
+                      {% if task.get('files')|length <1 %} <input class='form-control' readonly
+                        placeholder='Không có tập tin đính kèm nào'>
+                        {% else %}
+                        <div class="custom-file-list">
+                          <!-- File list ở đây -->
+                          {% for file in task.get('files', {}) %}
+                          <div href="{{ file.get('url', '#') }}" class="custom-file-item">
+                            <i class="fas {{ get_file_icon(file.get('filetype', 'Unknown')) }}"></i>
+                            <div class="custom-file-title">
+                              <span>{{ file.get('filename', 'Unknown') }}</span>
+                              <p>{{ file.get('filetype', 'Unknown') }}</p>
+                            </div>
                           </div>
+                          {% endfor %}
                         </div>
-                        {% endfor %}
-                      </div>
-                      {% endif %}
+                        {% endif %}
                     </div>
                   </div>
                 </div>
@@ -226,115 +156,76 @@
                   {% for conversation in task.get('conversations') %}
                   <div class="form-group">
                     <div class="col-12">
-                      {% set officer = {} %}
-                      {% for officer in employees %}
-                      {% if officer.update(officer) %}
-                      {% endif %}
-                      {% endfor %}
-                      
-                      {% if conversation.get('user_id')==officer.get('user_id', '') %}
-                      <label class="h6">{{ officer.get('full_name', 'Unknown') }}</label>
-                      <p
-                        class="badge text-nowrap badge-info d-block text-left font-weight-normal mb-0"
-                      >
-                      {{ conversation.get('content', 'nothing') }}
+
+                      {% if conversation.get('user_id')==task.get('officer', {}).get('user_id', '') %}
+                      <label class="h6">{{ task.get('officer', {}).get('full_name', 'Unknown') }}</label>
+                      <p class="badge text-nowrap badge-info d-block text-left font-weight-normal mb-0">
+                        {{ conversation.get('content', 'nothing') }}
                       </p>
                       {% elif conversation.get('user_id')==manager.get('user_id', '') %}
                       <label class="h6">{{ manager.get('full_name', 'Unknown') }}</label>
-                      <p
-                        class="badge text-nowrap badge-warning d-block text-left font-weight-normal mb-0"
-                      >
-                      {{ conversation.get('content', 'nothing') }}
+                      <p class="badge text-nowrap badge-warning d-block text-left font-weight-normal mb-0">
+                        {{ conversation.get('content', 'nothing') }}
                       </p>
                       {% else %}
-                      <label class="h6">Trưởng Phòng {{ conversation.get("user_id") }} {{officer}}</label>
-                      <p
-                        class="badge text-nowrap badge-info d-block text-left font-weight-normal mb-0"
-                      >
-                      {{ conversation.get('content', 'nothing') }}
+                      <label class="h6">Trưởng Phòng {{ conversation.get("user_id") }}</label>
+                      <p class="badge text-nowrap badge-info d-block text-left font-weight-normal mb-0">
+                        {{ conversation.get('content', 'nothing') }}
                       </p>
                       {% endif %}
-                     
-                     {% if conversation.get('files')|length>0 %}
-                     <div class="custom-file-list">
+
+                      {% if conversation.get('files')|length>0 %}
+                      <div class="custom-file-list">
                         <!-- File list ở đây -->
                         {% for file in conversation.get('files', []) %}
-                        <div
-                          href="{{ file.get('url', '#') }}"
-                          class="custom-file-item"
-                        >
-                        <i class="fas {{ get_file_icon(file.get('filetype', 'Unknown')) }}"></i>
-                        <div class="custom-file-title">
+                        <div href="{{ file.get('url', '#') }}" class="custom-file-item">
+                          <i class="fas {{ get_file_icon(file.get('filetype', 'Unknown')) }}"></i>
+                          <div class="custom-file-title">
                             <span>{{ file.get('filename', 'unknown') }}</span>
                             <p>{{ file.get('filetype', 'unknown') }}</p>
                           </div>
-                          </div>
+                        </div>
                         {% endfor %}
+                      </div>
+                      {% endif %}
                     </div>
-                    {% endif %}
-                  </div>
                   </div>
                   {% endfor %}
                 </div>
                 {% endif %}
-                
+
                 <div class="col-12">
                   <div class="form-group text-right">
                     {% if user.get('role_name')=='Trưởng phòng' %}
-                {% if task.get('status', {}).get('_id')!=5 and task.get('status', {}).get('_id')!=2 and task.get('status', {}).get('_id')!=3 %}
-                  <button
-                      id="task-cancel"
-                      class="btn btn-danger"
-                      data-id="{{ task.get('_id') }}"
-                    >Hủy Nhiệm vụ</button>
+                    {% if task.get('status', {}).get('_id')!=5 and task.get('status', {}).get('_id')!=2 and
+                    task.get('status', {}).get('_id')!=3 %}
+                    <button id="task-cancel" class="btn btn-danger" data-id="{{ task.get('_id') }}">Hủy Nhiệm
+                      vụ</button>
                     {% endif %}
-                {% if task.get('status', {}).get('_id')==3 %}
-                    <button
-                      id="submit"
-                      data-toggle="modal"
-                      data-target="#form-submit-task"
-                      class="btn btn-danger"
-                      data-id="{{ task.get('_id') }}"
-                    >Phản hồi
+                    {% if task.get('status', {}).get('_id')==3 %}
+                    <button id="submit" data-toggle="modal" data-target="#form-submit-task" class="btn btn-danger"
+                      data-id="{{ task.get('_id') }}">Phản hồi
                     </button>
-                    <button
-                      id="completed"
-                      data-toggle="modal"
-                      data-target="#rate-task"
-                      class="btn btn-success"
-                      data-id="{{ task.get('_id') }}"
-                    >Duyệt kết quả
+                    <button id="completed" data-toggle="modal" data-target="#rate-task" class="btn btn-success"
+                      data-id="{{ task.get('_id') }}">Duyệt kết quả
                     </button>
-                {% endif %}
-                {% else %}
-                <!-- nhân viên -->
-                {% if task.get('status', {}).get('_id')==0 %}
-                <button
-                      id="task-accept"
-                      class="btn btn-success"
-                      data-id="{{ task.get('_id') }}"
-                    >Bắt đầu làm
+                    {% endif %}
+                    {% else %}
+                    <!-- nhân viên -->
+                    {% if task.get('status', {}).get('_id')==0 %}
+                    <button id="task-accept" class="btn btn-success" data-id="{{ task.get('_id') }}">Bắt đầu làm
                     </button>
-                {% endif %}
-                {% if task.get('status', {}).get('_id')==1 %}
-                <button
-                      id="submit"
-                      data-toggle="modal"
-                      data-target="#form-submit-task"
-                      class="btn btn-success"
-                      data-id="{{ task.get('_id') }}"
-                    >Nộp báo cáo
+                    {% endif %}
+                    {% if task.get('status', {}).get('_id')==1 %}
+                    <button id="submit" data-toggle="modal" data-target="#form-submit-task" class="btn btn-success"
+                      data-id="{{ task.get('_id') }}">Nộp báo cáo
                     </button>
-                {% endif %}
-                  {% if task.get('status', {}).get('_id')==4 %}
-                <button
-                      id="task-accept"
-                      class="btn btn-success"
-                      data-id="{{ task.get('_id') }}"
-                    >Làm lại
+                    {% endif %}
+                    {% if task.get('status', {}).get('_id')==4 %}
+                    <button id="task-accept" class="btn btn-success" data-id="{{ task.get('_id') }}">Làm lại
                     </button>
-                {% endif %}
-                {% endif %}
+                    {% endif %}
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -343,351 +234,270 @@
         </div>
       </div>
     </div>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
 
-<!-- Modal Thêm task -->
-{% if Role.get(user.get('role_id')).has_permission(Permission.MODIFY_TASK) %}
-<div class="modal fade" role="dialog" aria-modal="true" id="new-task">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <form onsubmit="return false" id="task-info" class="modal-content">
-      <div class="modal-header text-center">
-        <h3 class="modal-title m-auto">Thêm công việc mới</h3>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12 mb-2">
-            <div class="form-group">
-              <label for="task-title" class="h5">Tiêu đề</label>
-              <input
-                type="text"
-                class="form-control"
-                id="task-title"
-                placeholder="Tên tiêu đề"
-              />
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="employee" class="h5">Nhân viên đảm nhiệm</label>
-              <select id="employee" class="form-select form-control">
-                <option value="" selected>Chọn nhân viên</option>
-                <!-- Thêm option nhân viên tại đây -->
-                {% for employee in employees %} {% if
-                employee.get('user_id')!=user.user_id %}
-                <option value="{{ employee['user_id'] }}">
-                  {{ employee['user_id'] }} - {{ employee['full_name'] }}
-                </option>
-                {% endif %} {% endfor %}
-              </select>
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="deadline" class="h5">Thời hạn</label>
-              <input type="date" class="form-control" id="deadline" value="" />
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="task-desc" class="h5">Mô tả</label>
-              <textarea
-                rows="3"
-                type="text"
-                class="form-control"
-                id="task-desc"
-                placeholder="Mô tả công việc"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <h5>Tệp đính kèm</h5>
-              <div class="col-10">
-                <input
-                  id="file-placeholder"
-                  class="form-control float-left"
-                  readonly
-                  placeholder="Chưa có tập tin đính kèm nào"
-                />
-                <!-- File list ở đây -->
-                <div id="custom-file-list" class="custom-file-list"></div>
-              </div>
-              <div class="col-2 float-right">
-                <label class="btn btn-primary" for="attachment">
-                  <i class="fas fa-plus"></i>
-                </label>
-                <input
-                  hidden
-                  type="file"
-                  name="attachment[]"
-                  multiple
-                  id="attachment"
-                />
+  <!-- Modal Thêm task -->
+  {% if Role.get(user.get('role_id')).has_permission(Permission.MODIFY_TASK) %}
+  <div class="modal fade" role="dialog" aria-modal="true" id="new-task">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <form onsubmit="return false" id="task-info" class="modal-content">
+        <div class="modal-header text-center">
+          <h3 class="modal-title m-auto">Thêm công việc mới</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <div class="form-group">
+                <label for="task-title" class="h5">Tiêu đề</label>
+                <input type="text" class="form-control" id="task-title" placeholder="Tên tiêu đề" />
               </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div id="responseMessage" role="alert"></div>
-          </div>
-          <div class="col-12">
-            <div class="form-group text-center justify-content-between">
-              <button id="reset" type="reset" class="btn btn-danger mt-3">
-                Làm mới
-              </button>
-              <button id="create-task" class="btn btn-primary mt-3">
-                Thêm công việc
-              </button>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="employee" class="h5">Nhân viên đảm nhiệm</label>
+                <select id="employee" class="form-select form-control">
+                  <option value="" selected>Chọn nhân viên</option>
+                  <!-- Thêm option nhân viên tại đây -->
+                  {% for employee in employees %} {% if
+                  employee.get('user_id')!=user.user_id %}
+                  <option value="{{ employee['user_id'] }}">
+                    {{ employee['user_id'] }} - {{ employee['full_name'] }}
+                  </option>
+                  {% endif %} {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="deadline" class="h5">Thời hạn</label>
+                <input type="date" class="form-control" id="deadline" value="" />
+              </div>
+            </div>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="task-desc" class="h5">Mô tả</label>
+                <textarea rows="3" type="text" class="form-control" id="task-desc"
+                  placeholder="Mô tả công việc"></textarea>
+              </div>
+            </div>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <h5>Tệp đính kèm</h5>
+                <div class="col-10">
+                  <input id="file-placeholder" class="form-control float-left" readonly
+                    placeholder="Chưa có tập tin đính kèm nào" />
+                  <!-- File list ở đây -->
+                  <div id="custom-file-list" class="custom-file-list"></div>
+                </div>
+                <div class="col-2 float-right">
+                  <label class="btn btn-primary" for="attachment">
+                    <i class="fas fa-plus"></i>
+                  </label>
+                  <input hidden type="file" name="attachment[]" multiple id="attachment" />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div id="responseMessage" role="alert"></div>
+            </div>
+            <div class="col-12">
+              <div class="form-group text-center justify-content-between">
+                <button id="reset" type="reset" class="btn btn-danger mt-3">
+                  Làm mới
+                </button>
+                <button id="create-task" class="btn btn-primary mt-3">
+                  Thêm công việc
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Đánh giá task -->
-<div class="modal fade" role="dialog" aria-modal="true" id="rate-task">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h3 class="modal-title m-auto" id="submit-title">Đánh giá</h3>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="rate-task-title" class="h5">Nhiệm vụ</label>
-              <input
-                type="text"
-                class="form-control"
-                id="rate-task-title"
-                placeholder="Tên tiêu đề"
-                readonly
-              />
+  <!-- Đánh giá task -->
+  <div class="modal fade" role="dialog" aria-modal="true" id="rate-task">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h3 class="modal-title m-auto" id="submit-title">Đánh giá</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="rate-task-title" class="h5">Nhiệm vụ</label>
+                <input type="text" class="form-control" id="rate-task-title" placeholder="Tên tiêu đề" readonly />
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 mb-2">
-            <div class="form-group">
-              <label for="rate-deadline" class="h5">Thời hạn</label>
-              <input
-                type="date"
-                class="form-control"
-                id="rate-deadline"
-                value=""
-                readonly
-              />
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
+                <label for="rate-deadline" class="h5">Thời hạn</label>
+                <input type="date" class="form-control" id="rate-deadline" value="" readonly />
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 mb-2">
-            <div class="form-group">
-              <label for="rate-submit-time" class="h5">Thời gian nộp</label>
-              <input
-                type="date"
-                class="form-control"
-                id="rate-submit-time"
-                value=""
-                readonly
-              />
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
+                <label for="rate-submit-time" class="h5">Thời gian nộp</label>
+                <input type="date" class="form-control" id="rate-submit-time" value="" readonly />
+              </div>
             </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="task-rate" class="h5 mr-3">Mức độ hoàn thành</label>
-              <span class="" id="feedback"></span>
-              <select id="task-rate" class="form-select form-control">
-                <option value="" selected>chọn mức độ đánh giá</option>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="task-rate" class="h5 mr-3">Mức độ hoàn thành</label>
+                <span class="" id="feedback"></span>
+                <select id="task-rate" class="form-select form-control">
+                  <option value="" selected>chọn mức độ đánh giá</option>
 
-                <!-- Thêm option đánh giá tại đây -->
-              </select>
+                  <!-- Thêm option đánh giá tại đây -->
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div id="rate-responseMessage" role="alert"></div>
-          </div>
-          <div class="col-12">
-            <div class="form-group text-center justify-content-between">
-              <button id="rateTask" class="btn btn-success mt-3">Duyệt</button>
+            <div class="col-12">
+              <div id="rate-responseMessage" role="alert"></div>
+            </div>
+            <div class="col-12">
+              <div class="form-group text-center justify-content-between">
+                <button id="rateTask" class="btn btn-success mt-3">Duyệt</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-{%endif %}
+  {%endif %}
 
 
 
 
 
-<!-- Modal reject task -->
-<div class="modal fade" role="dialog" aria-modal="true" id="form-reject-task">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h3 class="modal-title m-auto" id="submit-title">
-          Gửi báo cáo/phản hồi
-        </h3>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12 mb-2">
-            <div class="form-group">
-              <label for="task-submit-title" class="h5">Tiêu đề</label>
-              <input
-                type="text"
-                class="form-control"
-                id="task-submit-title"
-                placeholder="Tên tiêu đề"
-                readonly
-              />
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="submit-deadline" class="h5">Thời hạn</label>
-              <input
-                type="date"
-                class="form-control"
-                id="submit-deadline"
-                value=""
-                readonly
-              />
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="task-submit-desc" class="h5">Mô tả</label>
-              <textarea
-                rows="3"
-                type="text"
-                class="form-control"
-                id="task-submit-desc"
-                placeholder="Mô tả công việc"
-                readonly
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="submit-msg" class="h5">Nội dung</label>
-              <textarea
-                rows="2"
-                type="text"
-                class="form-control"
-                id="submit-msg"
-                placeholder="Thông tin và lời nhắn"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <h5>Tệp đính kèm</h5>
-              <div class="col-10">
-                <input
-                  id="submit-file-placeholder"
-                  class="form-control float-left"
-                  readonly
-                  placeholder="Chưa có tập tin đính kèm nào"
-                />
-                <!-- File list ở đây -->
-                <div
-                  id="submit-custom-file-list"
-                  class="custom-file-list"
-                ></div>
-              </div>
-              <div class="col-2 float-right">
-                <label class="btn btn-primary" for="submit-attachment">
-                  <i class="fas fa-plus"></i>
-                </label>
-                <input
-                  hidden
-                  type="file"
-                  name="attachment[]"
-                  multiple
-                  id="submit-attachment"
-                />
+  <!-- Modal reject task -->
+  <div class="modal fade" role="dialog" aria-modal="true" id="form-submit-task">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h3 class="modal-title m-auto" id="submit-title">
+            Gửi báo cáo/phản hồi
+          </h3>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <div class="form-group">
+                <label for="task-submit-title" class="h5">Tiêu đề</label>
+                <input type="text" class="form-control" id="task-submit-title" placeholder="Tên tiêu đề" readonly />
               </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div id="submit-responseMessage" role="alert"></div>
-          </div>
-          <div class="col-12">
-            <div class="form-group text-center justify-content-between">
-              <button onclick="resetSubmitForm()" class="btn btn-danger mt-3">
-                Làm mới
-              </button>
-              {% if user.get("role_name")=="Trưởng phòng" %}
-              <button id="submit-task" data-action="submit-task" class="btn btn-success mt-3">Gửi</button>
-              {% else %}
-              <button id="submit-task" data-action="reject-task" class="btn btn-success mt-3">Gửi</button>
-              {% endif %}
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="submit-deadline" class="h5">Thời hạn</label>
+                <input type="date" class="form-control" id="submit-deadline" value="" readonly />
+              </div>
+            </div>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="task-submit-desc" class="h5">Mô tả</label>
+                <textarea rows="3" type="text" class="form-control" id="task-submit-desc" placeholder="Mô tả công việc"
+                  readonly></textarea>
+              </div>
+            </div>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <label for="submit-msg" class="h5">Nội dung</label>
+                <textarea rows="2" type="text" class="form-control" id="submit-msg"
+                  placeholder="Thông tin và lời nhắn"></textarea>
+              </div>
+            </div>
+            <div class="col-12 mb-2">
+              <div class="form-group">
+                <h5>Tệp đính kèm</h5>
+                <div class="col-10">
+                  <input id="submit-file-placeholder" class="form-control float-left" readonly
+                    placeholder="Chưa có tập tin đính kèm nào" />
+                  <!-- File list ở đây -->
+                  <div id="submit-custom-file-list" class="custom-file-list"></div>
+                </div>
+                <div class="col-2 float-right">
+                  <label class="btn btn-primary" for="submit-attachment">
+                    <i class="fas fa-plus"></i>
+                  </label>
+                  <input hidden type="file" name="attachment[]" multiple id="submit-attachment" />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div id="submit-responseMessage" role="alert"></div>
+            </div>
+            <div class="col-12">
+              <div class="form-group text-center justify-content-between">
+                <button onclick="resetSubmitForm()" class="btn btn-danger mt-3">
+                  Làm mới
+                </button>
+                {% if user.get("role_name")=="Trưởng phòng" %}
+                <button id="submit-task" data-action="submit-task" class="btn btn-success mt-3">Gửi</button>
+                {% else %}
+                <button id="submit-task" data-action="reject-task" class="btn btn-success mt-3">Gửi</button>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<!-- message dialog -->
-<div class="modal fade" id="message-dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title">Thông báo</h4>
-      </div>
-      <div class="modal-body">
-        <p id="message">Chờ chút nha...</p>
-        <div id="progress" class="progress" style="display: none">
-          <div
-            id="progress-bar"
-            class="progress-bar progress-bar-striped progress-bar-animated"
-            style="width: 0%"
-          ></div>
+  <!-- message dialog -->
+  <div class="modal fade" id="message-dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title">Thông báo</h4>
+        </div>
+        <div class="modal-body">
+          <p id="message">Chờ chút nha...</p>
+          <div id="progress" class="progress" style="display: none">
+            <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="upload-complete" class="btn btn-primary" data-dismiss="modal">
+            Đóng
+          </button>
         </div>
       </div>
-      <div class="modal-footer">
-        <button
-          id="upload-complete"
-          class="btn btn-primary"
-          data-dismiss="modal"
-        >
-          Đóng
-        </button>
+    </div>
+  </div>
+
+  <!-- Confirm Cancel dialog -->
+  <div class="modal fade" id="confirm-task-cancel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title">Hủy giao nhiệm vụ</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Bạn có chắc rằng muốn hủy giao nhiệm vụ
+          <strong id="task-name"></strong> cho nhân viên
+          <strong id="staff-name"></strong> ?
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="confirm" class="btn btn-danger">
+            Xác nhận
+          </button>
+          <button type="button" class="btn btn-success" data-dismiss="modal">
+            Không
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- Confirm Cancel dialog -->
-<div class="modal fade" id="confirm-task-cancel">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title">Hủy giao nhiệm vụ</h4>
-        <button type="button" class="close" data-dismiss="modal">
-          &times;
-        </button>
-      </div>
-
-      <div class="modal-body">
-        Bạn có chắc rằng muốn hủy giao nhiệm vụ
-        <strong id="task-name"></strong> cho nhân viên
-        <strong id="staff-name"></strong> ?
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" id="confirm" class="btn btn-danger">
-          Xác nhận
-        </button>
-        <button type="button" class="btn btn-success" data-dismiss="modal">
-          Không
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

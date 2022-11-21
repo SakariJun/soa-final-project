@@ -78,6 +78,13 @@ def index(payload):
     tasks = task_data.get("tasks")
     max_pages = task_data.get("max_pages")
     current_page = task_data.get("current_page")
+    
+    # map user id to officer id
+    for task in tasks:
+        for employee in employees:
+            if employee.get("user_id") == task.get('officer_id'):
+                task['officer'] = employee
+                break
 
     return render_template(
         "components/tasks.html",
