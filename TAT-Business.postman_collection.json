@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "c71bd8d5-5494-4221-86fa-772acc052373",
+		"_postman_id": "9320a255-0dab-454a-88d7-5e8adefd1323",
 		"name": "TAT-Business",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24433821"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -450,12 +449,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/tasks/me/1",
+					"raw": "http://localhost:5004/api/tasks/me/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5004",
 					"path": [
 						"api",
 						"tasks",
@@ -1046,6 +1045,58 @@
 					"body": "{\n    \"data\": 1,\n    \"status\": true\n}"
 				}
 			]
+		},
+		{
+			"name": "Get Task statistic by user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2ODc4NDg0Mzc4NTcwNiZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2ODkxMjkxOSwiZXhwIjoxNjY5NTE3NzE5fQ.-JtHGx-fisAGPLUDu6vJo1idLXjiGhpd1HI3RHBUzzE; Path=/; HttpOnly; Expires=Wed, 23 Nov 2022 17:19:19 GMT;",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5004/api/tasks/statistic/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"tasks",
+						"statistic",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task by Task ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5004/api/task/63765595f21530dd0f359d20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"task",
+						"63765595f21530dd0f359d20"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
