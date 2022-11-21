@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "7685f538-1ed4-404d-ba80-473d038ed45d",
 		"name": "FinalTerm-SOA",
+		"description": "API Docs Hệ thống quản lý nhân sự  \nTeam:\n\n51900718 - Tăng Kiến Trung\n\n51900712 - Trương Tuấn Thịnh\n\n51900751 - Trần Bản Kha",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18159742"
 	},
@@ -16,7 +17,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.collectionVariables.get(\"DEPARTMENT_SERVICE_URL\");"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -28,7 +29,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzczNDliODU5NDg4ODM1YjljMDk4NDQiLCJ1c2VyX2lkIjoiMTIyMDAwMDEiLCJyb2xlX2lkIjoiNjM3MzJjMWUzZTVmMDBmZWUwYWFiNzY5IiwicGhvbmVfbnVtYmVyIjoiMTIzIiwiZW1haWwiOiJ0cnVuZzEyM0BnbWFpbC5jb20iLCJpc19hY3RpdmF0ZSI6dHJ1ZSwiaWF0IjoxNjY4NjEwMDQzLCJleHAiOjE2NjkyMTQ4NDN9.luEGCkg718N5DHdI1kPbVPlDVjmOn20sr3n1u-IndSo",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
 									"type": "string"
 								}
 							]
@@ -36,28 +37,165 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5003/department/get-all-departments",
-							"protocol": "http",
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/get-all-departments",
 							"host": [
-								"localhost"
+								"{{DEPARTMENT_SERVICE_URL}}"
 							],
-							"port": "5003",
 							"path": [
 								"department",
 								"get-all-departments"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Lấy danh sách phòng ban",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/get-all-departments",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"get-all-departments"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "147"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "885"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"375-9Wr5ZyCzXXQ4+uFP0f2krCUcFb4\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 10:31:02 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy danh sách phòng ban thành công!\",\n    \"data\": [\n        {\n            \"department_id\": \"PB00001\",\n            \"name\": \"ITA\",\n            \"room\": \"A624\",\n            \"leader_id\": \"12200001\",\n            \"description\": \"Phòng IT\",\n            \"createdAt\": \"2022-11-16T15:39:52.082Z\",\n            \"updatedAt\": \"2022-11-19T07:55:14.847Z\"\n        },\n        {\n            \"department_id\": \"PB00002\",\n            \"name\": \"IT\",\n            \"room\": \"A0005\",\n            \"leader_id\": \"22200002\",\n            \"description\": \"Phòng IT đẹp trai\",\n            \"createdAt\": \"2022-11-16T15:39:56.441Z\",\n            \"updatedAt\": \"2022-11-19T05:47:37.463Z\"\n        },\n        {\n            \"department_id\": \"PB00003\",\n            \"name\": \"Phòng Kinh doanh\",\n            \"room\": \"A0069\",\n            \"leader_id\": null,\n            \"description\": \"Phòng Kinh doanh gái xinh\",\n            \"createdAt\": \"2022-11-18T15:43:49.919Z\",\n            \"updatedAt\": \"2022-11-19T05:36:50.561Z\"\n        },\n        {\n            \"department_id\": \"PB00004\",\n            \"name\": \"Phòng Cấp Cứu\",\n            \"room\": \"A778\",\n            \"leader_id\": null,\n            \"description\": \"Phòng Cấp cứu hồi sức Developer\",\n            \"createdAt\": \"2022-11-19T04:45:44.883Z\",\n            \"updatedAt\": \"2022-11-19T04:45:44.883Z\"\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Thêm phòng ban",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Phòng Kinh doanh\",\r\n    \"room\": \"A0069\",\r\n    \"description\": \"Phòng Kinh doanh gái xinh\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Phòng Y Tế\",\r\n    \"room\": \"D0699\",\r\n    \"description\": \"Phòng Y Tế chữa bệnh stress\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -65,28 +203,174 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5003/department/create-department",
-							"protocol": "http",
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/create-department",
 							"host": [
-								"localhost"
+								"{{DEPARTMENT_SERVICE_URL}}"
 							],
-							"port": "5003",
 							"path": [
 								"department",
 								"create-department"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Thêm phòng ban",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Phòng Y Tế\",\r\n    \"room\": \"D0699\",\r\n    \"description\": \"Phòng Y Tế chữa bệnh stress\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/create-department",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"create-department"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "754"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "318"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"13e-3AZOwP/VyLhqeMSAIkTjyVkQ00o\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 13:59:43 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Tạo phòng ban thành công!\",\n    \"data\": {\n        \"department_id\": \"PB00005\",\n        \"name\": \"Phòng Y Tế\",\n        \"room\": \"D0699\",\n        \"leader_id\": null,\n        \"description\": \"Phòng Y Tế chữa bệnh stress\",\n        \"_id\": \"637b844e2183611ecce724b8\",\n        \"createdAt\": \"2022-11-21T13:59:42.838Z\",\n        \"updatedAt\": \"2022-11-21T13:59:42.838Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Sửa thông tin phòng ban",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"name\": \"ITA\",\r\n    \"room\": \"223\",\r\n    \"description\": \"Phòng IT\"\r\n}",
+							"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"name\": \"ITA\",\r\n    \"room\": \"D0689\",\r\n    \"description\": \"Phòng IT Nhân tài Đẹp Trai Vô Đối\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,32 +378,176 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5003/department/update-department",
-							"protocol": "http",
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/update-department",
 							"host": [
-								"localhost"
+								"{{DEPARTMENT_SERVICE_URL}}"
 							],
-							"port": "5003",
 							"path": [
 								"department",
 								"update-department"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Sửa thông tin phòng ban",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"name\": \"ITA\",\r\n    \"room\": \"D0689\",\r\n    \"description\": \"Phòng IT Nhân tài Đẹp Trai Vô Đối\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/update-department",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"update-department"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "704"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "341"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"155-W2qUPt+Xk6gXdsAcfgsPK36UODI\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:00:32 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Cập nhật thông tin phòng ban thành công!\",\n    \"data\": {\n        \"_id\": \"637504483c895669fd2071ea\",\n        \"department_id\": \"PB00001\",\n        \"name\": \"ITA\",\n        \"room\": \"D0689\",\n        \"leader_id\": \"12200001\",\n        \"description\": \"Phòng IT Nhân tài Đẹp Trai Vô Đối\",\n        \"createdAt\": \"2022-11-16T15:39:52.082Z\",\n        \"updatedAt\": \"2022-11-21T14:00:32.672Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Xem thông tin chi tiết phòng ban",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5003/department/get-department-detail?department_id=PB00001",
-							"protocol": "http",
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/get-department-detail?department_id=PB00001",
 							"host": [
-								"localhost"
+								"{{DEPARTMENT_SERVICE_URL}}"
 							],
-							"port": "5003",
 							"path": [
 								"department",
 								"get-department-detail"
@@ -132,11 +560,156 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Xem thông tin chi tiết phòng ban",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/get-department-detail?department_id=PB00001",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"get-department-detail"
+									],
+									"query": [
+										{
+											"key": "department_id",
+											"value": "PB00001"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "687"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "302"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"12e-qJuRv4GliXzUkhOxHCD0K+tg3zI\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:00:48 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Xem thông tin chi tiết phòng ban thành công!\",\n    \"data\": {\n        \"department_id\": \"PB00001\",\n        \"name\": \"ITA\",\n        \"room\": \"D0689\",\n        \"leader_id\": \"12200001\",\n        \"description\": \"Phòng IT Nhân tài Đẹp Trai Vô Đối\",\n        \"createdAt\": \"2022-11-16T15:39:52.082Z\",\n        \"updatedAt\": \"2022-11-21T14:00:32.672Z\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Bổ nhiệm trưởng phòng",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -149,23 +722,169 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5003/department/assign-leader-department",
-							"protocol": "http",
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/assign-leader-department",
 							"host": [
-								"localhost"
+								"{{DEPARTMENT_SERVICE_URL}}"
 							],
-							"port": "5003",
 							"path": [
 								"department",
 								"assign-leader-department"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Bổ nhiệm trưởng phòng",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n    \"department_id\": \"PB00001\",\r\n    \"leader_id\": \"12200001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/assign-leader-department",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"assign-leader-department"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "95"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "672"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "99"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"63-o8/WxGUaySA127HTsjwS/Ta0RJw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:01:04 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Phòng ban PB00001 đã có trưởng phòng là nhân viên 12200001!\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Thay thế trưởng phòng",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -178,28 +897,340 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5003/department/change-leader-department",
-							"protocol": "http",
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/change-leader-department",
 							"host": [
-								"localhost"
+								"{{DEPARTMENT_SERVICE_URL}}"
 							],
-							"port": "5003",
 							"path": [
 								"department",
 								"change-leader-department"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Thay thế trưởng phòng",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n    \"department_id\": \"PB00002\",\r\n    \"leader_id\": \"22200002\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/change-leader-department",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"change-leader-department"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "94"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "659"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "100"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"64-guNV8QMDxQQUs6XDrIuHAVqSFjM\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:01:17 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Nhân viên 22200002 đã là trưởng phòng của phòng ban PB00002\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cắt chức trưởng phòng",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"department_id\": \"PB00002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEPARTMENT_SERVICE_URL}}/department/remove-leader-department",
+							"host": [
+								"{{DEPARTMENT_SERVICE_URL}}"
+							],
+							"path": [
+								"department",
+								"remove-leader-department"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cắt chức trưởng phòng",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \r\n    \"department_id\": \"PB00002\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DEPARTMENT_SERVICE_URL}}/department/remove-leader-department",
+									"host": [
+										"{{DEPARTMENT_SERVICE_URL}}"
+									],
+									"path": [
+										"department",
+										"remove-leader-department"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "852"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"60-75/UFEm2u4GNUIk0PseUYE714UQ\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 16:51:12 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Cắt chức trưởng phòng của phòng ban PB00002 thành công!\"\n}"
+						}
+					]
 				}
 			],
+			"description": "Service Phòng ban - Danh cho Giám đốc quản lý các phòng ban hiện có trong công ty\n\nBASE URL: [https://department-service-soa-final.herokuapp.com](https://department-service-soa-final.herokuapp.com)",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"pm.collectionVariables.set(\"DEPARTMENT_SERVICE_URL\", \"http://localhost:5003\");"
+							""
 						]
 					}
 				},
@@ -235,19 +1266,155 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user-admin/add-user",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user-admin/add-user",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user-admin",
 										"add-user"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Thêm nhân viên",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"full_name\": \"Trần Bảo Gà\",\r\n    \"phone_number\": \"0923456729\",\r\n    \"email\": \"gakha@gmail.com\",\r\n    \"day_of_birth\": \"6/2/2001\",\r\n    \"department_id\": \"PB00002\",\r\n    \"gender\": \"Nữ\",\r\n    \"salary\": 100000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user-admin/add-user",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user-admin",
+												"add-user"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "89"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "726"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "65"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"41-Wn03fodrG598VyyScQkQsHPPdmk\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:21:47 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Địa chỉ email đã tồn tại!\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Đặt lại mật khẩu cho nhân viên",
@@ -264,19 +1431,155 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user-admin/reset-password",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user-admin/reset-password",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user-admin",
 										"reset-password"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Đặt lại mật khẩu cho nhân viên",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_id\": \"12200001\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user-admin/reset-password",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user-admin",
+												"reset-password"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "88"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "714"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "96"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"60-AsDz9M7gUCmOdpvjln8/RbSu9DM\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:22:00 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Đặt lại mật khẩu cho tài khoản nhân viên thành công!\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Lấy danh sách nhân viên",
@@ -284,19 +1587,150 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5001/user-admin/get-all-users",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user-admin/get-all-users",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user-admin",
 										"get-all-users"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Lấy danh sách nhân viên",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user-admin/get-all-users",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user-admin",
+												"get-all-users"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "87"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "695"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"157d-xHZ1i71VQY/k2sBNY5nO7XMAPNg\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:22:19 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Lấy danh sách nhân viên thành công!\",\n    \"data\": [\n        {\n            \"user_id\": \"02200001\",\n            \"full_name\": \"Tăng Kiến Trung\",\n            \"phone_number\": \"0323456779\",\n            \"email\": \"trung123@gmail.com\",\n            \"day_of_birth\": \"2001-01-01T17:00:00.000Z\",\n            \"gender\": \"Nam\",\n            \"department_id\": null,\n            \"role_id\": {\n                \"name\": \"Giám đốc\",\n                \"description\": \"Giám đốc CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"02200001\",\n                \"is_activate\": true,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-18T05:14:27.774Z\",\n                \"updatedAt\": \"2022-11-18T05:16:23.708Z\"\n            },\n            \"createdAt\": \"2022-11-18T05:14:27.774Z\",\n            \"updatedAt\": \"2022-11-21T10:20:55.421Z\",\n            \"__v\": 0,\n            \"salary\": 22500000,\n            \"avatar\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/02200001%2Favatar.jpg?generation=1669026055313158&alt=media\"\n        },\n        {\n            \"user_id\": \"12200001\",\n            \"full_name\": \"Trương Tuấn Thịnh\",\n            \"phone_number\": \"0323456789\",\n            \"email\": \"thinhtruongwibu@gmail.com\",\n            \"day_of_birth\": \"2001-01-01T17:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 19500000,\n            \"department_id\": \"PB00001\",\n            \"role_id\": {\n                \"name\": \"Trưởng phòng\",\n                \"description\": \"Trưởng phòng CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"12200001\",\n                \"is_activate\": false,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-18T15:31:51.328Z\",\n                \"updatedAt\": \"2022-11-21T10:21:59.962Z\"\n            },\n            \"createdAt\": \"2022-11-18T15:31:51.328Z\",\n            \"updatedAt\": \"2022-11-21T10:21:59.963Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"22200001\",\n            \"full_name\": \"Trần Bảo Kha\",\n            \"phone_number\": \"0323456729\",\n            \"email\": \"khaga@gmail.com\",\n            \"day_of_birth\": \"2001-06-07T17:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/22200001%2Favatar.jpg?generation=1668940851615533&alt=media\",\n            \"salary\": 1000,\n            \"department_id\": \"PB00002\",\n            \"role_id\": {\n                \"name\": \"Nhân viên\",\n                \"description\": \"Nhân viên CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"22200001\",\n                \"is_activate\": true,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T05:23:54.748Z\",\n                \"updatedAt\": \"2022-11-20T11:47:33.773Z\"\n            },\n            \"createdAt\": \"2022-11-19T05:23:54.749Z\",\n            \"updatedAt\": \"2022-11-20T11:47:33.773Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"22200002\",\n            \"full_name\": \"Trần Bảo Gà\",\n            \"phone_number\": \"0923456729\",\n            \"email\": \"gakha@gmail.com\",\n            \"day_of_birth\": \"2001-06-01T17:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 100000,\n            \"department_id\": \"PB00002\",\n            \"role_id\": {\n                \"name\": \"Trưởng phòng\",\n                \"description\": \"Trưởng phòng CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"22200002\",\n                \"is_activate\": true,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T05:38:29.433Z\",\n                \"updatedAt\": \"2022-11-20T09:24:03.029Z\"\n            },\n            \"createdAt\": \"2022-11-19T05:38:29.433Z\",\n            \"updatedAt\": \"2022-11-20T09:24:03.029Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"12200002\",\n            \"full_name\": \"Cô văn cô\",\n            \"phone_number\": \"0798453456\",\n            \"email\": \"nguyenthicoco@gmail.com\",\n            \"day_of_birth\": \"2022-11-20T00:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 1000,\n            \"department_id\": \"PB00001\",\n            \"role_id\": {\n                \"name\": \"Nhân viên\",\n                \"description\": \"Nhân viên CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"12200002\",\n                \"is_activate\": true,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T18:54:47.580Z\",\n                \"updatedAt\": \"2022-11-20T16:54:44.821Z\"\n            },\n            \"createdAt\": \"2022-11-19T18:54:47.581Z\",\n            \"updatedAt\": \"2022-11-20T16:54:44.821Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"12200003\",\n            \"full_name\": \"Cô văn cô\",\n            \"phone_number\": \"0771345678\",\n            \"email\": \"nguyenthicoco1@gmail.com\",\n            \"day_of_birth\": \"2022-11-20T00:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 1000,\n            \"department_id\": \"PB00001\",\n            \"role_id\": {\n                \"name\": \"Nhân viên\",\n                \"description\": \"Nhân viên CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"12200003\",\n                \"is_activate\": false,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T18:56:53.536Z\",\n                \"updatedAt\": \"2022-11-19T18:56:53.536Z\"\n            },\n            \"createdAt\": \"2022-11-19T18:56:53.536Z\",\n            \"updatedAt\": \"2022-11-19T18:56:53.536Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"22200003\",\n            \"full_name\": \"Nguyễn Văn C\",\n            \"phone_number\": \"0938456898\",\n            \"email\": \"tranvanC@gmail.com\",\n            \"day_of_birth\": \"2000-02-20T00:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 51000,\n            \"department_id\": \"PB00002\",\n            \"role_id\": {\n                \"name\": \"Nhân viên\",\n                \"description\": \"Nhân viên CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"22200003\",\n                \"is_activate\": false,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T19:03:25.413Z\",\n                \"updatedAt\": \"2022-11-19T19:03:25.413Z\"\n            },\n            \"createdAt\": \"2022-11-19T19:03:25.413Z\",\n            \"updatedAt\": \"2022-11-19T19:03:25.413Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"22200004\",\n            \"full_name\": \"Nguyễn Văn C\",\n            \"phone_number\": \"0938456891\",\n            \"email\": \"tranvanC1@gmail.com\",\n            \"day_of_birth\": \"2000-02-20T00:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 51000,\n            \"department_id\": \"PB00002\",\n            \"role_id\": {\n                \"name\": \"Nhân viên\",\n                \"description\": \"Nhân viên CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"22200004\",\n                \"is_activate\": false,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T19:04:45.472Z\",\n                \"updatedAt\": \"2022-11-19T19:04:45.472Z\"\n            },\n            \"createdAt\": \"2022-11-19T19:04:45.472Z\",\n            \"updatedAt\": \"2022-11-19T19:04:45.472Z\",\n            \"__v\": 0\n        },\n        {\n            \"user_id\": \"32200001\",\n            \"full_name\": \"lý mạc sầu\",\n            \"phone_number\": \"0909156465\",\n            \"email\": \"lymacsau94@gmail.com\",\n            \"day_of_birth\": \"+019994-11-01T17:00:00.000Z\",\n            \"gender\": \"Nữ\",\n            \"avatar\": null,\n            \"salary\": 25000,\n            \"department_id\": \"PB00003\",\n            \"role_id\": {\n                \"name\": \"Nhân viên\",\n                \"description\": \"Nhân viên CTY\",\n                \"permissions\": 0\n            },\n            \"add_by\": null,\n            \"account\": {\n                \"username\": \"32200001\",\n                \"is_activate\": false,\n                \"request_reset_password\": false,\n                \"createdAt\": \"2022-11-19T19:06:12.884Z\",\n                \"updatedAt\": \"2022-11-19T19:06:12.884Z\"\n            },\n            \"createdAt\": \"2022-11-19T19:06:12.884Z\",\n            \"updatedAt\": \"2022-11-19T19:06:12.884Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+								}
+							]
 						},
 						{
 							"name": "Cập nhật lương nhân viên",
@@ -305,7 +1739,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"user_id\": \"02200001\",\r\n    \"salary\": 123456789\r\n}",
+									"raw": "{\r\n    \"user_id\": \"02200001\",\r\n    \"salary\": 987654\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -313,19 +1747,155 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user-admin/update-user-salary",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user-admin/update-user-salary",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user-admin",
 										"update-user-salary"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Cập nhật lương nhân viên",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_id\": \"02200001\",\r\n    \"salary\": 987654\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user-admin/update-user-salary",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user-admin",
+												"update-user-salary"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "86"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "676"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "103"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"67-HLHZDW6BVMXLMbW53LV/lfmwn7o\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:22:38 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Cập nhật lương nhân viên thành công!\",\n    \"data\": {\n        \"new_salary\": 987654\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Xem chi tiết thông tin nhân viên",
@@ -333,12 +1903,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5001/user-admin/get-user-detail?user_id=22200002",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user-admin/get-user-detail?user_id=22200002",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user-admin",
 										"get-user-detail"
@@ -351,7 +1919,146 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Xem chi tiết thông tin nhân viên",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user-admin/get-user-detail?user_id=22200002",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user-admin",
+												"get-user-detail"
+											],
+											"query": [
+												{
+													"key": "user_id",
+													"value": "22200002"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "85"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "642"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"4ad-2/XKgErCH1WE4X0+ZLJPH6P3HFI\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:23:13 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Lấy thông tin người dùng thành công !\",\n    \"data\": {\n        \"user_id\": \"22200002\",\n        \"full_name\": \"Trần Bảo Gà\",\n        \"phone_number\": \"0923456729\",\n        \"email\": \"gakha@gmail.com\",\n        \"day_of_birth\": \"2001-06-01T17:00:00.000Z\",\n        \"gender\": \"Nữ\",\n        \"avatar\": null,\n        \"salary\": 100000,\n        \"department_id\": \"PB00002\",\n        \"role_id\": {\n            \"name\": \"Trưởng phòng\",\n            \"description\": \"Trưởng phòng CTY\",\n            \"permissions\": 0\n        },\n        \"add_by\": null,\n        \"account\": {\n            \"username\": \"22200002\",\n            \"is_activate\": true,\n            \"request_reset_password\": false,\n            \"createdAt\": \"2022-11-19T05:38:29.433Z\",\n            \"updatedAt\": \"2022-11-20T09:24:03.029Z\"\n        },\n        \"createdAt\": \"2022-11-19T05:38:29.433Z\",\n        \"updatedAt\": \"2022-11-20T09:24:03.029Z\",\n        \"__v\": 0,\n        \"department\": {\n            \"department_id\": \"PB00002\",\n            \"name\": \"IT\",\n            \"room\": \"A0005\",\n            \"leader_id\": \"22200002\",\n            \"description\": \"Phòng IT đẹp trai\",\n            \"createdAt\": \"2022-11-16T15:39:56.441Z\",\n            \"updatedAt\": \"2022-11-19T05:47:37.463Z\"\n        },\n        \"absence\": {\n            \"_id\": \"63786bd6fae76b7ced868840\",\n            \"user_id\": \"22200002\",\n            \"max_absence_day\": 15,\n            \"day_absence\": 0,\n            \"last_absence_request\": null,\n            \"createdAt\": \"2022-11-19T05:38:30.178Z\",\n            \"updatedAt\": \"2022-11-19T05:47:37.924Z\",\n            \"__v\": 0\n        },\n        \"leader\": {\n            \"user_id\": \"22200002\",\n            \"full_name\": \"Trần Bảo Gà\",\n            \"phone_number\": \"0923456729\",\n            \"email\": \"gakha@gmail.com\"\n        }\n    }\n}"
+								}
+							]
 						}
 					]
 				},
@@ -365,7 +2072,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"02200001\",\r\n    \"password\": \"123456\"\r\n}",
+									"raw": "{\r\n    \"username\": \"12200001\",\r\n    \"password\": \"123456\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -373,19 +2080,163 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user/login",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/login",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"login"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Đăng nhập",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"02200001\",\r\n    \"password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/login",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "undefined"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "95"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "827"
+										},
+										{
+											"key": "Access-Control-Expose-Headers",
+											"value": "date, etag, access-control-allow-origin, access-control-allow-credentials"
+										},
+										{
+											"key": "Set-Cookie",
+											"value": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2ODk2MzQyNjMwNjYwMSZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjAwNywiZXhwIjoxNjY5NjMwODA3fQ.ovtooJP8c_hiRknNhlXqrkmCeM6SpoxGp2fiBauKLwI; Max-Age=311040; Path=/; Expires=Fri, 25 Nov 2022 00:44:07 GMT; HttpOnly"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "55"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"37-W4e1+IZCHqYO1Bu25iD5TjFwmXM\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:20:07 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Đăng nhập thành công!\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Lấy thông tin người dùng",
@@ -393,19 +2244,146 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5001/user/get-user-information",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/get-user-information",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"get-user-information"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Lấy thông tin người dùng",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/get-user-information",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"get-user-information"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "94"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "807"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "788"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"314-al/EnesWaN97hK6FFiFdf3oGt4c\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:20:27 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Lấy thông tin người dùng thành công !\",\n    \"data\": {\n        \"user_id\": \"02200001\",\n        \"full_name\": \"Tăng Kiến Trung\",\n        \"phone_number\": \"0323456779\",\n        \"email\": \"trung123@gmail.com\",\n        \"day_of_birth\": \"2001-01-01T17:00:00.000Z\",\n        \"gender\": \"Nam\",\n        \"department_id\": null,\n        \"role_id\": {\n            \"name\": \"Giám đốc\",\n            \"description\": \"Giám đốc CTY\",\n            \"permissions\": 0\n        },\n        \"add_by\": null,\n        \"account\": {\n            \"username\": \"02200001\",\n            \"is_activate\": true,\n            \"request_reset_password\": false,\n            \"createdAt\": \"2022-11-18T05:14:27.774Z\",\n            \"updatedAt\": \"2022-11-18T05:16:23.708Z\"\n        },\n        \"createdAt\": \"2022-11-18T05:14:27.774Z\",\n        \"updatedAt\": \"2022-11-20T16:57:05.864Z\",\n        \"__v\": 0,\n        \"salary\": 22500000,\n        \"avatar\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/02200001%2Favatar.jpg?generation=1668963426306601&alt=media\"\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Đổi ảnh đại diện",
@@ -425,24 +2403,168 @@
 										{
 											"key": "avatar",
 											"type": "file",
-											"src": "/C:/Users/trung/Desktop/315820423_1328494937898010_8033284530312052497_n.jpg"
+											"src": "/E:/Backup Folder/Desktop/Unsorted/Funny/105369307_263481944875167_8963380356647894052_n.jpg"
 										}
 									]
 								},
 								"url": {
-									"raw": "http://localhost:5001/user/change-user-avatar",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/change-user-avatar",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"change-user-avatar"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Đổi ảnh đại diện",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "",
+												"value": "",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "avatar",
+													"type": "file",
+													"src": "/E:/Backup Folder/Desktop/Unsorted/Funny/105369307_263481944875167_8963380356647894052_n.jpg"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/change-user-avatar",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"change-user-avatar"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "93"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "781"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "240"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"f0-74tWFnn7lMnGF+ztBMlvDzQGA3U\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:20:55 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Cập nhật ảnh đại diện thành công!\",\n    \"data\": {\n        \"avatar_url\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/02200001%2Favatar.jpg?generation=1669026055313158&alt=media\"\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Đổi mật khẩu (Bắt buộc)",
@@ -459,19 +2581,155 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user/change-password-require",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/change-password-require",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"change-password-require"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Đổi mật khẩu (Bắt buộc)",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/change-password-require",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"change-password-require"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "92"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "767"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "125"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"7d-rprCYg2+keYBKrPaieSwxH9gycA\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:21:07 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"false\",\n    \"message\": \"Bạn đã đổi mật khẩu mặc định rồi! Không thể sử dụng tính năng này!\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Đổi mật khẩu (Tùy chọn)",
@@ -488,19 +2746,155 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user/change-password-optional",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/change-password-optional",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"change-password-optional"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Đổi mật khẩu (Tùy chọn)",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"old_password\": \"123456789\",\r\n    \"new_password\": \"123456\",\r\n    \"new_password_confirm\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/change-password-optional",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"change-password-optional"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "91"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "760"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "65"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"41-2xsjYNlSdfYXM3LAHJJlWXt8vcg\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:21:14 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Mật khẩu cũ không chính xác!\"\n}"
+								}
+							]
 						},
 						{
 							"name": "Gửi yêu cầu đặt lại mật khẩu",
@@ -517,19 +2911,155 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/user/request-reset-password",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/request-reset-password",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"request-reset-password"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Gửi yêu cầu đặt lại mật khẩu",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"thinhtruongwibu@gmail.com\",\r\n    \"phone_number\": \"0323456789\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/request-reset-password",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"request-reset-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "90"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "749"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "84"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"54-6awnDPMzFH6vFUxijnG/MyYNaoc\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:21:25 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Gửi yêu cầu đặt lại mật khẩu thành công!\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -551,18 +3081,153 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5001/service-events",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/service-events",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"service-events"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Lấy danh sách nhân viên theo tên chức vụ",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"payload\": {\r\n        \"event\": 3,\r\n        \"data\": {\r\n            \"role_name\": \"Trưởng phòng\"\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/service-events",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"service-events"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "84"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "611"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "142"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"8e-LzvM8oYrB5Ut7nlsnlVUNVRrK4I\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:23:43 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Lấy danh sách nhân viên theo chức vụ thành công!\",\n    \"data\": [\n        {\n            \"user_id\": \"12200001\"\n        },\n        {\n            \"user_id\": \"22200002\"\n        }\n    ]\n}"
+								}
+							]
 						}
 					]
 				},
@@ -570,24 +3235,151 @@
 					"name": "Trưởng phòng",
 					"item": [
 						{
-							"name": "Lấy danh sách nhân viên thuộc phòng ban",
+							"name": "Lấy danh sách nhân viên thuộc phòng ban của trưởng phòng",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5001/user/get-all-user-by-leader",
-									"protocol": "http",
+									"raw": "{{USER_SERVICE_URL}}/user/get-all-user-by-leader",
 									"host": [
-										"localhost"
+										"{{USER_SERVICE_URL}}"
 									],
-									"port": "5001",
 									"path": [
 										"user",
 										"get-all-user-by-leader"
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Lấy danh sách nhân viên thuộc phòng ban",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{USER_SERVICE_URL}}/user/get-all-user-by-leader",
+											"host": [
+												"{{USER_SERVICE_URL}}"
+											],
+											"path": [
+												"user",
+												"get-all-user-by-leader"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Cowboy"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "Ratelimit-Remaining",
+											"value": "83"
+										},
+										{
+											"key": "Ratelimit-Reset",
+											"value": "602"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "84"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"54-OSs783w5qlkP4LDz6SLbywoSHd4\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 21 Nov 2022 10:23:51 GMT"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Bạn không có quyền sử dụng tính năng này !\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -597,19 +3389,146 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5001/role/get-all-role",
-							"protocol": "http",
+							"raw": "{{USER_SERVICE_URL}}/role/get-all-role",
 							"host": [
-								"localhost"
+								"{{USER_SERVICE_URL}}"
 							],
-							"port": "5001",
 							"path": [
 								"role",
 								"get-all-role"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Lấy danh sách chức vụ",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER_SERVICE_URL}}/role/get-all-role",
+									"host": [
+										"{{USER_SERVICE_URL}}"
+									],
+									"path": [
+										"role",
+										"get-all-role"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "82"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "588"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "397"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"18d-BFK8xqXBk6w8jX0AYpQtCU0HZao\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 10:24:06 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy danh sách role thành công !\",\n    \"data\": [\n        {\n            \"_id\": \"6375a605f912fa4857d6f488\",\n            \"name\": \"Giám đốc\",\n            \"description\": \"Giám đốc CTY\",\n            \"permissions\": 0\n        },\n        {\n            \"_id\": \"6375a66df912fa4857d6f489\",\n            \"name\": \"Trưởng phòng\",\n            \"description\": \"Trưởng phòng CTY\",\n            \"permissions\": 0\n        },\n        {\n            \"_id\": \"6375a68ff912fa4857d6f48a\",\n            \"name\": \"Nhân viên\",\n            \"description\": \"Nhân viên CTY\",\n            \"permissions\": 0\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Lấy tổng số nhân viên",
@@ -617,19 +3536,146 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5001/user/count-all-users",
-							"protocol": "http",
+							"raw": "{{USER_SERVICE_URL}}/user/count-all-users",
 							"host": [
-								"localhost"
+								"{{USER_SERVICE_URL}}"
 							],
-							"port": "5001",
 							"path": [
 								"user",
 								"count-all-users"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Lấy tổng số nhân viên",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER_SERVICE_URL}}/user/count-all-users",
+									"host": [
+										"{{USER_SERVICE_URL}}"
+									],
+									"path": [
+										"user",
+										"count-all-users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "81"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "568"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "95"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"5f-tSF1fvxRVA8iv1fjDX4e78xWUQw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 10:24:25 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy tổng số nhân viên trong công ty thành công!\",\n    \"data\": 9\n}"
+						}
+					]
 				},
 				{
 					"name": "Lấy tổng số nhân viên theo phòng ban",
@@ -637,12 +3683,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5001/user/count-all-users-by-department-id?department_id=PB00001",
-							"protocol": "http",
+							"raw": "{{USER_SERVICE_URL}}/user/count-all-users-by-department-id?department_id=PB00001",
 							"host": [
-								"localhost"
+								"{{USER_SERVICE_URL}}"
 							],
-							"port": "5001",
 							"path": [
 								"user",
 								"count-all-users-by-department-id"
@@ -655,56 +3699,630 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Lấy tổng số nhân viên theo phòng ban",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER_SERVICE_URL}}/user/count-all-users-by-department-id?department_id=PB00001",
+									"host": [
+										"{{USER_SERVICE_URL}}"
+									],
+									"path": [
+										"user",
+										"count-all-users-by-department-id"
+									],
+									"query": [
+										{
+											"key": "department_id",
+											"value": "PB00001"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "80"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "557"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "111"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"6f-lruR01P8oKJOnqM8NAEAezWy1oM\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 10:24:37 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy tổng số nhân viên trong công ty theo phòng ban thành công!\",\n    \"data\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "Lấy danh sách nhân viên thuộc phòng ban của trưởng phòng Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/user/get-all-user-by-leader?department_id=PB00001",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"user",
+								"get-all-user-by-leader"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "PB00001"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lấy danh sách nhân viên thuộc phòng ban",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER_SERVICE_URL}}/user/get-all-user-by-leader",
+									"host": [
+										"{{USER_SERVICE_URL}}"
+									],
+									"path": [
+										"user",
+										"get-all-user-by-leader"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "83"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "602"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"54-OSs783w5qlkP4LDz6SLbywoSHd4\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 10:23:51 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Bạn không có quyền sử dụng tính năng này !\"\n}"
+						}
+					]
 				}
-			]
+			],
+			"description": "Service User dành cho Nhân viên, Trưởng phòng, Giám đốc thực hiện các nghiệp vụ theo quyền hạn\n\nBASE URL: [https://user-service-soa-final.herokuapp.com](https://department-service-soa-final.herokuapp.com)"
 		},
 		{
 			"name": "Absence Service",
 			"item": [
 				{
-					"name": "Lấy thông tin nghỉ phép cá nhân",
+					"name": "Lấy thông tin nghỉ phép của cá nhân",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence/get-absence-information",
-							"protocol": "http",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence/get-absence-information",
 							"host": [
-								"localhost"
+								"{{ABSENCE_SERVICE_URL}}"
 							],
-							"port": "5002",
 							"path": [
 								"absence",
 								"get-absence-information"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Lấy thông tin nghỉ phép cá nhân",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence/get-absence-information",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence",
+										"get-absence-information"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "899"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "198"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"c6-M61mjjcudd/EiPZHD1Hrzpl8zHs\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:03:29 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy thông tin nghỉ phép thành công!\",\n    \"data\": {\n        \"_id\": \"63770fc58714def915c38b7d\",\n        \"user_id\": \"02200001\",\n        \"max_absence_day\": 0,\n        \"day_absence\": 0,\n        \"last_absence_request\": null\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Lấy danh sách đơn xin nghỉ phép của người lao động",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence-request/get-all-absence-request-by-manager",
-							"protocol": "http",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-all-absence-request-by-manager",
 							"host": [
-								"localhost"
+								"{{ABSENCE_SERVICE_URL}}"
 							],
-							"port": "5002",
 							"path": [
 								"absence-request",
 								"get-all-absence-request-by-manager"
 							]
-						}
+						},
+						"description": "Người lao động ở đây là:  \nTrưởng phòng và Nhân viên\n\nNếu Giám đốc Request sẽ lấy được danh sách đơn nghỉ phép của Trưởng phòng.\n\nNếu Trưởng phòng Request sẽ lấy được danh sách đơn nghỉ phép của Nhân viên"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Lấy danh sách đơn xin nghỉ phép của người lao động",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-all-absence-request-by-manager",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence-request",
+										"get-all-absence-request-by-manager"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "877"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "370"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"172-efv3whgaQxhy9SDYsYHAYa8tWhI\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:03:51 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy danh sách đơn nghỉ phép của trưởng phòng thành công!\",\n    \"data\": [\n        {\n            \"_id\": \"637a3f0a46574ed3d128f97e\",\n            \"user_id\": \"12200001\",\n            \"date_begin\": \"2022-11-18T17:00:00.000Z\",\n            \"date_end\": \"2022-11-19T17:00:00.000Z\",\n            \"reason\": \"Xin nghỉ\",\n            \"state\": 0,\n            \"request_time\": \"2022-11-20T14:49:35.789Z\",\n            \"response_message\": null,\n            \"response_time\": null,\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Tạo đơn xin nghỉ phép",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -728,48 +4346,355 @@
 								{
 									"key": "absence_request_files",
 									"type": "file",
-									"src": "/C:/Users/trung/Desktop/Firebase/New Text Document.txt"
+									"src": [
+										"/E:/Backup Folder/Desktop/Unsorted/Funny/105369307_263481944875167_8963380356647894052_n.jpg",
+										"/E:/Backup Folder/Desktop/Unsorted/Funny/203963410_352746359545936_5225233483698844369_n.jpg",
+										"/E:/Backup Folder/Desktop/Unsorted/Funny/210611125_358555108965061_3091594345297570892_n.jpg"
+									]
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:5002/absence-request/create-absence-request",
-							"protocol": "http",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/create-absence-request",
 							"host": [
-								"localhost"
+								"{{ABSENCE_SERVICE_URL}}"
 							],
-							"port": "5002",
 							"path": [
 								"absence-request",
 								"create-absence-request"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Tạo đơn xin nghỉ phép",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "date_begin",
+											"value": "11/19/2022",
+											"type": "text"
+										},
+										{
+											"key": "date_end",
+											"value": "11/20/2022",
+											"type": "text"
+										},
+										{
+											"key": "reason",
+											"value": "Xin nghỉ",
+											"type": "text"
+										},
+										{
+											"key": "absence_request_files",
+											"type": "file",
+											"src": [
+												"/E:/Backup Folder/Desktop/Unsorted/Funny/105369307_263481944875167_8963380356647894052_n.jpg",
+												"/E:/Backup Folder/Desktop/Unsorted/Funny/203963410_352746359545936_5225233483698844369_n.jpg",
+												"/E:/Backup Folder/Desktop/Unsorted/Funny/210611125_358555108965061_3091594345297570892_n.jpg"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/create-absence-request",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence-request",
+										"create-absence-request"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "864"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"54-OSs783w5qlkP4LDz6SLbywoSHd4\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:04:02 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Bạn không có quyền sử dụng tính năng này !\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Xem danh sách đơn xin nghỉ phép đã yêu cầu",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence-request/get-all-absence-request-by-employee",
-							"protocol": "http",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-all-absence-request-by-employee",
 							"host": [
-								"localhost"
+								"{{ABSENCE_SERVICE_URL}}"
 							],
-							"port": "5002",
 							"path": [
 								"absence-request",
 								"get-all-absence-request-by-employee"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Xem danh sách đơn xin nghỉ phép đã yêu cầu",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-all-absence-request-by-employee",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence-request",
+										"get-all-absence-request-by-employee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "856"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "75"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4b-WnjNI4ZcZDu5B3XqD5zLNEhVIBw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:04:10 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Giám đốc không có đơn xin nghỉ phép!\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Duyệt đơn xin nghỉ phép",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -782,32 +4707,176 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5002/absence-request/update-absence-request-state",
-							"protocol": "http",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/update-absence-request-state",
 							"host": [
-								"localhost"
+								"{{ABSENCE_SERVICE_URL}}"
 							],
-							"port": "5002",
 							"path": [
 								"absence-request",
 								"update-absence-request-state"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Duyệt đơn xin nghỉ phép",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"absence_request_id\": \"6378bb91e174ff555cfdca03\",\r\n    \"response_message\": \"Không cho nghỉ\",\r\n    \"state\": -1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/update-absence-request-state",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence-request",
+										"update-absence-request-state"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "95"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "837"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "87"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"57-Hphi66BfVkkS5YUzvfyNUQE7+hw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:04:29 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Không tìm thấy thông tin chi tiết xin nghỉ phép!\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Xem chi tiết đơn xin nghỉ phép",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence-request/get-absence-request-detail?absence_request_id=6378bb91e174ff555cfdca03",
-							"protocol": "http",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-absence-request-detail?absence_request_id=637a3f0a46574ed3d128f97e",
 							"host": [
-								"localhost"
+								"{{ABSENCE_SERVICE_URL}}"
 							],
-							"port": "5002",
 							"path": [
 								"absence-request",
 								"get-absence-request-detail"
@@ -815,40 +4884,1397 @@
 							"query": [
 								{
 									"key": "absence_request_id",
-									"value": "6378bb91e174ff555cfdca03"
+									"value": "637a3f0a46574ed3d128f97e"
 								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Xem chi tiết đơn xin nghỉ phép",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-absence-request-detail?absence_request_id=637a3f0a46574ed3d128f97e",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence-request",
+										"get-absence-request-detail"
+									],
+									"query": [
+										{
+											"key": "absence_request_id",
+											"value": "637a3f0a46574ed3d128f97e"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "94"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "809"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"539-1X0hnf3cauvi0VdlojhX+ZfxEM8\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:04:58 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Xem chi tiết đơn xin nghỉ phép thành công!\",\n    \"data\": {\n        \"_id\": \"637a3f0a46574ed3d128f97e\",\n        \"user_id\": \"12200001\",\n        \"date_begin\": \"2022-11-18T17:00:00.000Z\",\n        \"date_end\": \"2022-11-19T17:00:00.000Z\",\n        \"reason\": \"Xin nghỉ\",\n        \"state\": 0,\n        \"request_time\": \"2022-11-20T14:49:35.789Z\",\n        \"response_message\": null,\n        \"response_time\": null,\n        \"__v\": 0,\n        \"files\": [\n            {\n                \"url\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/12200001%2Fabsence%2F637a3f0a46574ed3d128f97e%2F105369307_263481944875167_8963380356647894052_n.jpg?generation=1668955914249229&alt=media\",\n                \"name\": \"105369307_263481944875167_8963380356647894052_n.jpg\",\n                \"size\": \"157640\",\n                \"type\": \"image/jpeg\"\n            },\n            {\n                \"url\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/12200001%2Fabsence%2F637a3f0a46574ed3d128f97e%2F203963410_352746359545936_5225233483698844369_n.jpg?generation=1668955914410706&alt=media\",\n                \"name\": \"203963410_352746359545936_5225233483698844369_n.jpg\",\n                \"size\": \"48840\",\n                \"type\": \"image/jpeg\"\n            },\n            {\n                \"url\": \"https://storage.googleapis.com/download/storage/v1/b/soa-final-term.appspot.com/o/12200001%2Fabsence%2F637a3f0a46574ed3d128f97e%2F210611125_358555108965061_3091594345297570892_n.jpg?generation=1668955914582200&alt=media\",\n                \"name\": \"210611125_358555108965061_3091594345297570892_n.jpg\",\n                \"size\": \"120265\",\n                \"type\": \"image/jpeg\"\n            }\n        ]\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Lấy tổng số nhân viên nghỉ hôm nay",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDIyMDAwMDEiLCJmdWxsX25hbWUiOiJUxINuZyBLaeG6v24gVHJ1bmciLCJhdmF0YXIiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWQvc3RvcmFnZS92MS9iL3NvYS1maW5hbC10ZXJtLmFwcHNwb3QuY29tL28vMDIyMDAwMDElMkZhdmF0YXIuanBnP2dlbmVyYXRpb249MTY2OTAyNjA1NTMxMzE1OCZhbHQ9bWVkaWEiLCJyb2xlX2lkIjoiNjM3NWE2MDVmOTEyZmE0ODU3ZDZmNDg4Iiwicm9sZV9uYW1lIjoiR2nDoW0gxJHhu5FjIiwiZGVwYXJ0bWVudF9pZCI6bnVsbCwiaXNfYWN0aXZhdGUiOnRydWUsImlhdCI6MTY2OTAyNjU5NiwiZXhwIjoxNjY5NjMxMzk2fQ.3cHrZnpuxXveGZHw3M-SAaFw_aWqxu55FVBhCDuR5uQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5002/absence/get-absence-information",
+							"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-all-user-absence-today",
+							"host": [
+								"{{ABSENCE_SERVICE_URL}}"
+							],
+							"path": [
+								"absence-request",
+								"get-all-user-absence-today"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lấy tổng số nhân viên nghỉ hôm nay",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ABSENCE_SERVICE_URL}}/absence-request/get-all-user-absence-today",
+									"host": [
+										"{{ABSENCE_SERVICE_URL}}"
+									],
+									"path": [
+										"absence-request",
+										"get-all-user-absence-today"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "Ratelimit-Remaining",
+									"value": "93"
+								},
+								{
+									"key": "Ratelimit-Reset",
+									"value": "796"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"60-kdgQ4ZhwHbJZYQasYr22+rVwhEY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:05:11 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Lấy tổng số nhân viên nghỉ hôm nay thành công!\",\n    \"data\": 0\n}"
+						}
+					]
+				}
+			],
+			"description": "BASE URL: [https://absence-service-soa-final.herokuapp.com](https://department-service-soa-final.herokuapp.com)"
+		},
+		{
+			"name": "Task Service",
+			"item": [
+				{
+					"name": "Lấy danh sách Constraint Trạng thái của nhiệm vụ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TASK_SERVICE_URL}}/api/task-status",
+							"host": [
+								"{{TASK_SERVICE_URL}}"
+							],
+							"path": [
+								"api",
+								"task-status"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Task Status Constraint",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/task-status",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"task-status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 12:14:54 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "371"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"_id\": 0,\n            \"status\": \"New\"\n        },\n        {\n            \"_id\": 1,\n            \"status\": \"In progress\"\n        },\n        {\n            \"_id\": 2,\n            \"status\": \"Canceled\"\n        },\n        {\n            \"_id\": 3,\n            \"status\": \"Waiting\"\n        },\n        {\n            \"_id\": 4,\n            \"status\": \"Rejected\"\n        },\n        {\n            \"_id\": 5,\n            \"status\": \"Completed\"\n        }\n    ],\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Lấy danh sách Constraint Đánh giá nhiệm vụ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-rate",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5002",
+							"port": "5000",
 							"path": [
-								"absence",
-								"get-absence-information"
+								"api",
+								"task-rate"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get All Task Rate Constraint",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/task-rate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"task-rate"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 12:14:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "184"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"_id\": 0,\n            \"rate\": \"Bad\"\n        },\n        {\n            \"_id\": 1,\n            \"rate\": \"Ok\"\n        },\n        {\n            \"_id\": 2,\n            \"rate\": \"Good\"\n        }\n    ],\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Lấy trạng thái nhiệm vụ bằng mã",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-status/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"task-status",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Task Status by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/task-status/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"task-status",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 12:14:34 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": \"In progress\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Lấy đánh giá nhiệm vụ bằng mã",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/task-rate/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"task-rate",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Task Rate by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/task-rate/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"task-rate",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 12:14:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": \"Ok\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Tạo nhiệm vụ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officer_id",
+									"value": "5",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "Xây dựng Task-API",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\nSử dụng framework, công nghệ tự chọn.",
+									"type": "text"
+								},
+								{
+									"key": "deadline",
+									"value": "2022-11-18",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/create-task",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"create-task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create a Task",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "officer_id",
+											"value": "5",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Xây dựng Task-API",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\nSử dụng framework, công nghệ tự chọn.",
+											"type": "text"
+										},
+										{
+											"key": "deadline",
+											"value": "2023-12-22",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/ADMIN/Pictures/GIF/chitoge.gif",
+											"disabled": true
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/create-task",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"create-task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 12:40:44 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Tạo công việc mới thành công.\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Lấy tất cả nhiệm vụ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/tasks/me/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tasks",
+								"me",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Tasks",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/tasks/me/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"tasks",
+										"me",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 13:38:48 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2272"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"current_page\": 1,\n        \"max_pages\": 1,\n        \"tasks\": [\n            {\n                \"_id\": \"63762f0cb3d273541eb2d616\",\n                \"conversations\": [\n                    {\n                        \"_id\": \"637633e36b0fae70bd85925a\",\n                        \"content\": \"hihi\",\n                        \"created_at\": \"Thu, 17 Nov 2022 20:15:13 GMT\",\n                        \"files\": [\n                            {\n                                \"filename\": \"anime-list.xlsx\",\n                                \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/task_conversations/task_id_63762f0cb3d273541eb2d616/637633e36b0fae70bd85925a/anime-list.xlsx?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=KqD3O%2BqTZ%2FrnJYri7QXCPQLsHGpJR3BlywH1yMby8QECNr3wspOZgxQkgCXkPufMwLpWfNXj3R5DMna8linnkiAaTQQsLD4QlRQIbsH2YxWc0xB9eoMQEe9uJHfLfNUCIZhXOVTbIbWhLZS1%2BrZM0qm%2FRmIQSiLAZS4tmxAgl09j7QIiLvJigXa1TPd1ER9B1FRtC3inUpBzd%2BMhJpwn53zjV%2FF7d9WmKliliU%2FNbSo1l39JMqLXR%2FaA%2BcZ2F7iMfd9uA5mwMcCVhJQJPMwPkSSzSi682AxaaoUBInhjpXbA%2FlKNH%2BigKql1ZzozA7B8TOrLmKByWQzd8q%2FEG3nLsQ%3D%3D\"\n                            }\n                        ],\n                        \"user_id\": \"5\"\n                    }\n                ],\n                \"deadline\": \"Fri, 22 Dec 2023 00:00:00 GMT\",\n                \"description\": \"Xây dựng Dịch vụ công việc cho hệ thống nội bộ.\\nSử dụng framework, công nghệ tự chọn.\",\n                \"files\": [\n                    {\n                        \"filename\": \"requirements.txt\",\n                        \"url\": \"https://storage.googleapis.com/tat-business.appspot.com/tasks/63762f0cb3d273541eb2d616/requirements.txt?Expires=1668803928&GoogleAccessId=firebase-adminsdk-d4cif%40tat-business.iam.gserviceaccount.com&Signature=SMyGGcZXwHg6Srs6tjFOMgnl%2Fot1GNGTgMFYzZTfunCRaf3HNZ8sbky2eqYG3OvYzlbc3YIT%2FnhNHUlhmcnZrGkHhdJZdWxv1NYeU4w7gMSRYoxTvXws4X6muJbyfUKLW4odHD8v%2Fc3cGb9kBIx1HN7LgVt2pa4q7d1B2Gz6r7cALOtURs0pLJdyegOfr%2Fm8JVucHo4iHj3M6Tl9n1oNlqsesd0IJFCKycKpdnaMdd1yOSqVw7b3xz9hIxmKtLikufGlwLGFu6nnBF640O%2BechB69qUUQvasahg68RbUbg3IL8sTzk7o0FCVcQBrNgHaQqe0Sw6q1ODjxyqF%2F5M0qA%3D%3D\"\n                    }\n                ],\n                \"manager_id\": \"1\",\n                \"officer_id\": \"5\",\n                \"status\": 3,\n                \"title\": \"Xây dựng Task-API\",\n                \"updated_at\": \"Thu, 17 Nov 2022 20:15:16 GMT\"\n            }\n        ]\n    },\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Nhận nhiệm vụ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/accept-task/63765595f21530dd0f359d20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"accept-task",
+								"63765595f21530dd0f359d20"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/accept-task/63761896dbf2e3d078fb619f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"accept-task",
+										"63761896dbf2e3d078fb619f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 11:56:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Chấp nhận Task thành công\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Hủy nhiệm vụ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/accept-task/63751f555b2813d6fbb9485a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"accept-task",
+								"63751f555b2813d6fbb9485a"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cancel Task",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/cancel-task/63751f555b2813d6fbb9485a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"cancel-task",
+										"63751f555b2813d6fbb9485a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 11:25:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Hủy bỏ Task thành công\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit nhiệm vụ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "em nọp bài",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/submit-task/63765595f21530dd0f359d20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"submit-task",
+								"63765595f21530dd0f359d20"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Submit Task",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Pls check it out",
+											"type": "default"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/flasky.py"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/submit-task/63762f0cb3d273541eb2d616",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"submit-task",
+										"63762f0cb3d273541eb2d616"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 14:33:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Submit Task thành công\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Chấp nhận nhiệm vụ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rate\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/approve-task/63762f0cb3d273541eb2d616",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"approve-task",
+								"63762f0cb3d273541eb2d616"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Approve Task",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"rate\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/approve-task/63762f0cb3d273541eb2d616",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"approve-task",
+										"63762f0cb3d273541eb2d616"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 14:38:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "103"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Đánh giá hoàn thành thành công\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Từ chối nhiệm vụ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "I need more information",
+									"type": "default"
+								},
+								{
+									"key": "deadline",
+									"value": "2022-12-24",
+									"type": "default"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/reject-task/63765595f21530dd0f359d20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"reject-task",
+								"63765595f21530dd0f359d20"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reject Task",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "I need more information",
+											"type": "default"
+										},
+										{
+											"key": "deadline",
+											"value": "2022-12-24",
+											"type": "default"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/E:/51900712/SOA/SOA-homework/TruongTuanThinh_51900712/requirements.txt"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/reject-task/63762f0cb3d273541eb2d616",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"reject-task",
+										"63762f0cb3d273541eb2d616"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.9.0"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 14:34:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Phản hồi Task thành công\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Lấy thống kê các nhiệm vụ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5004/api/tasks/all/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5004",
+							"path": [
+								"api",
+								"tasks",
+								"all",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Task Statistic",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5004/api/tasks/all/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5004",
+									"path": [
+										"api",
+										"tasks",
+										"all",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.8.5"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 20 Nov 2022 02:11:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": 1,\n    \"status\": true\n}"
+						}
+					]
 				}
-			]
+			],
+			"description": "BASE URL :"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
 			"key": "DEPARTMENT_SERVICE_URL",
 			"value": ""
+		},
+		{
+			"key": "USER_SERVICE_URL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ABSENCE_SERVICE_URL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TASK_SERVICE_URL",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
