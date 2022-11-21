@@ -1,5 +1,5 @@
 from . import users
-from flask import make_response, jsonify, current_app, render_template, request, abort
+from flask import jsonify, current_app, render_template, request, abort
 from ..decorators import login_required
 from requests import post, put, get
 from ..utils import get_request_data
@@ -28,6 +28,30 @@ def index(payload):
     return render_template(
         "components/users/users.html",
         employees=data,
+        user=payload,
+    )
+
+
+# thông tin user
+@users.route("/<id>", methods=["GET"])
+@login_required()
+def user(payload, id):
+
+    resp = get(
+        current_app.config["USER_SERVICE"]
+        + "/user-admin/get-user-detail?user_id="
+        + id,
+        cookies=request.cookies,
+    )
+
+    data = resp.json()
+    if data.get("status") == False:
+        abort(404)
+
+    data = data.get("data")
+    return render_template(
+        "components/users/users-info.html",
+        employee=data,
         user=payload,
     )
 

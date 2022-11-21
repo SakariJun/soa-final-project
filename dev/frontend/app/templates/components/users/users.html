@@ -45,7 +45,7 @@
                                 onclick='userDetail(`{{ employee.get("user_id") }}`)'>Chi tiết</button>
                             {% if employee.get('account').get('request_reset_password') %}
                             <button class="btn btn-sm btn-danger w-100" enabled
-                                onclick="showResetPasswordForUser(`{{ employee.get('user_id'), employee.get('full_name') }}`)"
+                                onclick="showResetPasswordForUser{{ employee.get('user_id'), employee.get('full_name') }}"
                                 data-toggle="modal" data-target="#resetPasswordModal">Đặt lại mật khẩu</button>
                             {% else %}
                             <button class="btn btn-sm btn-outline-danger w-100" disabled="">Đặt lại mật khẩu</button>

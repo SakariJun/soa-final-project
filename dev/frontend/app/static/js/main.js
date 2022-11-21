@@ -10,6 +10,11 @@ $(document).ready(function () {
 function updateNavMenu(urlPath) {
     $(".active").removeClass('active');
     let menuItem = $('.sidebar-menu a[data-path="' + urlPath + '"]')
+
+    if (menuItem == undefined) {
+        urlPath = urlPath.split("/")[1]
+        menuItem = $('.sidebar-menu a[data-path="/' + urlPath + '"]')
+    }
     // Add active class to parent li menu
     $(menuItem).parent('li').addClass('active');
     let menuLabel = $(menuItem).parent('li').parent('ul')
@@ -40,6 +45,23 @@ $(document).on("click", "a[data-path]", function (e) {
     }
 
     loadComponent(urlPath);
+});
+
+// Load thêm tasks
+$(document).on("click", "#load-tasks", function (e) {
+    e.preventDefault();
+    $(this).text('Loading...')
+    $(this).click(false);
+
+    fetch("/tasks/" + $(this).data('page') + "?load=1")
+        .then((response) => response.text())
+        .then(html => {
+            $(this).remove()
+            $("#task-list").append(html)
+        })
+        .catch(function (err) {
+            showToast("Có lỗi xảy ra. Vui lòng thử lại sau." + err.message)
+        });
 });
 
 // Toggle sidebar
@@ -73,10 +95,7 @@ function showToast(comment) {
 // function load content from redirect url
 function loadRedirect(urlPath) {
     // Clear header cho 1 số pages
-    if (urlPath.includes("login") || urlPath.includes("activate")) {
-        $('body').removeClass("sidebar-main")
-        $('header').html('')
-        $("#page-content").removeClass('content-page');
+    if (urlPath.includes("login") || urlPath.includes("activate") || urlPath.includes("activate")) {
         window.history.replaceState(urlPath, null, urlPath);
     } else {
         // Load header
@@ -96,6 +115,12 @@ function loadComponent(urlPath) {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const baseUrl = window.location.origin
+
+    if (urlPath.includes("login") || urlPath.includes("activate") || urlPath.includes("reset-password")) {
+        $('body').removeClass("sidebar-main")
+        $('header').html('')
+        $("#page-content").removeClass('content-page');
+    }
 
     fetch(baseUrl + urlPath + "?load=1")
         .then((response) => {
@@ -126,6 +151,7 @@ function loadComponent(urlPath) {
             }
             if (urlPath.includes('department')) {
                 title = "Quản lý Phòng ban"
+                loadDepartmentList()
             }
             if (urlPath.includes('task')) {
                 title = "Quản lý Công việc"
@@ -153,7 +179,6 @@ function loadComponent(urlPath) {
 async function loadHeader() {
     fetch('/header' + "?load=1")
         .then((response) => {
-            console.log(response)
             // Redirect
             if (response.status == 303) {
                 return response.json()
@@ -194,460 +219,21 @@ $(document).on("click", ".scroll-top", function () {
     }, 500)
 })
 
-
-// TODO: Change url request and check data response
-// Hiện chi tiết yêu cầu nghỉ phép và thực hiện chức năng duyệt hoặc từ chối yêu cầu nghỉ phép
-function showDetailAbsenceRequest(absenceRequestID) {
-    $(".content-page").load("./app/detail-absence-request.php", function () {
-        $("body").removeClass("sidebar-main");
-
-        $.ajax({
-            url: './backend/API/ManagerAbsence/show-detail-absence-request.php?absenceRequestID=' + absenceRequestID,
-            type: 'GET',
-            dataType: "json",
-            contentType: "application/json",
-
-            complete: function (result) {
-                if (!result['status']) {
-                    $("#absenceRequestResponseMessage").html(result['errorMessage']);
-                    $('#absenceRequestResponse-modal-dialog').modal('show');
-                    return;
-                };
-
-                absenceRequestDetail = result['result'];
-                $("#detailAbsenceRequest_requestID").val(absenceRequestDetail.RequestID);
-                $("#detailAbsenceRequest_requestTime").val(formatVNDatetime(absenceRequestDetail.RequestTime));
-                $("#detailAbsenceRequest_dateBegin").val(formatVNDate(absenceRequestDetail.DateBegin));
-                $("#detailAbsenceRequest_dateEnd").val(formatVNDate(absenceRequestDetail.DateEnd));
-
-                let date1 = new Date(absenceRequestDetail.DateBegin);
-                let date2 = new Date(absenceRequestDetail.DateEnd);
-                let diffTime = Math.abs(date2 - date1);
-                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                diffDays = diffDays + 1;
-
-                $("#detailAbsenceRequest_absenceDays").val(diffDays);
-                $("#detailAbsenceRequest_absenceReason").html(absenceRequestDetail.Reason);
-                $("#detailAbsenceRequest_absenceRequestStatus").val(absenceRequestDetail.Status);
-
-                if (absenceRequestDetail.Status != "Waiting") {
-                    $("#refusedAbsenceRequest").prop('disabled', true);
-                    $("#approvedAbsenceRequest").prop('disabled', true);
-                }
-
-                $("#detailAbsenceRequest_userID").val(absenceRequestDetail.UserID);
-                $("#detailAbsenceRequest_fullName").val(absenceRequestDetail.FullName);
-                $("#detailAbsenceRequest_gender").val(absenceRequestDetail.Gender);
-                $("#detailAbsenceRequest_DOB").val(formatVNDate(absenceRequestDetail.DOB));
-                $("#detailAbsenceRequest_phoneNumber").val(absenceRequestDetail.PhoneNumber);
-                $("#detailAbsenceRequest_email").val(absenceRequestDetail.Email);
-                $("#detailAbsenceRequest_departmentID").val(absenceRequestDetail.DepartmentID);
-                $("#detailAbsenceRequest_departmentRoomID").val(absenceRequestDetail.DepartmentRoomID);
-                $("#detailAbsenceRequest_departmentName").val(absenceRequestDetail.DepartmentName);
-                $("#detailAbsenceRequest_role").val(absenceRequestDetail.Role);
-
-                // Load danh sách tập tin đính kèm [nếu có]
-                if (result["listFile"] !== undefined) {
-                    listFiles = result['listFile'];
-
-                    let tbody = document.getElementById('absence_request_attachment_table');
-
-                    for (let i = 0; i < listFiles.length; i++) {
-                        let tr = document.createElement("tr");
-                        let file = listFiles[i];
-
-                        let td_File = document.createElement("td");
-                        td_File.classList.add("text-center");
-                        td_File.innerHTML = file['FileIcon'] + " " + file['FileName'];
-
-                        let td_TYPE = document.createElement("td");
-                        td_TYPE.classList.add("text-center");
-                        td_TYPE.innerHTML = file['FileType'];
-
-                        let td_SIZE = document.createElement("td");
-                        td_SIZE.classList.add("text-center");
-                        td_SIZE.innerHTML = file['FileSize'];
-
-                        let td_BUTTON = document.createElement("td");
-                        td_BUTTON.classList.add("text-center");
-
-                        let download_a = document.createElement("a");
-                        download_a.classList.add("btn");
-                        download_a.setAttribute('href', file['FilePath']);
-                        download_a.setAttribute('download', '');
-                        download_a.innerHTML = '<i class="fa fa-download action"></i>';
-
-                        td_BUTTON.appendChild(download_a);
-
-                        tr.appendChild(td_File);
-                        tr.appendChild(td_TYPE);
-                        tr.appendChild(td_SIZE);
-                        tr.appendChild(td_BUTTON);
-
-                        tbody.appendChild(tr);
-                    };
-                }
-
-                // Add event click xử lý 2 button duyệt và từ chối yêu cầu nghỉ phép
-                $("#confirm-refusedAbsenceRequest").click(function () {
-                    let sendingData =
-                        JSON.stringify({ status: "Refused", absenceRequestID: absenceRequestDetail.RequestID, responseMessage: $("#detailAbsenceRequest_responseMessage").val() });
-
-                    $.ajax({
-                        url: './backend/API/ManagerAbsence/set-absence-request-status.php',
-                        type: 'PUT',
-                        dataType: "json",
-                        contentType: "application/json",
-                        data: sendingData,
-                        success: function (result) {
-                            if (result['status']) {
-                                $("#absenceRequestResponseMessage").html(result['message']);
-                                $('#absenceRequestResponse-modal-dialog').modal('show');
-
-                                $("#refusedAbsenceRequest").prop('disabled', true);
-                                $("#approvedAbsenceRequest").prop('disabled', true);
-
-                                $("#detailAbsenceRequest_absenceRequestStatus").val("Refused");
-                            } else {
-                                $("#absenceRequestResponseMessage").html(result['errorMessage']);
-                                $('#absenceRequestResponse-modal-dialog').modal('show');
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown + "\n" + textStatus);
-                        }
-                    });
-                });
-
-                $("#confirm-approvedAbsenceRequest").click(function () {
-                    let sendingData =
-                        JSON.stringify({ status: "Approved", absenceRequestID: absenceRequestDetail.RequestID, responseMessage: $("#detailAbsenceRequest_responseMessage").val() });
-
-                    $.ajax({
-                        url: './backend/API/ManagerAbsence/set-absence-request-status.php',
-                        type: 'PUT',
-                        dataType: "json",
-                        contentType: "application/json",
-                        data: sendingData,
-                        success: function (result) {
-                            if (result['status']) {
-                                $("#absenceRequestResponseMessage").html(result['message']);
-                                $('#absenceRequestResponse-modal-dialog').modal('show');
-
-                                $("#refusedAbsenceRequest").prop('disabled', true);
-                                $("#approvedAbsenceRequest").prop('disabled', true);
-
-                                $("#detailAbsenceRequest_absenceRequestStatus").val("Approved");
-                            } else {
-                                $("#absenceRequestResponseMessage").html(result['errorMessage']);
-                                $('#absenceRequestResponse-modal-dialog').modal('show');
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown + "\n" + textStatus);
-                        }
-                    });
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-            }
+function userDetail(userID) {
+    $("#loading").fadeIn();
+    fetch('/users/' + userID + "?load=1")
+        .then((response) => {
+            return response.text();
+        })
+        .then((html) => {
+            $("#loading").fadeOut(500);
+            $("#page-content").html(html);
+            $("body").css("overflow-y", "scroll");
+            window.history.pushState('/users/' + userID, null, '/users/' + userID);
+        })
+        .catch(function (err) {
+            showToast("Có lỗi xảy ra. Vui lòng thử lại sau." + err.message)
         });
-
-        $(".container").fadeIn()
-    })
-}
-
-// TODO: Change url request and check data response
-// Hiện chi tiết yêu cầu nghỉ phép và nhưng không thể thực hiện chức năng duyệt hoặc từ chối yêu cầu nghỉ phép
-function showDetailEmployeeAbsenceRequest(absenceRequestID) {
-    $.ajax({
-        url: './app/detail-employee-absence-request.php',
-        type: 'POST',
-        data: {
-            'action': "LOAD"
-        },
-        success: function (result) {
-            $(".content-page").html(result);
-            $("body").removeClass("sidebar-main");
-
-            $.ajax({
-                url: './backend/API/ManagerAbsence/show-detail-absence-request.php?absenceRequestID=' + absenceRequestID,
-                type: 'GET',
-                dataType: "json",
-                contentType: "application/json",
-
-                success: function (result) {
-                    if (result['status']) {
-                        absenceRequestDetail = result['result'];
-
-                        $("#detailAbsenceRequest_status").val(absenceRequestDetail.Status);
-
-                        if (absenceRequestDetail.ResponseTime == null || absenceRequestDetail.ResponseTime == "") {
-                            $("#detailAbsenceRequest_responseTime").val("Chưa được duyệt");
-                        } else {
-                            $("#detailAbsenceRequest_responseTime").val(formatVNDatetime(absenceRequestDetail.ResponseTime));
-                        }
-
-                        $("#detailAbsenceRequest_responseMessage").val(absenceRequestDetail.ResponseMessage);
-
-                        $("#detailAbsenceRequest_requestID").val(absenceRequestDetail.RequestID);
-                        $("#detailAbsenceRequest_requestTime").val(formatVNDatetime(absenceRequestDetail.RequestTime));
-                        $("#detailAbsenceRequest_dateBegin").val(formatVNDate(absenceRequestDetail.DateBegin));
-                        $("#detailAbsenceRequest_dateEnd").val(formatVNDate(absenceRequestDetail.DateEnd));
-
-                        let date1 = new Date(absenceRequestDetail.DateBegin);
-                        let date2 = new Date(absenceRequestDetail.DateEnd);
-                        let diffTime = Math.abs(date2 - date1);
-                        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                        diffDays = diffDays == 0 ? 1 : diffDays + 1;
-
-                        $("#detailAbsenceRequest_absenceDays").val(diffDays);
-                        $("#detailAbsenceRequest_absenceReason").html(absenceRequestDetail.Reason);
-                        $("#detailAbsenceRequest_userID").val(absenceRequestDetail.UserID);
-                        $("#detailAbsenceRequest_fullName").val(absenceRequestDetail.FullName);
-                        $("#detailAbsenceRequest_gender").val(absenceRequestDetail.Gender);
-                        $("#detailAbsenceRequest_DOB").val(formatVNDate(absenceRequestDetail.DOB));
-                        $("#detailAbsenceRequest_phoneNumber").val(absenceRequestDetail.PhoneNumber);
-                        $("#detailAbsenceRequest_email").val(absenceRequestDetail.Email);
-                        $("#detailAbsenceRequest_departmentID").val(absenceRequestDetail.DepartmentID);
-                        $("#detailAbsenceRequest_departmentRoomID").val(absenceRequestDetail.DepartmentRoomID);
-                        $("#detailAbsenceRequest_departmentName").val(absenceRequestDetail.DepartmentName);
-                        $("#detailAbsenceRequest_role").val(absenceRequestDetail.Role);
-
-                        if (result["listFile"] !== undefined) {
-                            listFiles = result['listFile'];
-                            let tbody = document.getElementById('absence_request_attachment_table');
-
-                            for (let i = 0; i < listFiles.length; i++) {
-                                let tr = document.createElement("tr");
-                                let file = listFiles[i];
-
-                                let td_File = document.createElement("td");
-                                td_File.classList.add("text-center");
-                                td_File.innerHTML = file['FileIcon'] + " " + file['FileName'];
-
-                                let td_TYPE = document.createElement("td");
-                                td_TYPE.classList.add("text-center");
-                                td_TYPE.innerHTML = file['FileType'];
-
-                                let td_SIZE = document.createElement("td");
-                                td_SIZE.classList.add("text-center");
-                                td_SIZE.innerHTML = file['FileSize'];
-
-                                let td_BUTTON = document.createElement("td");
-                                td_BUTTON.classList.add("text-center");
-
-                                let download_a = document.createElement("a");
-                                download_a.classList.add("btn");
-                                download_a.setAttribute('href', file['FilePath']);
-                                download_a.setAttribute('download', '');
-                                download_a.innerHTML = '<i class="fa fa-download action"></i>';
-
-                                td_BUTTON.appendChild(download_a);
-
-                                tr.appendChild(td_File);
-                                tr.appendChild(td_TYPE);
-                                tr.appendChild(td_SIZE);
-                                tr.appendChild(td_BUTTON);
-
-                                tbody.appendChild(tr);
-                            };
-                        }
-                    } else {
-                        // Fail..
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                }
-            });
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown + "\n" + textStatus);
-        }
-    });
-}
-
-// Chức năng gửi yêu cầu xin nghỉ phép của người lao động
-function validateDateBegin(dateBegin) {
-    validateInputTypeDatePastValue(dateBegin);
-    checkDayLeft();
-}
-
-function validateDateEnd(dateEnd) {
-    validateInputTypeDatePastValue(dateEnd);
-    checkDayLeft();
-}
-
-// Đặt lại value của input type="date" là ngày mai
-function setDefaultInputTypeDateValueTomorrow(inputTypeDate) {
-    let today = new Date();
-    today.setDate(today.getDate() + 1);
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
-
-    today = yyyy + '-' + mm + '-' + dd;
-    inputTypeDate.value = today;
-}
-
-// Kiểm tra xem value của input type="date" có phải là ngày trong quá khứ hay không
-function validateInputTypeDatePastValue(inputTypeDate) {
-    let tomorrow = new Date();
-    tomorrow = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate() + 1);
-
-    if (new Date(inputTypeDate.value) < tomorrow) {
-        fadeError("Không thể chọn ngày trong quá khứ hoặc hôm nay. Vui lòng chọn ngày nghỉ phép ít nhất sau ngày hôm nay !!!");
-        setDefaultInputTypeDateValueTomorrow(inputTypeDate);
-    }
-}
-
-// Sau khi đã chọn ngày bắt đầu - ngày kết thúc => Check xem số ngày nghỉ còn lại có đáp ứng được không
-function checkDayLeft() {
-    let dayLeft = $("#detailAbsenceRequest_absenceDayLeft").val().trim();
-    let dateBegin = $("#create_absence_request_dateBegin");
-    let dateEnd = $("#create_absence_request_dateEnd");
-
-    if (dateBegin.val().trim() == "") {
-        return;
-    }
-
-    if (dateEnd.val().trim() == "") {
-        return;
-    }
-
-    let date1 = new Date(dateBegin.val().trim());
-    let date2 = new Date(dateEnd.val().trim());
-
-    if (date2 < date1) {
-        fadeError("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
-        dateEnd.val(dateBegin.val());
-        return;
-    }
-
-    let diffTime = Math.abs(date2 - date1);
-    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    // Set lại ngày kết thúc = Ngày bắt đầu + số ngày nghỉ còn lại
-    if (diffDays + 1 > dayLeft) {
-        date1.setDate(parseInt(date1.getDate()) + parseInt(dayLeft) - 1);
-
-        let dd = String(date1.getDate()).padStart(2, '0');
-        let mm = String(date1.getMonth() + 1).padStart(2, '0');
-        let yyyy = date1.getFullYear();
-
-        let maximumAbsenceDay = yyyy + '-' + mm + '-' + dd;
-        fadeError("Số ngày nghỉ còn lại không đủ. Chỉ có thể nghỉ đến hết ngày " + formatVNDate(maximumAbsenceDay));
-        dateEnd.val(maximumAbsenceDay);
-
-        $("#create_absence_request_totalAbsenceDay").val(dayLeft);
-    } else {
-        $("#create_absence_request_totalAbsenceDay").val(diffDays + 1);
-    }
-}
-
-// Check xem có đủ điều kiện để gửi yêu cầu không? Số ngày nghỉ còn lại = 0, chưa tới lượt gửi request tiếp theo
-function checkIsAbleToCreateAbsenceRequest() {
-    let dayLeft = $("#detailAbsenceRequest_absenceDayLeft").val().trim();
-
-    if (dayLeft == 0) {
-        $("#createAbsenceRequestResponse-modal-dialog").modal("show");
-        $("#createAbsenceRequestResponseMessage").html("Bạn đã dùng hết số ngày nghỉ phép trong năm !!!");
-        return;
-    }
-
-    let nextRequestDate = new Date($("#detailAbsenceRequest_nextAvailableRequest").data("nextRequestDate"));
-
-    if (nextRequestDate > new Date()) {
-        $("#createAbsenceRequestResponse-modal-dialog").modal("show");
-        $("#createAbsenceRequestResponseMessage").html("Vui lòng đợi đến " + $("#detailAbsenceRequest_nextAvailableRequest").val() + " để có thể gửi yêu cầu tiếp theo !!!");
-        return;
-    }
-
-    $("#createAbsenceRequest-modal-dialog").modal("show");
-}
-
-// TODO: Change url request and check data response
-// Tạo yêu cầu nghỉ phép
-function createAbsenceRequest() {
-    let dateBegin = $("#create_absence_request_dateBegin").val().trim();
-    let dateEnd = $("#create_absence_request_dateEnd").val().trim();
-    let reason = $("#create_absence_request_absenceReason").val().trim();
-
-    if (dateBegin == "") {
-        fadeError("Vui lòng chọn ngày bắt đầu nghỉ.");
-        return false;
-    }
-
-    if (dateEnd == "") {
-        fadeError("Vui lòng chọn ngày kết thúc nghỉ.");
-        return false;
-    }
-
-    if (reason == "") {
-        fadeError("Vui lòng thêm lí do xin nghỉ phép.");
-        return false;
-    }
-
-    files = []
-    if ($("#attachment").data("files") != null) {
-        files = $("#attachment").data("files");
-    }
-
-    files = []
-    if ($("#attachment").data("files") != null) {
-        files = $("#attachment").data("files");
-    }
-
-    var formData = new FormData();
-    formData.append("date_Begin", dateBegin)
-    formData.append("date_End", dateEnd)
-    formData.append("reason", reason)
-
-    for (let i = 0; i < files.length; i++) {
-        formData.append("absenceAttachment[]", files[i])
-    }
-
-    $.ajax({
-        url: './backend/API/ManagerAbsence/create-absence-request.php',
-        type: 'POST',
-        dataType: "json",
-        caches: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (result) {
-            if (!result['status']) {
-                fadeError(result['errorMessage']);
-                return;
-            }
-
-            fadeResult(result['message']);
-            $("#createAbsenceRequest-modal-dialog").modal("hide");
-            loadEmployeeAbsenceDetail();
-        },
-        error: function (error) {
-            console.log(error);
-        },
-        xhr: function () {
-            var xhr = $.ajaxSettings.xhr();
-            $("#message-dialog").modal({ backdrop: 'static', keyboard: false })
-            $("#message").html("Chờ chút nha...");
-            // Upload progress
-            xhr.upload.onprogress = function (e) {
-                if (e.lengthComputable) {
-                    let percent = (e.loaded / e.total) * 100
-                    $("#progress-bar").width(percent + '%')
-                }
-            }
-            return xhr
-        }
-    });
-
-    return false;
 }
 
 // DONE - Chức năng đăng nhập
@@ -658,6 +244,7 @@ function validateLogin() {
 
     let usernameValue = username.val().trim();
     let passwordValue = password.val().trim();
+
 
     if ($('#remember').is(":checked")) {
         $.cookie('username', usernameValue);
@@ -838,19 +425,13 @@ function userChangePassword() {
 // #region Chức năng gửi yêu cầu đặt lại mật khẩu
 // Gửi yêu cầu đặt lại mật khẩu bằng tên đăng nhập + email + số điện thoại nhân viên
 function sendResetPasswordRequest() {
-    let username = $('#username');
     let email = $('#email');
     let phoneNumber = $('#phoneNumber');
 
-    let usernameValue = username.val().trim();
     let emailValue = email.val().trim();
     let phoneNumberValue = phoneNumber.val().trim();
 
-    if (usernameValue.length == 0) {
-        fadeError("Vui lòng nhập tên tài khoản !!!");
-        username.focus();
-        return false;
-    } else if (emailValue.length == 0) {
+    if (emailValue.length == 0) {
         fadeError("Vui lòng nhập email nhân viên !!!");
         email.focus();
         return false;
@@ -865,22 +446,21 @@ function sendResetPasswordRequest() {
     }
 
     // GỌI AJAX
-    let userData = JSON.stringify({ username: usernameValue, email: emailValue, phoneNumber: phoneNumberValue });
+    let userData = JSON.stringify({ email: emailValue, phone_number: phoneNumberValue });
 
     $.ajax({
-        url: '../backend/API/BaseFunction/send-reset-password-request.php',
+        url: '/auth/reset-password',
         type: 'POST',
         dataType: "json",
         contentType: "application/json",
-        async: true,
         data: userData,
         success: function (result) {
             if (!result['status']) {
-                fadeError(result['errorMessage']);
+                fadeError(result['message']);
                 return false;
             } else {
                 $("form")[0].reset();
-                fadeResult(result['message']);
+                showToast(result['message']);
                 return false;
             }
         },
@@ -1045,16 +625,17 @@ function showResetPasswordForUser(userID, name) {
 
 function resetPasswordForUser(userID) {
     $.ajax({
-        url: './backend/API/AdminManagerAccount/reset-password.php?id=' + userID,
-        type: 'GET',
-        async: true,
-        success: function (results) {
-            $("#password-reset-success-alert").fadeTo(2000, 500).slideUp(500, function () {
-                $("#password-reset-success-alert").slideUp(500);
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            });
-            loadAccountList();
+        url: '/auth/admin-reset-password',
+        type: 'PUT',
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({ user_id: userID }),
+        success: function (result) {
+            showToast(result['message']);
+            if (!result['status']) {
+                return
+            }
+            loadComponent('/users')
         },
         error: function (result) {
             console.log(result);
@@ -1069,7 +650,7 @@ function loadDepartmentList() {
         tbody.innerHTML = '';
     }
     let ajax = new XMLHttpRequest();
-    ajax.open('GET', './backend/API/AdminManagerDepartment/get-departments.php', 'true');
+    ajax.open('GET', '/departments?api=1', 'true');
     ajax.send();
     ajax.reponseType = 'json';
     ajax.addEventListener('readystatechange', () => {
@@ -1089,8 +670,8 @@ function loadDepartmentList() {
                 div1.classList.add('text-center');
                 let h6 = document.createElement('h6');
                 h6.id = "departmentID";
-                h6.innerHTML = i[0];
-                let departmentID = i[0];
+                h6.innerHTML = i['department_id'];
+                let departmentID = i['department_id'];
                 div1.appendChild(h6);
                 id.append(div1)
                 let tr = document.createElement('tr');
@@ -1098,24 +679,24 @@ function loadDepartmentList() {
                 tr.appendChild(id);
 
                 name.id = "department-name";
-                name.innerHTML = i[1];
-                let departmentName = i[1];
+                name.innerHTML = i['name'];
+                let departmentName = i['name'];
                 name.classList.add('py-4')
                 tr.appendChild(name);
 
                 desc.id = "desc";
-                desc.innerHTML = i[2];
-                let departmentDesc = i[2];
+                desc.innerHTML = i['description'];
+                let departmentDesc = i['description'];
                 desc.classList.add('py-4')
                 tr.appendChild(desc);
 
                 leader.id = "leader";
                 leader.innerHTML = "Chưa có trưởng phòng";
-                if (i[3] != null) {
-                    leader.innerHTML = i[3] + " - " + i[4];
+                if (i['leader_id'] != null) {
+                    leader.innerHTML = i['leader_id'];
                 }
 
-                let departmentLeader = i[3];
+                let departmentLeader = i['leader_id'];
                 leader.classList.add('py-4')
                 tr.appendChild(leader);
 
@@ -1130,7 +711,7 @@ function loadDepartmentList() {
 
                 view.innerHTML = "Xem chi tiết";
 
-                view.setAttribute('onclick', 'departmentDetail("' + i[0] + '")');
+                view.setAttribute('onclick', 'departmentDetail("' + i['department_id'] + '")')
                 let div3 = document.createElement('div');
                 div3.appendChild(view);
                 action.appendChild(div3);
@@ -1140,109 +721,26 @@ function loadDepartmentList() {
             })
         }
     })
-    LoadNonLeadedDepartmentForViewingPurpose()
-}
-
-function LoadNonLeadedDepartmentForViewingPurpose() {
-    let tbody = document.getElementById('department-table-body');
-
-    let ajax = new XMLHttpRequest();
-    ajax.open('GET', './backend/API/AdminManagerDepartment/get-non-leader-departments.php', 'true');
-    ajax.send();
-    ajax.reponseType = 'json';
-    ajax.addEventListener('readystatechange', () => {
-        if (ajax.readyState === 4 && ajax.status === 200) {
-
-            let json = JSON.parse(ajax.response);
-            if (json.status == 1) {
-                json.data.forEach((i) => {
-
-                    let id = document.createElement('td');
-                    let name = document.createElement('td');
-                    let desc = document.createElement('td');
-                    let leader = document.createElement('td');
-                    let action = document.createElement('td');
-
-                    let div1 = document.createElement('div');
-                    div1.classList.add('text-center');
-                    let h6 = document.createElement('h6');
-                    h6.id = "departmentID";
-                    h6.innerHTML = i[0];
-                    let departmentID = i[0];
-                    div1.appendChild(h6);
-                    id.append(div1)
-                    let tr = document.createElement('tr');
-                    id.classList.add('py-4')
-                    tr.appendChild(id);
-
-                    name.id = "department-name";
-                    name.innerHTML = i[1];
-                    let departmentName = i[1];
-                    name.classList.add('py-4')
-                    tr.appendChild(name);
-
-                    desc.id = "desc";
-                    desc.innerHTML = i[2];
-                    let departmentDesc = i[2];
-                    desc.classList.add('py-4')
-                    tr.appendChild(desc);
-
-                    leader.id = "leader";
-                    leader.innerHTML = "Chưa có trưởng phòng";
-
-
-                    let departmentLeader = i[3];
-                    leader.classList.add('py-4')
-                    tr.appendChild(leader);
-
-
-                    let view = document.createElement('button');
-                    view.classList.add('btn');
-                    view.classList.add('btn-primary');
-                    view.classList.add('btn-sm');
-                    view.classList.add('w-100');
-                    view.classList.add('d-block')
-                    view.classList.add('mt-2')
-
-                    view.innerHTML = "Xem chi tiết";
-
-                    view.setAttribute('onclick', 'departmentDetail("' + i[0] + '")');
-                    let div3 = document.createElement('div');
-                    div3.appendChild(view);
-                    action.appendChild(div3);
-                    tr.appendChild(action);
-
-                    tbody.appendChild(tr);
-                })
-            } else {
-                console.log('Đã có lỗi xảy ra');
-            }
-        }
-    })
 }
 
 function editDepartment() {
     $('#edit-bt').html('Xác nhận');
     $('#edit-bt').addClass('text-success');
     $('#edit-icon').removeClass('fa-wrench').addClass('fa-check text-success');
-    $('#department-name-detail').html('<input id="department-name-edit" name="deparment-name" class="form-control w-75" type="text" value="' + $('#department-name-detail').html() + '"/>');
-    $('#department-desc-detail').html('<textarea rows="3" class="form-control w-75" id="department-desc-edit" name="deparment-desc">' + $('#department-desc-detail').html() + '</textarea>');
-    $('#department-room-detail').html('<input id="department-room-edit" name="deparment-room" class="form-control w-75" type="text" value="' + $('#department-room-detail').html() + '"/>');
+    $('#department-name-detail').html('<input id="department-name-edit" name="deparment-name" class="form-control w-75" type="text" value="' + $.trim($('#department-name-detail').html()) + '"/>');
+    $('#department-desc-detail').html('<textarea rows="3" class="form-control w-75" id="department-desc-edit" name="deparment-desc">' + $.trim($('#department-desc-detail').html()) + '</textarea>');
+    $('#department-room-detail').html('<input id="department-room-edit" name="deparment-room" class="form-control w-75" type="text" value="' + $.trim($('#department-room-detail').html()) + '"/>');
 
     $('#edit-department').attr('onclick', "validateEditDepartment()");
-}
-
-function setAttrEdit() {
-    $('#edit-department').attr('onclick', `editDepartment()`);
 }
 
 function validateEditDepartment() {
     //validate
 
-    let id = document.getElementById('department-id-detail').innerHTML;
-    let name = document.getElementById('department-name-edit').value;
-    let desc = document.getElementById('department-desc-edit').value;
-    let room = document.getElementById('department-room-edit').value;
+    let id = document.getElementById('department-id-detail').innerHTML.trim();
+    let name = document.getElementById('department-name-edit').value.trim();
+    let desc = document.getElementById('department-desc-edit').value.trim();
+    let room = document.getElementById('department-room-edit').value.trim();
 
     let message = document.getElementById('message-edit');
 
@@ -1251,7 +749,6 @@ function validateEditDepartment() {
         message.innerHTML = "Hãy nhập tên phòng ban.";
         message.removeAttribute("hidden");
         namebox.focus();
-
     } else if (desc == "") {
         message.innerHTML = "Hãy nhập mô tả.";
         descbox.focus();
@@ -1260,34 +757,29 @@ function validateEditDepartment() {
         message.innerHTML = "Hãy nhập số phòng";
         roombox.focus();
         message.removeAttribute("hidden");
-    } else if (!room.startsWith('P')) {
-        message.innerHTML = 'Số phòng không hợp lệ (bắt đầu bằng kí tự "P")';
-        roombox.focus();
-        message.removeAttribute("hidden");
     } else {
         message.innerHTML = "";
         message.setAttribute("hidden", "true");
 
         $('#editDepartmentModal').modal();
         $('#confirm-edit').click(function () {
-            let departmentEditData = JSON.stringify({ name: name, desc: desc, room: room });
+            let departmentEditData = JSON.stringify({ department_id: id, name: name, description: desc, room: room });
             $.ajax({
-                url: './backend/API/AdminManagerDepartment/update-department.php?department=' + id,
+                url: '/departments/update-department',
                 type: 'PUT',
                 dataType: "json",
                 contentType: "application/json",
-                async: true,
                 data: departmentEditData,
                 success: function (result) {
-                    $("#edit-department-success-alert").fadeTo(2000, 500).slideUp(500, function () {
-                        $("#edit-department-success-alert").slideUp(500);
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        departmentDetail(id)
-                    });
+                    if (!result['status']) {
+                        showToast(result['message'])
+                        return
+                    }
+                    showToast(result['message'])
+                    departmentDetail(id)
                 },
                 error: function (result) {
-                    console.log("Không thể cập nhật CSDL");
+                    showToast("Có lỗi xảy ra. Vui lòng thử lại sau.")
                 }
             })
         })
@@ -1295,42 +787,20 @@ function validateEditDepartment() {
 }
 
 function departmentDetail(departmentID) {
-
-    $.ajax({
-        url: './app/department-detail-manager.php',
-        type: 'POST',
-        data: {
-            'action': "LOAD"
-        },
-        success: function (result) {
-            $(".content-page").html(result);
-            // console.log(result)
-            $('body').removeClass("sidebar-main");
-            $.ajax({
-                url: "./backend/API/AdminManagerDepartment/get-department.php?id=" + departmentID,
-                type: 'GET',
-                async: true,
-                success: function (results) {
-                    let department = results.data[0];
-
-                    $('#department-id-detail').html(department[0]);
-                    $('#department-name-detail').html(department[1]);
-                    $('#department-desc-detail').html(department[4]);
-                    $('#department-room-detail').html(department[2]);
-                    let leaderID = department[3];
-                    let editBt = document.getElementById('edit-department')
-                    editBt.setAttribute('onclick', "setAttrEdit()")
-
-                    loadLeader(department[0])
-                    LoadStaff(department[0])
-                }
-            })
-            $(".container").fadeIn();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown + "\n" + textStatus);
-        }
-    });
+    $("#loading").fadeIn();
+    fetch('/departments/' + departmentID + "?load=1")
+        .then((response) => {
+            return response.text();
+        })
+        .then((html) => {
+            $("#loading").fadeOut(500);
+            $("#page-content").html(html);
+            $("body").css("overflow-y", "scroll");
+            window.history.pushState('/departments/' + departmentID, null, '/departments/' + departmentID);
+        })
+        .catch(function (err) {
+            showToast("Có lỗi xảy ra. Vui lòng thử lại sau." + err.message)
+        });
 }
 
 function fadeError(errorMessage) {
@@ -1492,163 +962,6 @@ function addUser(fullname, email, dob, phone, salary, gender, department) {
 }
 // End add user
 
-
-// Function load trưởng phòng phòng ban
-function loadLeader(department) {
-    $.ajax({
-        url: './backend/API/AdminManagerDepartment/get-leader.php?department=' + department,
-        type: 'GET',
-        async: true,
-        success: function (result) {
-            if (result.status == 6) {
-                data = result.result
-                let avatar = document.createElement('td')
-                let id = document.createElement('td')
-                let fullName = document.createElement('td')
-                let email = document.createElement('td')
-                let phone = document.createElement('td')
-                let avatarSrc = '';
-                if (data['Avatar'] == null) {
-
-                    let defaultAvatar = 'Female_Default.png';
-                    if (data['Gender'] == 'Nam') {
-                        defaultAvatar = 'Male_Default.png';
-                    }
-                    avatarSrc = './assets/images/users/DefaultAvatar/' + defaultAvatar;
-                } else {
-                    avatarSrc = './app/users/' + data['UserID'] + '/' + data['Avatar'];
-                }
-                let img = document.createElement('img');
-
-                let avadiv = document.createElement('div');
-
-                avadiv.style.width = "5em";
-                avadiv.style.height = "5em"
-                avadiv.classList.add('mt-3')
-                avadiv.classList.add('ml-3');
-
-                img.style.width = "70%";
-                img.style.height = "70%"
-                img.style.borderRadius = "50%";
-                img.style.objectFit = "cover"
-                img.setAttribute('src', avatarSrc);
-
-                avadiv.appendChild(img)
-                avatar.appendChild(avadiv);
-                avatar.style.width = "13%"
-                id.innerHTML = data['UserID']
-                fullName.innerHTML = data['FullName']
-                email.innerHTML = data['Email']
-                phone.innerHTML = data['PhoneNumber']
-                let tr = document.createElement('tr');
-                let leaderTable = document.getElementById('leader-table');
-                id.classList.add("pt-5")
-                fullName.classList.add("pt-5")
-                email.classList.add("pt-5")
-                phone.classList.add("pt-5")
-
-                tr.appendChild(avatar);
-                tr.appendChild(id);
-                tr.appendChild(fullName);
-                tr.appendChild(phone)
-                tr.appendChild(email);
-                leaderTable.appendChild(tr);
-                tr.setAttribute("onclick", "userDetail('" + data['UserID'] + "')")
-            } else if (result.status == 5) {
-                let tr = document.createElement('tr');
-                let td = document.createElement('td');
-                td.colSpan = "5"
-                td.innerHTML = '<h5>Chức vụ này tạm thời đang trống</h5>';
-                let leaderTable = document.getElementById('leader-table');
-                tr.appendChild(td);
-                leaderTable.appendChild(tr);
-            }
-        },
-        error: function (result) {
-            console.log(result)
-        }
-    })
-}
-
-// Function load Nhân viên phòng ban
-function LoadStaff(department) {
-    let staffTable = document.getElementById('staff-table')
-    staffTable.innerHTML = ''
-    $.ajax({
-        url: './backend/API/AdminManagerAccount/load-staff-by-department.php?department=' + department,
-        type: 'GET',
-        async: true,
-        success: function (result) {
-
-            if (result.status == 6) {
-                data = result.result
-                data.forEach((staff) => {
-                    // console.log(data)
-                    let avatar = document.createElement('td')
-                    let id = document.createElement('td')
-                    let fullName = document.createElement('td')
-                    let email = document.createElement('td')
-                    let phone = document.createElement('td')
-                    let avatarSrc = '';
-                    if (staff[7] == null) {
-
-                        let defaultAvatar = 'Female_Default.png';
-                        if (staff[2] == 'Nam') {
-                            defaultAvatar = 'Male_Default.png';
-                        }
-                        avatarSrc = './assets/images/users/DefaultAvatar/' + defaultAvatar;
-                    } else {
-                        avatarSrc = './app/users/' + staff[0] + '/' + staff[7];
-                    }
-                    let img = document.createElement('img');
-
-                    let avadiv = document.createElement('div');
-
-                    avadiv.style.width = "5em";
-                    avadiv.style.height = "5em"
-                    avadiv.classList.add('mt-3')
-                    avadiv.classList.add('ml-3');
-
-                    img.style.width = "70%";
-                    img.style.height = "70%"
-                    img.style.borderRadius = "50%";
-                    img.style.objectFit = "cover"
-                    img.setAttribute('src', avatarSrc);
-
-                    avadiv.appendChild(img)
-                    avatar.appendChild(avadiv);
-                    avatar.style.width = "13%"
-
-                    id.innerHTML = staff[0]
-                    fullName.innerHTML = staff[1]
-                    email.innerHTML = staff[4]
-                    phone.innerHTML = staff[6]
-                    let tr = document.createElement('tr');
-
-                    id.classList.add("py-5")
-                    fullName.classList.add("py-5")
-                    email.classList.add("py-5")
-                    phone.classList.add("py-5")
-
-                    tr.appendChild(avatar);
-                    tr.appendChild(id);
-                    tr.appendChild(fullName);
-                    tr.appendChild(phone)
-                    tr.appendChild(email);
-                    staffTable.appendChild(tr);
-                    tr.setAttribute("onclick", "userDetail('" + staff[0] + "')")
-                })
-
-            } else if (result.status == 5) {
-
-            }
-        },
-        error: function (result) {
-            console.log(result)
-        }
-    })
-}
-
 // Add Phòng ban mới
 function validateAddDepartment() {
     let depName = document.forms["add-department-form"]["department-name-add"].value;
@@ -1686,7 +999,7 @@ function validateAddDepartment() {
 }
 
 function showAddDepartmentDialog(depName, depRoom, depDesc) {
-    $('#add-department-modal').modal();
+    $('#add-department-modal').modal('show');
     document.getElementById('add-name').innerHTML = depName;
     document.getElementById('add-room').innerHTML = depRoom;
     document.getElementById('add-desc').innerHTML = depDesc.substring(0, 12) + '...';
@@ -1695,55 +1008,29 @@ function showAddDepartmentDialog(depName, depRoom, depDesc) {
 }
 
 function addDepartment(depName, depRoom, depDesc) {
-    $(".content-page").html = "";
-    let userAddData = JSON.stringify({ name: depName, room: depRoom, desc: depDesc });
+    let userAddData = JSON.stringify({ name: depName, room: depRoom, description: depDesc });
     $.ajax({
-        url: './backend/API/AdminManagerDepartment/create-department.php',
+        url: '/departments/add',
         type: 'POST',
         dataType: "json",
         contentType: "application/json",
-        async: true,
         data: userAddData,
-
         success: function (result) {
             // console.log(result)
-            if (result['status'] == 6) {
-                document.getElementById('message-add').innerHTML = "";
-                document.getElementById('message-add').setAttribute("hidden", "true");
-                $.ajax({
-                    url: './app/appoint-remove.php',
-                    type: 'POST',
-                    data: {
-                        'action': "LOAD"
-                    },
-                    success: function (result) {
-                        $(".content-page").html(result);
-
-                        $("body").removeClass("sidebar-main");
-                        LoadLeadedDepartment();
-                        LoadNonLeadedDepartment();
-                        $("#add-success-alert").fadeTo(2000, 500).slideUp(500, function () {
-                            $("#add-success-alert").slideUp(500);
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
-                        });
-                        $(".container").fadeIn();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown + "\n" + textStatus);
-                    }
-                });
-            } else if (result['status'] == 7) {
+            if (!result['status']) {
                 let message = document.getElementById('message-add');
-                message.innerHTML = "Tên phòng ban này đã tồn tại. Vui lòng nhập lại tên phòng ban mới."
-                document.getElementById('department-name-add').focus();
-                message.removeAttribute("hidden");
-            } else if (result['status'] == 10) {
-                let message = document.getElementById('message-add');
-                message.innerHTML = "Phòng này hiện đang được phòng ban khác sử dụng. Vui lòng nhập lại số phòng mới."
-                document.getElementById('department-room-add').focus();
+                message.innerHTML = result['message']
                 message.removeAttribute("hidden");
             }
+            document.getElementById('message-add').innerHTML = "";
+            document.getElementById('message-add').setAttribute("hidden", "true");
+            $('#add-department-modal').modal('hide');
+
+            showToast(result['message'])
+            // return to list of departments
+            urlPath = '/departments'
+            loadComponent(urlPath)
+            window.history.pushState(urlPath, null, urlPath)
         },
         error: function (result) {
             console.log(result);
@@ -1753,320 +1040,46 @@ function addDepartment(depName, depRoom, depDesc) {
 }
 // End add phòng ban
 
-function LoadLeadedDepartment() {
-    let tbody = document.getElementById('leader-department-table-body');
-    if (tbody != null) {
-        tbody.innerHTML = '';
-    }
-    let ajax = new XMLHttpRequest();
-    ajax.open('GET', './backend/API/AdminManagerDepartment/get-departments.php', 'true');
-    ajax.send();
-    ajax.reponseType = 'json';
-    ajax.addEventListener('readystatechange', () => {
-        if (ajax.readyState === 4 && ajax.status === 200) {
-
-            let json = JSON.parse(ajax.response);
-            // console.log(json);
-            json.data.forEach((i) => {
-                // do something
-                // console.log(i);
-
-                let id = document.createElement('td');
-                let name = document.createElement('td');
-
-                let leader = document.createElement('td');
-                let action = document.createElement('td');
-
-                let tr = document.createElement('tr');
-                leader.innerHTML = i[3] + " - " + i[4];
-                let departmentLeader = i[3];
-                leader.classList.add('py-4')
-                tr.appendChild(leader);
-
-                let div1 = document.createElement('div');
-                div1.classList.add('text-center');
-                let h6 = document.createElement('h6');
-                h6.id = "departmentID";
-                h6.innerHTML = i[0];
-                let departmentID = i[0];
-                div1.appendChild(h6);
-                id.append(div1)
-
-                id.classList.add('py-4')
-                tr.appendChild(id);
-
-                name.id = "department-name";
-                name.innerHTML = i[1];
-                let departmentName = i[1];
-                name.classList.add('py-4')
-                tr.appendChild(name);
-
-                let remove = document.createElement('button');
-                remove.classList.add('btn');
-                remove.classList.add('btn-danger');
-                remove.classList.add('btn-sm');
-                remove.classList.add('w-100');
-                remove.classList.add('d-block')
-                remove.classList.add('mt-2')
-
-                remove.innerHTML = "Cắt chức";
-                remove.setAttribute('onclick', "removeLeader('" + i[0] + "','" + i[1] + "','" + i[4] + "')");
-
-                let div3 = document.createElement('div');
-                div3.appendChild(remove);
-                action.appendChild(div3);
-                tr.appendChild(action);
-
-                tbody.appendChild(tr);
-            })
-        }
-    })
-}
-
-// Cắt chức
-function removeLeader(department, name, leader) {
-    $('#leader-name').html(leader);
-    $('#de-name').html(name);
-    $('#remove-leader').modal();
-    $('#confirm-remove').click(function () {
-
-        $.ajax({
-            url: './backend/API/AdminManagerDepartment/remove-leader.php?department=' + department,
-            type: 'GET',
-            async: true,
-            success: function (result) {
-                // console.log(result)
-                if (result.status == 6) {
-                    $.ajax({
-                        url: './app/appoint-remove.php',
-                        type: 'POST',
-                        data: {
-                            'action': "LOAD"
-                        },
-                        success: function (result) {
-                            $(".content-page").html(result);
-
-                            $("body").removeClass("sidebar-main");
-                            LoadNonLeadedDepartment();
-                            LoadLeadedDepartment();
-                            $("#remove-success-alert").fadeTo(2000, 500).slideUp(500, function () {
-                                $("#remove-success-alert").slideUp(500);
-                                $('body').removeClass('modal-open');
-                                $('.modal-backdrop').remove();
-                            });
-                            $(".container").fadeIn();
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown + "\n" + textStatus);
-                        }
-                    });
-                }
-            },
-            error: function (res) {
-                console.log('Không thể cắt chức trưởng phòng này');
-            }
-        })
-    })
-}
-
-function LoadNonLeadedDepartment() {
-    let tbody = document.getElementById('non-leader-department-table-body');
-    if (tbody != null) {
-        tbody.innerHTML = '';
-    }
-    let ajax = new XMLHttpRequest();
-    ajax.open('GET', './backend/API/AdminManagerDepartment/get-non-leader-departments.php', 'true');
-    ajax.send();
-    ajax.reponseType = 'json';
-    ajax.addEventListener('readystatechange', () => {
-        if (ajax.readyState === 4 && ajax.status === 200) {
-
-            let json = JSON.parse(ajax.response);
-            // console.log(json);
-            json.data.forEach((i) => {
-                // do something
-                // console.log(i);
-
-                let id = document.createElement('td');
-                let name = document.createElement('td');
-                let desc = document.createElement('td');
-                let action = document.createElement('td');
-
-                let h6 = document.createElement('h6');
-                h6.id = "departmentID";
-                h6.innerHTML = i[0];
-                let departmentID = i[0];
-                let div1 = document.createElement('div')
-                div1.appendChild(h6);
-                id.append(div1)
-                let tr = document.createElement('tr');
-                id.classList.add('py-4')
-                tr.appendChild(id);
-
-                name.id = "department-name";
-                name.innerHTML = i[1];
-                let departmentName = i[1];
-                name.classList.add('py-4')
-                tr.appendChild(name);
-
-                desc.id = "desc";
-                desc.innerHTML = i[2];
-                let departmentDesc = i[2];
-                desc.classList.add('py-4')
-                tr.appendChild(desc);
-                let appoint = document.createElement('button');
-                appoint.classList.add('btn');
-                appoint.classList.add('btn-success');
-                appoint.classList.add('btn-sm');
-                appoint.classList.add('w-100');
-                appoint.classList.add('d-block')
-                appoint.classList.add('mt-2')
-
-                appoint.innerHTML = "Bổ nhiệm";
-
-                appoint.setAttribute('onclick', "appointLeader('" + i[0] + "','" + i[1] + "')");
-                let div3 = document.createElement('div');
-                div3.appendChild(appoint);
-                action.appendChild(div3);
-                tr.appendChild(action);
-                tbody.appendChild(tr);
-            })
-        }
-    })
-}
-
 // Thăng chức trưởng phòng
-function appointLeader(department, name) {
-
-    $('#dep-name').html(name);
-    $('#appoint-leader').modal();
-    document.getElementById('appoint-leader').style.removeProperty('z-index')
+function appointLeader(e, department, name) {
+    $('#appoint-leader').modal('show');
 
     $('#message-appoint').html('');
     $('#message-appoint').attr('hidden', 'true');
-    $.ajax({
-        url: './backend/API/AdminManagerAccount/load-staff-by-department.php?department=' + department,
-        type: 'GET',
-        async: true,
-        success: function (result) {
+    $('#btn-appoint').click(function () {
+        $('#message-appoint').html('');
+        $('#message-appoint').attr('hidden', 'true');
 
-            if (result.status == 6) {
-                data = result.result
-                let select = document.getElementById('choose-leader')
-                select.innerHTML = ''
-                select.innerHTML = '<option value="-1" selected disabled>Chọn trưởng phòng mới</option>'
-                data.forEach((staff) => {
-                    let opt = document.createElement('option');
-                    opt.innerHTML = staff[0] + " - " + staff[1]
-                    opt.setAttribute('value', staff[0])
-                    select.appendChild(opt);
-                })
-                $('#btn-appoint').click(function () {
+        let action = $(e).data('action')
+        let select = document.getElementById('choose-leader')
+        if (select.value == "-1") {
+            $('#message-appoint').html('Vui lòng chọn 1 nhân viên để bổ nhiệm');
+            $('#message-appoint').removeAttr('hidden');
+            $('#choose-leader').focus()
+        } else {
+            // All api update
+            $.ajax({
+                url: '/departments/appoint-leader',
+                method: 'PUT',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({ department_id: department, leader_id: select.value, action: action }),
+                success: function (result) {
+                    if (!result['status']) {
+                        $('#message-appoint').html(result['message']);
+                        $('#message-appoint').removeAttr('hidden');
+                        return;
+                    }
                     $('#message-appoint').html('');
                     $('#message-appoint').attr('hidden', 'true');
-
-                    if (select.value == "-1") {
-
-                        $('#message-appoint').html('Vui lòng chọn 1 nhân viên để bổ nhiệm');
-                        $('#message-appoint').removeAttr('hidden');
-                        $('#choose-leader').focus()
-                    } else {
-                        $('#confirm-leader').modal();
-                        $('#appoint-leader').css('z-index', '0');
-                        $('#message-appoint').html('');
-                        $('#message-appoint').attr('hidden', 'true');
-
-
-
-                        $('#cancel-appoint').on('click', function () {
-                            $('#appoint-leader').removeProp('z-index')
-
-                        })
-
-
-
-                        $('#confirm-leader').on('hidden.bs.modal', function () {
-                            $('#appoint-leader').modal('toggle')
-                            $('#appoint-leader').removeProp('z-index')
-                        })
-
-                        $('#appoint-leader-name').html($('#choose-leader :selected').text());
-                        $('#new-de-name').html(name);
-                        $('#confirm-appoint').click(function () {
-                            $.ajax({
-                                url: './backend/API/AdminManagerDepartment/appoint-leader.php?leader=' + select.value + "&department=" + department,
-                                type: 'GET',
-                                async: true,
-                                success: function (result) {
-
-                                    if (result.status == 1) {
-
-                                        $.ajax({
-                                            url: './app/appoint-remove.php',
-                                            type: 'POST',
-                                            data: {
-                                                'action': "LOAD"
-                                            },
-                                            success: function (result) {
-
-                                                $(".content-page").html(result);
-                                                $('#appoint-leader').removeProp('z-index')
-                                                $("body").removeClass("sidebar-main");
-                                                LoadNonLeadedDepartment();
-                                                LoadLeadedDepartment();
-                                                $('#new-leader-name').html($('#choose-leader :selected').text());
-                                                $("#appoint-success-alert").fadeTo(2000, 500).slideUp(500, function () {
-                                                    $("#appoint-success-alert").slideUp(500);
-                                                    $('body').removeClass('modal-open');
-                                                    $('.modal-backdrop').remove();
-                                                });
-                                                $(".container").fadeIn();
-                                            },
-                                            error: function (jqXHR, textStatus, errorThrown) {
-                                                console.log(errorThrown + "\n" + textStatus);
-                                            }
-                                        });
-                                    }
-                                }
-                            })
-                        })
-                    }
-                })
-            } else if (result.status == 7) {
-                let select = document.getElementById('choose-leader')
-                select.innerHTML = ''
-                select.innerHTML = '<option selected disabled>Phòng ban này hiện chưa có nhân viên nào</option>'
-                $('#switch-to-add-staff').removeAttr("hidden");
-                $('#switch-to-add-staff').click(function () {
-                    $('#appoint-leader').toggle('modal');
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                    $(".active").removeClass('active');
-                    $(this).parent('li').addClass('active');
-                    $(this).parent('li').parent().parent('li').addClass('active');
-                    $.ajax({
-                        url: './app/add-account.php',
-                        type: 'POST',
-                        data: {
-                            'action': "LOAD"
-                        },
-                        success: function (result) {
-
-                            $(".content-page").html(result);
-
-                            $("body").removeClass("sidebar-main");
-
-                            $('#department-add').val(department);
-
-                            $(".container").fadeIn();
-                        },
-                        error: function (jqXHR, textStatus, errorThrown, result) {
-                            console.log(errorThrown + "\n" + textStatus);
-
-                        }
-                    });
-                })
-            }
+                    $('#appoint-leader').modal('hide')
+                    loadComponent(window.location.pathname)
+                    showToast(result['message'])
+                },
+                error: function (result) {
+                    console.log(result)
+                }
+            })
         }
     })
 }
@@ -2175,7 +1188,7 @@ $(document).on("click", "#reset", function () {
     resetTaskInfo();
 })
 
-$('#new-task').on('hidden.bs.modal', function () {
+$(document).on('hidden.bs.modal', "#new-task", function () {
     $("#reset").click();
 })
 
@@ -2309,8 +1322,12 @@ $(document).on("click", "#confirm", function () {
     })
 })
 
-$('#form-submit-task').on('hidden.bs.modal', function () {
+$(document).on('hidden.bs.modal', "#form-submit-task", function () {
     resetSubmitForm();
+    $("#task-submit-title").val('');
+    $("#submit-deadline").val('');
+    $("#task-submit-desc").val('');
+    $("#submit-task").data("id", undefined);
 })
 
 // reset form submit 
@@ -2336,14 +1353,10 @@ $(document).on("click", "#task-accept", function () {
             'task_id': $(this).data('id')
         }),
         success: function (result) {
-            $("#message-dialog").modal({ backdrop: 'static', keyboard: false })
-            $("#upload-complete").attr("disabled", false);
-            $("#progress").hide();
             if (!result['status']) {
-                $("#message").html(result['message']);
+                showToast(result['message'])
                 return;
             }
-            $("#message-dialog").modal('hide')
             loadComponent('/tasks')
             showToast(result['message'])
         },
@@ -2356,6 +1369,8 @@ $(document).on("click", "#task-accept", function () {
 // Submit Task - Staff function
 $(document).on("click", "#submit", function () {
     let id = $(this).data('id')
+    let action = $(this).data('action')
+
     $.ajax({
         url: '/tasks/task/' + id + '?api=1',
         method: 'GET',
@@ -2371,6 +1386,7 @@ $(document).on("click", "#submit", function () {
             $("#submit-deadline").val(result['deadline'].split(" ")[0]);
             $("#task-submit-desc").val(result['description']);
             $("#submit-task").data("id", id);
+            $("#submit-task").data("action", action);
 
             if (result['status'] == 1) {
                 $("#submit-deadline").attr("readonly", true);
@@ -2417,7 +1433,6 @@ $(document).on("click", "#submit-task", function () {
 
     var formData = new FormData();
     formData.append("content", msg);
-    formData.append("action", msg);
     formData.append("deadline", deadline);
 
     for (let i = 0; i < files.length; i++) {
@@ -2426,7 +1441,7 @@ $(document).on("click", "#submit-task", function () {
 
     $("#upload-complete").attr("disabled", true);
     $.ajax({
-        url: '/tasks/approve-task/' + $(this).data("id"),
+        url: '/tasks/' + $(this).data("action") + '-task/' + $(this).data("id"),
         type: 'PUT',
         dataType: "json",
         caches: false,
@@ -2594,17 +1609,17 @@ $(document).on("click", "#completed", function () {
             $("#rate-submit-time").val(submit);
 
             if (Date.parse(deadline) < Date.parse(submit)) {
-                $("#feedback").removeClass().addClass("badge badge-warning").html("Hoàn thành trễ hạn");
+                $("#feedback").removeClass().addClass("badge badge-warning").html("Late");
                 var option = [{ 0: "Bad" }, { 1: "OK" }];
             } else {
-                $("#feedback").removeClass().addClass("badge badge-success").html("Hoàn thành đúng hạn");
+                $("#feedback").removeClass().addClass("badge badge-success").html("On Time");
                 var option = [{ 0: "Bad" }, { 1: "OK" }, { 2: "Good" }];
             }
 
             let taskRate = document.getElementById("task-rate");
-            option.forEach((id, rate) => {
+            option.forEach((rate, id) => {
                 let option = document.createElement("option");
-                option.textContent = rate;
+                option.textContent = rate[id];
                 option.value = id;
                 taskRate.appendChild(option);
             });
@@ -2626,13 +1641,14 @@ $(document).on("click", "#rateTask", function () {
     }
 
     $.ajax({
-        url: '/tasks/rate-task',
+        url: '/tasks/approve-task',
         method: 'PUT',
         dataType: 'json',
-        data: {
+        contentType: 'application/json',
+        data: JSON.stringify({
             'task_id': $(this).data("id"),
             'rate': rate
-        },
+        }),
         success: function (result) {
             $("#message-dialog").modal({ backdrop: 'static', keyboard: false })
             $("#upload-complete").attr("disabled", false);
@@ -2642,6 +1658,7 @@ $(document).on("click", "#rateTask", function () {
                 return;
             }
             $("#rate-task").modal("hide");
+            $("#message-dialog").modal("hide")
             loadComponent('/tasks')
             showToast(result['message'])
         },

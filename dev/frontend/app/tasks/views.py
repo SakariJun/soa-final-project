@@ -1,5 +1,5 @@
 from . import tasks
-from flask import make_response, jsonify, current_app, render_template, request, abort
+from flask import jsonify, current_app, render_template, request, abort
 from ..decorators import login_required
 from requests import post, put, get
 from ..utils import get_request_data
@@ -24,66 +24,86 @@ def before_request(payload):
 
 # Get list of tasks of user
 @tasks.route("/", methods=["GET"])
+@tasks.route("/<int:page>", methods=["GET"])
 @login_required()
-def index(payload):
+def index(payload, page=1):
     # Get thông tin tasks
     employees = []
-    manager = {}
+    manager = None
+
+    if page < 1:
+        page = 1
 
     # Get thông tin user if user có quyền tạo task
+    role = None
     for r in Role.role_list:
-        if r == payload.get("role_id") and Role.role_list[r].has_permission(
-            Permission.MODIFY_TASK
-        ):
-            with Pool() as pool:
-                resp = pool.starmap(
-                    get_request_data,
-                    [
-                        (
-                            current_app.config["TASK_SERVICE"] + "/api/tasks/me",
-                            request.cookies,
-                        ),
-                        (
-                            current_app.config["USER_SERVICE"]
-                            + "/user/get-all-user-by-leader",
-                            request.cookies,
-                        ),
-                    ],
-                )
-                pool.close()
-                pool.join()
-                task_data = resp[0]
-                employees = resp[1]
-        else:
-            with Pool() as pool:
-                resp = pool.starmap(
-                    get_request_data,
-                    [
-                        (
-                            current_app.config["TASK_SERVICE"] + "/api/tasks/me",
-                            request.cookies,
-                        ),
-                        (
-                            current_app.config["USER_SERVICE"]
-                            + "/user/get-user-information",
-                            request.cookies,
-                        ),
-                    ],
-                )
-                pool.close()
-                pool.join()
-                task_data = resp[0]
-                manager = resp[1].get("leader", {})
+        if r == payload.get("role_id"):
+            role = r
+            break
+
+    if role is None:
+        abort(404)
+
+    if Role.role_list[role].has_permission(Permission.MODIFY_TASK):
+        with Pool() as pool:
+            resp = pool.starmap(
+                get_request_data,
+                [
+                    (
+                        current_app.config["TASK_SERVICE"]
+                        + "/api/tasks/me/"
+                        + str(page),
+                        request.cookies,
+                    ),
+                    (
+                        current_app.config["USER_SERVICE"]
+                        + "/user/get-all-user-by-leader",
+                        request.cookies,
+                    ),
+                ],
+            )
+            pool.close()
+            pool.join()
+            task_data = resp[0]
+            employees = resp[1]
+    else:
+        with Pool() as pool:
+            resp = pool.starmap(
+                get_request_data,
+                [
+                    (
+                        current_app.config["TASK_SERVICE"]
+                        + "/api/tasks/me/"
+                        + str(page),
+                        request.cookies,
+                    ),
+                    (
+                        current_app.config["USER_SERVICE"]
+                        + "/user/get-user-information",
+                        request.cookies,
+                    ),
+                ],
+            )
+            pool.close()
+            pool.join()
+            task_data = resp[0]
+            manager = resp[1].get("leader", {})
 
     tasks = task_data.get("tasks")
     max_pages = task_data.get("max_pages")
     current_page = task_data.get("current_page")
-    
+
+    if manager is None or len(manager) < 1:
+        manager = payload
+
     # map user id to officer id
     for task in tasks:
+        if len(employees) < 1:
+            task["officer"] = payload
+            break
         for employee in employees:
-            if employee.get("user_id") == task.get('officer_id'):
-                task['officer'] = employee
+            if employee.get("user_id") == task.get("officer_id"):
+                task["officer"] = employee
                 break
 
     return render_template(
@@ -223,6 +243,51 @@ def submit_task(payload, id):
         data=data,
         cookies=request.cookies,
     )
+    data = resp.json()
+    resp.close()
+    return jsonify(data)
+
+
+@tasks.route("/reject-task/<id>", methods=["PUT"])
+@login_required()
+def reject_task(payload, id):
+    data = {}
+    for key in request.form:
+        data[key] = request.form.get(key)
+
+    files = []
+    if request.files.get("files") is not None:
+        for file in request.files.getlist("files"):
+            file = ("files", (file.filename, file, file.mimetype))
+            files.append(file)
+
+    resp = put(
+        current_app.config["TASK_SERVICE"] + "/api/reject-task/" + id,
+        files=files,
+        data=data,
+        cookies=request.cookies,
+    )
+    data = resp.json()
+    resp.close()
+    return jsonify(data)
+
+
+# Approve task
+@tasks.route("/approve-task", methods=["PUT"])
+@login_required()
+def approve_task(payload):
+    if request.content_type != "application/json":
+        return jsonify(status=False, message="API chỉ hỗ trợ json")
+
+    data = request.json
+    resp = put(
+        current_app.config["TASK_SERVICE"]
+        + "/api/approve-task/"
+        + data.get("task_id", ""),
+        cookies=request.cookies,
+        json=request.json,
+    )
+
     data = resp.json()
     resp.close()
     return jsonify(data)

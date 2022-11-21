@@ -178,3 +178,21 @@ URL: /user/change-user-avatar
 METHOD: PUT
 MESSAGE: Unexpected end of form
 --------------------------------------------------------
+LOG_ERROR_ID: ad6980c8-9526-4cf3-801c-be17c56d7bc6
+TIME: 21-11-2022	20:05:05
+URL: /user/get-user-information
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 85087752-f680-49fc-804f-49f9b689fbca
+TIME: 21-11-2022	20:05:42
+URL: /user/get-user-information
+METHOD: GET
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 794ad4d1-a017-4d95-abd9-02e5ba7fdd85
+TIME: 22-11-2022	00:31:23
+URL: /department/update-department
+METHOD: PUT
+MESSAGE: Không tìm thấy /department/update-department! Vui lòng kiểm tra lại URL!
+--------------------------------------------------------

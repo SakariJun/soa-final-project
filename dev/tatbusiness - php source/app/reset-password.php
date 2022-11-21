@@ -28,12 +28,6 @@
                                 <div class="row">
                                     <div class="col-lg-12 mb-2">
                                         <div class="form-group">
-                                            <input name="username" id="username" type="text" class="form-control" placeholder=" ">
-                                            <label class="floating-label" for="username">Tên người dùng</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 mb-2">
-                                        <div class="form-group">
                                             <input name="email" id="email" type="email" class="form-control" placeholder=" ">
                                             <label class="floating-label" for="email">Email</label>
                                         </div>
