@@ -98,11 +98,12 @@
                   <i class="fas fa-plus"></i>Thêm phòng ban mới
                 </a>
               </li>
-              <li>
+              <!-- <li>
                 <a href="#" data-path="/appointment" id="promoting">
                   <i class="fas fa-people-arrows"></i>Bổ nhiệm/cắt chức
                 </a>
               </li>
+            -->
               <li>
                 <a href="#" data-path="/departments" id="list-department">
                   <i class="fas fa-cubes"></i>Danh sách phòng ban
@@ -146,12 +147,10 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <img
-                  id="navbar-avatar"
-                  src="{{ user.get('avatar', '/static/img/users/Male_Default.png') }}"
-                  class="img-fluid rounded-circle"
-                  alt="user"
-                />
+                <img id="navbar-avatar" {% if user.get('avatar') %} src="{{
+                user.get('avatar') }}" {% else %} src="{{ url_for('static',
+                filename='img/users/Male_Default.png') }}" {% endif %}
+                class="img-fluid rounded-circle" alt="user" />
                 <div class="caption ml-3">
                   <h6 class="mb-0">
                     {{ user.get("full_name", "Unkown User") }}<i

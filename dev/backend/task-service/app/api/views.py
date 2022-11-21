@@ -93,6 +93,33 @@ def count_task_by_status(status=-1):
     return jsonify(status=True, data=Task.objects(status=status).count())
 
 
+# API for getting statistic of tasks by user
+# - Task - status by user
+# Return list user_id + count by task status
+@api.route("/tasks/statistic/", methods=["GET"])
+def count_task_status_user():
+    tasks = Task.objects()
+
+    # Get các mã nhân viên / trưởng phòng trong tasks
+    officers = tasks.distinct("officer_id")
+    managers = tasks.distinct("manager_id")
+
+    data = {}
+    # Count từng loại task cho từng user
+    for user_id in managers + officers:
+        user = {}
+        user["Total"] = 0
+        for status in TaskStatus.objects().all():
+            count = tasks.filter(
+                (Q(officer_id=user_id) | Q(manager_id=user_id)) & Q(status=status)
+            ).count()
+            user[status.status] = count
+            user["Total"] += count
+        data[user_id] = user
+
+    return jsonify(status=True, data=data)
+
+
 # API for create a new task
 # body -> form data: {
 #     officer_id -> str
@@ -191,6 +218,7 @@ def get_all_tasks(page=1):
                 dict(
                     filename=file.name[file.name.rindex("/") + 1 :],
                     url=file.generate_signed_url(datetime.today() + timedelta(days=1)),
+                    filetype=file.content_type,
                 )
             )
         # Get file urls for task conversations
@@ -205,6 +233,7 @@ def get_all_tasks(page=1):
                 file_in_dict = dict(
                     filename=file.name[file.name.rindex("/") + 1 :],
                     url=file.generate_signed_url(datetime.today() + timedelta(days=1)),
+                    filetype=file.content_type,
                 )
 
                 # Exception for folder
@@ -252,20 +281,10 @@ def get_task(id):
                 403,
             )
 
-        urls = []
-        files = storage.bucket().list_blobs(prefix="tasks/%s" % str(task.id))
-        for file in files:
-            urls.append(
-                dict(
-                    filename=file.name[file.name.rindex("/") + 1 :],
-                    url=file.generate_signed_url(datetime.today() + timedelta(days=1)),
-                )
-            )
-
         task = task.to_mongo().to_dict()
         # map id and files field of dict
         task["_id"] = str(task["_id"])
-        task["files"] = urls
+        task['conversations'] = None
 
     except Task.DoesNotExist:
         return jsonify(status=False, message="Task id=%s không tồn tại." % id), 400
@@ -331,7 +350,7 @@ def cancel_task(id):
                 400,
             )
 
-        task.status = TaskStatus.objects(id=TaskStatusDefined.CANCELED).get()
+        task.status = TaskStatus.objects(id=TaskStatusDefined.CANCELED).first()
         task.save()
         return jsonify(status=True, message="Hủy bỏ Task thành công"), 200
     except Task.DoesNotExist:
