@@ -41,10 +41,10 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     MONGODB_SETTINGS = [
         {
-            "db": "tatbusiness",
-            "host": "localhost",
-            "port": 27017,
-            "alias": "default",
+            "db": os.environ.get("db"),
+            "host": os.environ.get("host"),
+            "port": os.environ.get("alias") or 27017,
+            "alias": os.environ.get("alias") or "default",
         }
     ]
 
