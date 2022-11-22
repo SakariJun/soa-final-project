@@ -1042,6 +1042,7 @@ function addDepartment(depName, depRoom, depDesc) {
 
 // Thăng chức trưởng phòng
 function appointLeader(e, department, name) {
+    this.event.stopPropagation()
     $('#appoint-leader').modal('show');
 
     $('#message-appoint').html('');
