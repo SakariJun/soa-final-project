@@ -70,3 +70,15 @@ URL: /absence/get-absence-information
 METHOD: GET
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: 36afba89-88df-433f-a05c-295fbcda1bf7
+TIME: 20-11-2022	01:28:16
+URL: /department/get-all-departments
+METHOD: POST
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 6a07ecb8-2e0b-490d-9f7f-891fde3c895b
+TIME: 22-11-2022	01:54:00
+URL: /department/change-leader-departmen
+METHOD: PUT
+MESSAGE: Not Found !
+--------------------------------------------------------

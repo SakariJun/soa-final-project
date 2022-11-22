@@ -20,15 +20,16 @@ def create_app(config_name):
     db.init_app(app)
     cors.init_app(app)
 
-    if config_name == "production":
-        import logging
 
-        logging.basicConfig(
-            filename="logs/%s.log" % (datetime.now().date()),
-            level=logging.DEBUG,
-            format="%(asctime)s %(levelname)s %(name)s %(message)s",
-        )
-        logger = logging.getLogger(__name__)
+    # if config_name == "production":
+    #     import logging
+
+    #     logging.basicConfig(
+    #         filename="logs/%s.log" % (datetime.now().date()),
+    #         level=logging.DEBUG,
+    #         format="%(asctime)s %(levelname)s %(name)s %(message)s",
+    #     )
+    #     logger = logging.getLogger(__name__)
 
     cred = credentials.Certificate(
         "tat-business-firebase-adminsdk-d4cif-1c16ce3446.json"

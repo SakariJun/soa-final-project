@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="row">
-    {% if Role.get(user.get('role_id')).has_permission(Permission.MODIFY_USER)
+    {% if user.get('role_id').get('name')=='Giám đốc'
     %}
     <div class="col-12 col-sm-6 col-xl-4">
       <div class="card badge-info">
@@ -16,7 +16,7 @@
           <h4 class="">Nhân viên</h4>
           <span class="h5"
             ><i class="fas fa-users mr-2"></i
-            ><?= $result['users'] ?></span
+            >{{ employees }}</span
           >
         </div>
       </div>
@@ -27,7 +27,7 @@
           <h4 class="">Đang nghỉ phép</h4>
           <span class="h5"
             ><i class="fas fa-bed mr-2"></i
-            >{{ Role.get(user.get('role_id')).permission }}</span
+            >Unknown</span
           >
         </div>
       </div>
@@ -38,7 +38,7 @@
           <h4 class="">Phòng ban</h4>
           <span class="h5"
             ><i class="fas fa-cubes mr-2"></i
-            ><?= $result['departments'] ?></span
+            >Unknown</span
           >
         </div>
       </div>
@@ -49,7 +49,7 @@
           <h4 class="">Công việc</h4>
           <span class="h5"
             ><i class="fas fa-clipboard-list mr-2"></i
-            ><?= $result['tasks'] ?></span
+            >{{ total }}</span
           >
         </div>
       </div>
@@ -60,7 +60,7 @@
           <h4 class="">Công việc hoàn thành</h4>
           <span class="h5"
             ><i class="fas fa-clipboard-check mr-2"></i
-            ><?= $result['tasks-completed'] ?></span
+            >{{ completed }}</span
           >
         </div>
       </div>
@@ -73,7 +73,7 @@
           <h4 class="">Đồng nghiệp</h4>
           <span class="h5"
             ><i class="fas fa-users mr-2"></i
-            ><?= $result['teamates'] ?></span
+            >{{ co_workers }}</span
           >
         </div>
       </div>
@@ -84,7 +84,7 @@
           <h4 class="">Lương</h4>
           <span class="h5"
             ><i class="fas fa-coins mr-2"></i
-            ><?= number_format($result['salary'], 0, ',', '.')  ?></span
+            >{{ user.get('salary', 0)|numberFormat }}</span
           >
         </div>
       </div>
@@ -95,7 +95,11 @@
           <h4 class="">Thưởng tháng</h4>
           <span class="h5"
             ><i class="fas fa-hand-holding-usd mr-2"></i
-            ><?= number_format($result['bonus-salary'], 0, ',', '.') ?></span
+            >{% if user.get('role_id').get('name', '')=='Trưởng phòng' %}
+            {{ (user.get('salary', 0)*20/100)|numberFormat }}
+            {% else %}
+            0
+            {% endif %}</span
           >
         </div>
       </div>
@@ -106,7 +110,7 @@
           <h4 class="">Công việc</h4>
           <span class="h5"
             ><i class="fas fa-clipboard-list mr-2"></i
-            ><?= $result['tasks'] . ' (Tổng)'?></span
+            >{{ tasks.get(user.get('user_id'), {}).get("Total", '0') }}</span
           >
         </div>
       </div>
@@ -117,7 +121,7 @@
           <h4 class="">Công việc hoàn thành</h4>
           <span class="h5"
             ><i class="fas fa-clipboard-check mr-2"></i
-            ><?= $result['tasks-completed-month']." (tháng " . $month = date('n') .")/". $result['tasks-completed-total'] . " (tổng)"?></span
+            >{{ tasks.get(user.get('user_id'), {}).get("Completed", '0') }}</span
           >
         </div>
       </div>

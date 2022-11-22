@@ -16,12 +16,10 @@ class Config:
 
     STORAGE_BUCKET = os.environ.get("STORAGE_BUCKET") or "tat-business.appspot.com"
 
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
     # max size of files uploaded to database is 5MB
-    MAX_CONTENT_LENGTH = 5 * 1024 * 1024
+    MAX_CONTENT_LENGTH = os.environ.get("MAX_CONTENT_LENGTH") or 5 * 1024 * 1024
 
-    TASK_PER_PAGE = 10
+    TASK_PER_PAGE = os.environ.get("TASK_PER_PAGE") or 5
 
     @staticmethod
     def init_app(app):
@@ -43,10 +41,12 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     MONGODB_SETTINGS = [
         {
-            "db": "tatbusiness",
-            "host": "localhost",
-            "port": 27017,
-            "alias": "default",
+            "db": os.environ.get("db"),
+            "host": os.environ.get("host"),
+            "port": os.environ.get("alias") or 27017,
+            "alias": os.environ.get("alias") or "default",
+            "username": os.environ.get("username"),
+            "password": os.environ.get("password"),
         }
     ]
 
