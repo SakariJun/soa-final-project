@@ -19,7 +19,7 @@ const {
 const firebase = require('../../../configs/firebase.config');
 const PublishServiceEvent = require('../utils/service-communicate.util');
 
-const createAbsenceRequest = async function ({ user_id, role_name }, { date_begin, date_end, reason }, files) {
+const createAbsenceRequest = async function ({ user_id, role_name }, { date_begin, absence_days, reason }, files) {
     try {
         if (role_name === ROLE_NAME_DIRECTOR) {
             return { status: false, message: 'Giám đốc không thể sử dụng tính năng này!' };
@@ -40,39 +40,38 @@ const createAbsenceRequest = async function ({ user_id, role_name }, { date_begi
             if (dayLeft <= 7) {
                 return {
                     status: false,
-                    message: `Bạn đã gửi yêu cầu xin nghỉ vào lúc ${absence.last_absence_request}! Vui lòng đợi ${
-                        7 - dayLeft
-                    } ngày nữa để gửi yêu cầu tiếp theo`,
+                    message: `Bạn đã gửi yêu cầu xin nghỉ vào lúc ${absence.last_absence_request}! Vui lòng đợi ${7 - dayLeft
+                        } ngày nữa để gửi yêu cầu tiếp theo`,
                 };
             }
         }
 
-        date_begin = new Date(date_begin);
-        date_end = new Date(date_end);
-
-        if (date_begin.getTime() >= date_end.getTime()) {
-            return { status: false, message: 'Ngày bắt đầu nghỉ không thể lớn hơn ngày kết thúc!' };
-        }
-
-        const dayDiff = DateDiff.inDays(date_begin, date_end) + 1;
-        const absenceDayLeft = absence.max_absence_day - absence.day_absence;
-        if (dayDiff > absenceDayLeft) {
+        if (isNan(absence_days) || parseFloat(absence_days) % 0.5 != 0) {
             return {
                 status: false,
-                message: `Số ngày nghỉ còn lại trong năm của bạn chỉ là ${absenceDayLeft} ngày! Không thể xin nghỉ ${dayDiff} ngày!`,
+                message: "Số ngày muốn nghỉ phải chia hết cho 0.5 ngày!",
+            }
+        }
+
+        const absenceDayLeft = absence.max_absence_day - absence.day_absence;
+
+        if (absence_days > absenceDayLeft) {
+            return {
+                status: false,
+                message: `Số ngày nghỉ còn lại trong năm của bạn chỉ là ${absenceDayLeft} ngày! Không thể xin nghỉ ${absence_days} ngày!`,
             };
         }
 
-        const absenceRequest = await _AbsenceRequest.create({ user_id, date_begin, date_end, reason });
+        const absenceRequest = await _AbsenceRequest.create({ user_id, date_begin, absence_days, reason });
         const path = `${user_id}/absence/${absenceRequest._id}`;
-        console.log(files);
-        console.log(absenceRequest);
 
         for (let i = 0; i < files.length; i++) {
             await uploadFile(path, files[i]);
         }
 
+        // Update last Absence Request to now
         absence.last_absence_request = new Date();
+        absence.day_absence = absence.day_absence + absence_days;
         await absence.save();
 
         return { status: true, message: 'Tạo đơn xin nghỉ phép thành công!', data: 'OKE' };
