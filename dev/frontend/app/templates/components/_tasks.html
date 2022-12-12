@@ -90,7 +90,13 @@
                   </div>
                 </div>
                 {% endif %}
-
+                <div class="col-md-6 mb-2">
+                  <div class="form-group">
+                    <label class="h5">Độ ưu tiên</label>
+                    <input type="number" readonly class="form-control"
+                      value="{{ task.get('priority', 1) }}">
+                  </div>
+                </div>
                 <div class="col-md-6 mb-2">
                   <div class="form-group">
                     <label class="h5">Ngày khởi tạo</label>

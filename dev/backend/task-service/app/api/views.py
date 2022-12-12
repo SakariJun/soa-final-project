@@ -149,6 +149,7 @@ def create_task():
         manager_id=user_id,
         officer_id=data.get("officer_id"),
         title=data.get("title", ""),
+        priority=data.get("priority", 1),
         description=data.get("description", ""),
         deadline=data.get("deadline", datetime.now()),
     )
@@ -284,7 +285,7 @@ def get_task(id):
         task = task.to_mongo().to_dict()
         # map id and files field of dict
         task["_id"] = str(task["_id"])
-        task['conversations'] = None
+        task["conversations"] = None
 
     except Task.DoesNotExist:
         return jsonify(status=False, message="Task id=%s không tồn tại." % id), 400

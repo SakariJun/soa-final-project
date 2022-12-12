@@ -78,6 +78,7 @@ class Task(db.Document):
     officer_id = db.StringField(required=True)
     title = db.StringField(required=True)
     description = db.StringField(required=True)
+    priority = db.IntField(required=True, default=1)
     status = db.ReferenceField(TaskStatus)
     updated_at = db.DateTimeField(default=datetime.now())
     deadline = db.DateTimeField(required=True)

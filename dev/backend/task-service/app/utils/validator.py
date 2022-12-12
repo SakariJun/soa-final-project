@@ -5,6 +5,7 @@ from ..documents import TaskRate
 def validate_task_data(data):
     officer_id = data.get("officer_id", None)
     title = data.get("title", "")
+    priority = data.get("priority", 1)
     description = data.get("description", "")
     deadline = data.get("deadline", None)
 
@@ -16,6 +17,8 @@ def validate_task_data(data):
         return dict(status=False, message="Vui lòng nhập mô tả công việc")
     if deadline is None:
         return dict(status=False, message="Vui lòng nhập deadline công việc")
+    if priority < 1 or priority > 5:
+        return dict(status=False, message="Mức độ ưu tiên từ 1-5")
     try:
         deadline = datetime.strptime(deadline, "%Y-%m-%d")
         # Sử dụng "<" vì thời gian deadline mặc định là cuối ngày ( 23h59'59s )

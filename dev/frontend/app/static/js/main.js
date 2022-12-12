@@ -1204,6 +1204,7 @@ function resetTaskInfo() {
 // Submit tạo task
 $(document).on("click", "#create-task", function () {
     let title = $("#task-title").val().trim();
+    let priority = $('#priority').val().trim();
     let employee = $("#employee").val().trim();
     let deadline = $("#deadline").val().trim();
     let desc = $("#task-desc").val().trim();
@@ -1224,6 +1225,10 @@ $(document).on("click", "#create-task", function () {
         fadeError("Vui lòng thêm Mô tả nhiệm vụ.");
         return;
     }
+    if (priority > 5 || priority < 1) {
+        fadeError("Mức độ ưu tiên từ 1-5");
+        return;
+    }
 
     if (Date.parse(deadline) < new Date(Date.now() - 24 * 60 * 60 * 1000)) {
         fadeError("Thời hạn phải sau thời điểm hiện tại");
@@ -1237,6 +1242,7 @@ $(document).on("click", "#create-task", function () {
 
     var formData = new FormData();
     formData.append("title", title)
+    formData.append("priority", priority)
     formData.append("officer_id", employee)
     formData.append("description", desc)
     formData.append("deadline", deadline)
@@ -1326,6 +1332,7 @@ $(document).on("click", "#confirm", function () {
 $(document).on('hidden.bs.modal', "#form-submit-task", function () {
     resetSubmitForm();
     $("#task-submit-title").val('');
+    $("#task-submit-priority").val('');
     $("#submit-deadline").val('');
     $("#task-submit-desc").val('');
     $("#submit-task").data("id", undefined);
@@ -1384,6 +1391,7 @@ $(document).on("click", "#submit", function () {
             result = result['data'];
             console.log(result)
             $("#task-submit-title").val(result['title']);
+            $("#task-submit-priority").val(result['priority']);
             $("#submit-deadline").val(result['deadline'].split(" ")[0]);
             $("#task-submit-desc").val(result['description']);
             $("#submit-task").data("id", id);
@@ -1603,6 +1611,7 @@ $(document).on("click", "#completed", function () {
             }
             result = result['data'];
             $("#rate-task-title").val(result['title']);
+            $("#rate-task-priority").val(result['priority']);
             let deadline = result['deadline'].split(" ")[0];
             let submit = result['updated_at'].split(" ")[0];
 

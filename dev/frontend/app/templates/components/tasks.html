@@ -49,10 +49,16 @@
                 </select>
               </div>
             </div>
-            <div class="col-12 mb-2">
+            <div class="col-md-6 mb-2">
               <div class="form-group">
                 <label for="deadline" class="h5">Thời hạn</label>
                 <input type="date" class="form-control" id="deadline" value="" />
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
+                <label for="priority" class="h5">Độ ưu tiên</label>
+                <input type="number" class="form-control" id="priority" value="" />
               </div>
             </div>
             <div class="col-12 mb-2">
@@ -115,6 +121,12 @@
             </div>
             <div class="col-md-6 mb-2">
               <div class="form-group">
+                <label for="rate-task-priority" class="h5">Độ ưu tiên</label>
+                <input type="number" class="form-control" id="rate-task-priority" value="" readonly />
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
                 <label for="rate-deadline" class="h5">Thời hạn</label>
                 <input type="date" class="form-control" id="rate-deadline" value="" readonly />
               </div>
@@ -168,7 +180,13 @@
                 <input type="text" class="form-control" id="task-submit-title" placeholder="Loading..." readonly />
               </div>
             </div>
-            <div class="col-12 mb-2">
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
+                <label for="task-submit-priority" class="h5">Độ ưu tiên</label>
+                <input placeholder="Loading..." type="number" class="form-control" id="task-submit-priority" value="" readonly />
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
               <div class="form-group">
                 <label for="submit-deadline" class="h5">Thời hạn</label>
                 <input placeholder="Loading..." type="date" class="form-control" id="submit-deadline" value="" readonly />
