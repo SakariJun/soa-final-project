@@ -80,10 +80,13 @@ const createAbsenceRequest = async function ({ user_id, role_name }, { date_begi
         }
 
         const absenceRequest = await _AbsenceRequest.create({ user_id, date_begin, absence_days, reason });
-        const path = `${user_id}/absence/${absenceRequest._id}`;
 
-        for (let i = 0; i < files.length; i++) {
-            await uploadFile(path, files[i]);
+        if (files) {
+            const path = `${user_id}/absence/${absenceRequest._id}`;
+
+            for (let i = 0; i < files.length; i++) {
+                await uploadFile(path, files[i]);
+            }
         }
 
         // Update last Absence Request to now
