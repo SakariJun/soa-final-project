@@ -2,7 +2,7 @@ const router = require('express').Router();
 const multer = require('multer');
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 524288 },
+    limits: { fileSize: 5242880 },
 });
 
 const { verifyRoleMiddleware } = require('../middlewares');

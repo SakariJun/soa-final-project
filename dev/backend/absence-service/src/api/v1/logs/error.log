@@ -46,3 +46,51 @@ URL: /absence/get-all-absence-request-by-manager
 METHOD: GET
 MESSAGE: Not Found !
 --------------------------------------------------------
+LOG_ERROR_ID: 33d5ed4e-e5ae-43b9-8ac2-33b1705e9b4d
+TIME: 12-12-2022	20:00:09
+URL: /absence-request/create-absence-request
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: aef53480-8a62-4509-b648-17846e92c2c5
+TIME: 12-12-2022	20:01:41
+URL: /absence-request/create-absence-request
+METHOD: GET
+MESSAGE: Not Found !
+--------------------------------------------------------
+LOG_ERROR_ID: 9cd95125-66f3-4b20-916f-00dd1033e7e2
+TIME: 12-12-2022	20:03:54
+URL: /absence-request/create-absence-request
+METHOD: POST
+MESSAGE: File too large
+--------------------------------------------------------
+LOG_ERROR_ID: 6242c364-c0c0-4d48-a393-47b3e2269295
+TIME: 12-12-2022	20:05:01
+URL: /absence-request/create-absence-request
+METHOD: POST
+MESSAGE: File too large
+--------------------------------------------------------
+LOG_ERROR_ID: 02064e67-e53f-4628-959f-a4d57f8ada16
+TIME: 12-12-2022	21:24:57
+URL: /absence-request/create-absence-request
+METHOD: POST
+MESSAGE: File too large
+--------------------------------------------------------
+LOG_ERROR_ID: cb10bab0-f6fd-43ff-aebb-1ddc2135c1be
+TIME: 12-12-2022	21:25:17
+URL: /absence-request/create-absence-request
+METHOD: POST
+MESSAGE: File too large
+--------------------------------------------------------
+LOG_ERROR_ID: 7f125206-776d-40b4-996d-942947be2208
+TIME: 12-12-2022	21:25:45
+URL: /absence-request/create-absence-request
+METHOD: POST
+MESSAGE: File too large
+--------------------------------------------------------
+LOG_ERROR_ID: 0223178b-3067-4774-82ba-ac34d265fa20
+TIME: 12-12-2022	21:27:40
+URL: /absence-request/create-absence-request
+METHOD: POST
+MESSAGE: File too large
+--------------------------------------------------------
