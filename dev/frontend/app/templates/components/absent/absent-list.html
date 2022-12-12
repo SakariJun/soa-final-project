@@ -1,97 +1,305 @@
-<div class="content-page">
-  <div class="container" style="display: block">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="text-uppercase text-center">Danh sách yêu cầu nghỉ phép</h1>
-      </div>
-    </div>
-
-    <div class="card">
-      <table
-        class="table rounded table-hover mt-3 mb-0"
-        id="absence-request-table"
-      >
-        <thead>
-          <tr>
-            <th style="border-top: None" class="text-center text-uppercase">
-              Mã yêu cầu
-            </th>
-            <th style="border-top: None" class="text-center text-uppercase">
-              Mã nhân viên
-            </th>
-            <th style="border-top: None" class="text-center text-uppercase">
-              Ngày bắt đầu
-            </th>
-            <th style="border-top: None" class="text-center text-uppercase">
-              Ngày kết thúc
-            </th>
-            <th style="border-top: None" class="text-center text-uppercase">
-              Trạng thái xử lý
-            </th>
-            <th style="border-top: None" class="text-center text-uppercase">
-              Ngày gửi yêu cầu
-            </th>
-          </tr>
-        </thead>
-        <tbody id="absence-request-table-body">
-          {% for absent in absents %}
-          <tr>
-            <td class="py-4 text-center">
-              <div class="text-center"><h6>5</h6></div>
-            </td>
-            <td class="py-4 text-center">US015</td>
-            <td class="py-4 text-center">22/01/2022</td>
-            <td class="py-4 text-center">25/01/2022</td>
-            <td class="py-4 text-center">
-              <div class="small d-line">
-                <i
-                  class="fa fa-circle {% if %} text-success{% elseif %} text-primary{% else %} text-danger{% endif %}"
-                ></i
-                ><strong> Refused</strong>
-              </div>
-            </td>
-            <td class="py-4 text-center">2022-01-15 21:25:31</td>
-            <td>
-              <div>
-                <button
-                  class="btn btn-primary btn-sm d-block mt-1 w-100"
-                  onclick="showDetailAbsenceRequest(5)"
-                >
-                  Xem chi tiết
-                </button>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="text-center text-uppercase">Thông tin nghỉ phép</h1>
     </div>
   </div>
 
-  <div
-    id="absenceRequestResponse-modal-dialog"
-    class="modal fade"
-    role="dialog"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Thông báo</h4>
-          <button type="button" class="close" data-dismiss="modal">×</button>
+  <div class="card">
+    <div class="card-body">
+      <label class="col-12 mb-3 card-title">
+        <h5>THÔNG TIN NGHỈ PHÉP</h5>
+      </label>
+
+      <div class="row">
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label
+              for="detailAbsenceRequest_maxAbsenceDay"
+              class="font-weight-bold"
+              style="color: #605c8d !important"
+              >Số ngày nghỉ phép tối đa</label
+            >
+            <input
+              readonly
+              value=""
+              id="detailAbsenceRequest_maxAbsenceDay"
+              class="form-control"
+            />
+          </div>
         </div>
 
-        <div class="modal-body">
-          <p id="absenceRequestResponseMessage"></p>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label
+              for="detailAbsenceRequest_absenceDay"
+              class="font-weight-bold"
+              style="color: #605c8d !important"
+              >Tổng số ngày đã nghỉ</label
+            >
+            <input
+              readonly
+              value=""
+              id="detailAbsenceRequest_absenceDay"
+              class="form-control"
+            />
+          </div>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
-            Hủy
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label
+              for="detailAbsenceRequest_absenceDayLeft"
+              class="font-weight-bold"
+              style="color: #605c8d !important"
+              >Số ngày nghỉ còn lại</label
+            >
+            <input
+              readonly
+              value=""
+              id="detailAbsenceRequest_absenceDayLeft"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <div class="form-group">
+            <label
+              for="detailAbsenceRequest_lastRequest"
+              class="font-weight-bold"
+              style="color: #605c8d !important"
+              >Lần gửi yêu cầu gần nhất</label
+            >
+            <input
+              readonly
+              value=""
+              id="detailAbsenceRequest_lastRequest"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <div class="form-group">
+            <label
+              for="detailAbsenceRequest_nextAvailableRequest"
+              class="font-weight-bold"
+              style="color: #605c8d !important"
+              >Thời gian để gửi yêu cầu tiếp theo</label
+            >
+            <input
+              readonly
+              value=""
+              id="detailAbsenceRequest_nextAvailableRequest"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-success text-uppercase"
+            type="button"
+            data-toggle="modal"
+            data-target="#createAbsenceRequest-modal-dialog"
+          >
+            Tạo đơn yêu cầu nghỉ phép
           </button>
-          <button class="btn btn-danger" data-dismiss="modal">Xác nhận</button>
         </div>
+      </div>
+
+      <label class="col-12 mt-3 mb-3 card-title">
+        <h5>DANH SÁCH YÊU CẦU NGHỈ PHÉP ĐÃ TẠO</h5>
+      </label>
+
+      <div class="card">
+        <table
+          class="table rounded table-hover mt-3 mb-0"
+          id="absence-request-table"
+        >
+          <thead>
+            <tr>
+              <th style="border-top: None" class="text-center text-uppercase">
+                Mã yêu cầu
+              </th>
+              <th style="border-top: None" class="text-center text-uppercase">
+                Ngày bắt đầu
+              </th>
+              <th style="border-top: None" class="text-center text-uppercase">
+                Số ngày nghỉ
+              </th>
+              <th style="border-top: None" class="text-center text-uppercase">
+                Trạng thái xử lý
+              </th>
+              <th style="border-top: None" class="text-center text-uppercase">
+                Ngày gửi yêu cầu
+              </th>
+              <th style="border-top: None" class="text-center text-uppercase">
+                Ngày duyệt
+              </th>
+            </tr>
+          </thead>
+          <tbody id="absence-request-table-body" onload="">
+            <!-- let js do its job -->
+          </tbody>
+
+          <tbody></tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Dialog -->
+<div id="createAbsenceRequest-modal-dialog" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <form id="create_absence_request_form">
+        <div class="modal-header">
+          <h4 class="modal-title text-center text-uppercase">
+            Tạo yêu cầu xin nghỉ phép
+          </h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
+                <label class="h5" for="create_absence_request_dateBegin"
+                  >Ngày bắt đầu</label
+                >
+                <input
+                  class="form-control"
+                  id="create_absence_request_dateBegin"
+                  name="create_absence_request_dateBegin"
+                  type="date"
+                  placeholder=""
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <div class="form-group">
+                <label class="h5" for="create_absence_request_totalAbsenceDay"
+                  >Số ngày nghỉ</label
+                >
+                <input
+                  value=""
+                  class="form-control"
+                  id="create_absence_request_totalAbsenceDay"
+                  name="create_absence_request_totalAbsenceDay"
+                  type="number"
+                  step="0.5"
+                  placeholder="Từ 0.5 ngày trở lên"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <div class="form-group">
+                <label class="h5" for="create_absence_request_absenceReason"
+                  >Lí do</label
+                >
+                <textarea
+                  class="form-control"
+                  id="create_absence_request_absenceReason"
+                  name="create_absence_request_absenceReason"
+                  placeholder="Lí do xin nghỉ phép"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <div class="form-group">
+                <h5>Tệp đính kèm</h5>
+                <div class="col-10">
+                  <input
+                    id="file-placeholder"
+                    class="form-control float-left"
+                    readonly
+                    placeholder="Chưa có tập tin đính kèm nào"
+                  />
+                  <!-- File list ở đây -->
+                  <div id="custom-file-list" class="custom-file-list"></div>
+                </div>
+                <div class="col-2 float-right">
+                  <label class="btn btn-primary" for="attachment">
+                    <i class="fas fa-plus"></i>
+                  </label>
+                  <input
+                    hidden
+                    type="file"
+                    name="attachment[]"
+                    multiple
+                    id="attachment"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div id="responseMessage" role="alert"></div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group text-center justify-content-between">
+              <button type="button" id="request-absence" class="btn btn-primary mt-3">
+                Gửi yêu cầu
+              </button>
+              <button id="reset" type="reset" class="btn btn-danger mt-3">
+                Làm mới
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  id="createAbsenceRequestResponse-modal-dialog"
+  class="modal fade"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Thông báo</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p id="createAbsenceRequestResponseMessage"></p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Hủy
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  loadEmployeeAbsenceDetail({{employeeAbsenceDetail|safe}}, {{absents|safe}})
+</script>

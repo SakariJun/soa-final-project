@@ -196,3 +196,27 @@ URL: /department/update-department
 METHOD: PUT
 MESSAGE: Không tìm thấy /department/update-department! Vui lòng kiểm tra lại URL!
 --------------------------------------------------------
+LOG_ERROR_ID: 07c00eb1-e468-4205-a502-2a7c02c09f08
+TIME: 12-12-2022	16:41:20
+URL: /user/change-password-require
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 822b3209-6b6f-4d1d-a9b2-bef4559fa73c
+TIME: 12-12-2022	16:41:29
+URL: /user/change-password-require
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 4f60eb2b-0531-4222-8ef4-962fd43bce42
+TIME: 12-12-2022	16:41:34
+URL: /user/change-password-require
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------
+LOG_ERROR_ID: 37b3d432-4609-49ba-b38e-2957e7409462
+TIME: 12-12-2022	16:41:38
+URL: /user/change-password-require
+METHOD: PUT
+MESSAGE: Unauthorized
+--------------------------------------------------------

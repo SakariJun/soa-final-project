@@ -9,6 +9,8 @@ def get_request_data(url, cookies):
         url,
         cookies=cookies,
     )
+    if resp.status_code != 200:
+        abort(resp.status_code)
     try:
         data = resp.json()
     except:

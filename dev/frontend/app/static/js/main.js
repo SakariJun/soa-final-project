@@ -2,7 +2,6 @@
 $(document).ready(function () {
     $("body").removeClass("sidebar-main");
     var urlPath = window.location.pathname;
-    updateNavMenu(urlPath);
     loadRedirect(urlPath)
 })
 
@@ -11,7 +10,7 @@ function updateNavMenu(urlPath) {
     $(".active").removeClass('active');
     let menuItem = $('.sidebar-menu a[data-path="' + urlPath + '"]')
 
-    if (menuItem == undefined) {
+    if (menuItem == undefined || menuItem.length < 1) {
         urlPath = urlPath.split("/")[1]
         menuItem = $('.sidebar-menu a[data-path="/' + urlPath + '"]')
     }
@@ -537,17 +536,11 @@ $(document).on("click", "#setNewAvatar", function () {
 
 //#region FUNCTION Hỗ trợ
 function formatVNDate(date) {
-    let dd = date.split('-')[2];
+    let dd = date.split('-')[2].substring(0, 2);
     let mm = date.split('-')[1];
     let yyyy = date.split('-')[0];
 
     return dd + '/' + mm + '/' + yyyy;
-}
-
-function formatVNDatetime(dateTime) {
-    let date = dateTime.split(' ')[0];
-
-    return formatVNDate(date) + " " + dateTime.split(' ')[1];
 }
 
 function convertJSDateToVNDateTime(jsDate) {
@@ -1764,3 +1757,504 @@ const extension_icons = {
     'cs': 'fa-file-code',
     'java': 'fa-file-code'
 }
+
+
+// Phần absents
+const absent_state = {
+    0: 'Waiting',
+    1: 'Approved',
+    2: 'Refused'
+}
+
+// Load danh sách yêu cầu nghỉ phép
+function loadAbsenceRequestList(absenceRequestResults) {
+    let tbody = document.getElementById('absence-request-table-body');
+
+    if (tbody != null) {
+        tbody.innerHTML = '';
+    }
+
+    for (let i = 0; i < absenceRequestResults.length; i++) {
+        let absenceRequestResult = absenceRequestResults[i];
+
+        let tr = document.createElement('tr');
+
+        let absenceRequestID_td = document.createElement('td');
+        let userID_td = document.createElement('td');
+        let dateBegin_td = document.createElement('td');
+        let dateEnd_td = document.createElement('td');
+        let status_td = document.createElement('td');
+        let dateRequest_td = document.createElement('td');
+        let detailsButton_td = document.createElement('td');
+
+        absenceRequestID_td.classList.add('py-4');
+        absenceRequestID_td.classList.add('text-center');
+        let div_absenceRequestID = document.createElement('div');
+        div_absenceRequestID.classList.add('text-center');
+
+        let h6_absenceRequestID = document.createElement('h6');
+        h6_absenceRequestID.innerHTML = absenceRequestResult['_id'];
+
+        div_absenceRequestID.appendChild(h6_absenceRequestID);
+        absenceRequestID_td.appendChild(div_absenceRequestID);
+
+        userID_td.classList.add('py-4');
+        userID_td.classList.add('text-center');
+        userID_td.innerHTML = absenceRequestResult['user_id'];
+
+        dateBegin_td.classList.add('py-4');
+        dateBegin_td.classList.add('text-center');
+        dateBegin_td.innerHTML = formatVNDate(absenceRequestResult['date_begin']);
+
+        dateEnd_td.classList.add('py-4');
+        dateEnd_td.classList.add('text-center');
+        dateEnd_td.innerHTML = absenceRequestResult['absence_days'];
+
+        status_td.classList.add('py-4');
+        status_td.classList.add('text-center');
+
+        let div_iconStatus = document.createElement('div');
+        div_iconStatus.classList.add('small');
+        div_iconStatus.classList.add('d-line');
+
+        let i_iconStatus = document.createElement('i');
+        let strongStatus = document.createElement('strong');
+        strongStatus.innerHTML = " " + absent_state[absenceRequestResult['state']];
+
+        if (absent_state[absenceRequestResult['state']] == 'Approved') {
+            i_iconStatus.classList.add('fa');
+            i_iconStatus.classList.add('fa-circle');
+            i_iconStatus.classList.add('text-success');
+        } else if (absent_state[absenceRequestResult['state']] == 'Refused') {
+            i_iconStatus.classList.add('fa');
+            i_iconStatus.classList.add('fa-circle');
+            i_iconStatus.classList.add('text-danger');
+        } else if (absent_state[absenceRequestResult['state']] == 'Waiting') {
+            i_iconStatus.classList.add('fa');
+            i_iconStatus.classList.add('fa-circle');
+            i_iconStatus.classList.add('text-primary');
+        }
+
+        div_iconStatus.appendChild(i_iconStatus);
+        div_iconStatus.appendChild(strongStatus);
+        status_td.appendChild(div_iconStatus);
+
+        dateRequest_td.classList.add('py-4');
+        dateRequest_td.classList.add('text-center');
+        dateRequest_td.innerHTML = formatVNDate(absenceRequestResult['request_time']);
+
+        let div_detailsButton = document.createElement('div');
+        let detailsButton = document.createElement('a');
+
+        detailsButton.classList.add('btn');
+        detailsButton.classList.add('btn-primary');
+        detailsButton.classList.add('btn-sm');
+        detailsButton.classList.add('d-block');
+        detailsButton.classList.add('mt-1');
+        detailsButton.classList.add('w-100');
+
+        // detailsButton.setAttribute('onclick', 'showDetailAbsenceRequest('+JSON.stringify(absenceRequestResult)+')');
+        detailsButton.dataset.path = "/absents/absent/" + absenceRequestResult._id;
+
+        detailsButton.innerHTML = 'Xem chi tiết';
+
+        div_detailsButton.appendChild(detailsButton);
+        detailsButton_td.appendChild(div_detailsButton);
+
+        tr.appendChild(absenceRequestID_td);
+        tr.appendChild(userID_td);
+        tr.appendChild(dateBegin_td);
+        tr.appendChild(dateEnd_td);
+        tr.appendChild(status_td);
+        tr.appendChild(dateRequest_td);
+        tr.appendChild(detailsButton_td);
+
+        tbody.appendChild(tr);
+    }
+}
+
+
+// Hiện chi tiết yêu cầu nghỉ phép và thực hiện chức năng duyệt hoặc từ chối yêu cầu nghỉ phép
+function showDetailAbsenceRequest(absenceRequestDetail) {
+    $("#detailAbsenceRequest_requestID").val(absenceRequestDetail._id);
+    $("#detailAbsenceRequest_requestTime").val(convertJSDateToVNDateTime(new Date(absenceRequestDetail.request_time)));
+    $("#detailAbsenceRequest_dateBegin").val(formatVNDate(absenceRequestDetail.date_begin));
+    $("#detailAbsenceRequest_absenceDays").val((absenceRequestDetail.absence_days));
+
+    $("#detailAbsenceRequest_absenceReason").html(absenceRequestDetail.reason);
+    $("#detailAbsenceRequest_absenceRequestStatus").val(absent_state[absenceRequestDetail.state]);
+
+    if (absent_state[absenceRequestDetail.state] != "Waiting") {
+        $("#refusedAbsenceRequest").prop('disabled', true);
+        $("#approvedAbsenceRequest").prop('disabled', true);
+        $("#detailAbsenceRequest_responseMessage").val(absenceRequestDetail.response_message);
+        $("#detailAbsenceRequest_responseMessage").prop("readonly", true);
+    }
+
+    $("#detailAbsenceRequest_userID").val(absenceRequestDetail.user_id);
+
+    // Load danh sách tập tin đính kèm [nếu có]
+    if (absenceRequestDetail["files"] !== undefined) {
+        listFiles = absenceRequestDetail['files'];
+
+        let tbody = document.getElementById('absence_request_attachment_table');
+
+        for (let i = 0; i < listFiles.length; i++) {
+            let tr = document.createElement("tr");
+            let file = listFiles[i];
+
+            let td_File = document.createElement("td");
+            td_File.classList.add("text-center");
+            let ext = file.name.split(".").at(-1).toLowerCase();
+            td_File.innerHTML = `<i class="fas ${extension_icons[ext] || 'fa-file'}"></i>` + " " + file['name'];
+
+            let td_TYPE = document.createElement("td");
+            td_TYPE.classList.add("text-center");
+            td_TYPE.innerHTML = file['type'];
+
+            let td_SIZE = document.createElement("td");
+            td_SIZE.classList.add("text-center");
+            td_SIZE.innerHTML = file['size'];
+
+            let td_BUTTON = document.createElement("td");
+            td_BUTTON.classList.add("text-center");
+
+            let download_a = document.createElement("a");
+            download_a.classList.add("btn");
+            download_a.setAttribute('href', file['url']);
+            download_a.setAttribute('download', '');
+            download_a.innerHTML = '<i class="fa fa-download action"></i>';
+
+            td_BUTTON.appendChild(download_a);
+
+            tr.appendChild(td_File);
+            tr.appendChild(td_TYPE);
+            tr.appendChild(td_SIZE);
+            tr.appendChild(td_BUTTON);
+
+            tbody.appendChild(tr);
+        };
+    }
+
+    // Add event click xử lý 2 button duyệt và từ chối yêu cầu nghỉ phép
+    $("#confirm-refusedAbsenceRequest").click(function () {
+        let sendingData =
+            JSON.stringify({ state: 2, absence_request_id: absenceRequestDetail._id, response_message: $("#detailAbsenceRequest_responseMessage").val() });
+
+        $.ajax({
+            url: '/absents/refuse',
+            type: 'PUT',
+            dataType: "json",
+            contentType: "application/json",
+            data: sendingData,
+            success: function (result) {
+                showToast(result['message']);
+                if (result['status']) {
+                    $("#refusedAbsenceRequest").prop('disabled', true);
+                    $("#approvedAbsenceRequest").prop('disabled', true);
+                    $("#detailAbsenceRequest_absenceRequestStatus").val("Refused");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown + "\n" + textStatus);
+            }
+        });
+    });
+
+    $("#confirm-approvedAbsenceRequest").click(function () {
+        let sendingData =
+            JSON.stringify({ state: 1, absence_request_id: absenceRequestDetail._id, response_message: $("#detailAbsenceRequest_responseMessage").val() });
+
+        $.ajax({
+            url: '/absents/approve',
+            type: 'PUT',
+            dataType: "json",
+            contentType: "application/json",
+            data: sendingData,
+            success: function (result) {
+                showToast(result['message'])
+                if (result['status']) {
+                    $("#refusedAbsenceRequest").prop('disabled', true);
+                    $("#approvedAbsenceRequest").prop('disabled', true);
+
+                    $("#detailAbsenceRequest_absenceRequestStatus").val("Approved");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown + "\n" + textStatus);
+            }
+        });
+    });
+}
+
+
+// Xem thông tin nghỉ phép của Người lao động [Trưởng phòng hoặc Nhân viên]
+function loadEmployeeAbsenceDetail(employeeAbsenceDetail, absenceRequestResults) {
+    $("#detailAbsenceRequest_maxAbsenceDay").val(employeeAbsenceDetail.max_absence_day);
+    $("#detailAbsenceRequest_absenceDay").val(employeeAbsenceDetail.day_absence);
+    $("#detailAbsenceRequest_absenceDayLeft").val(parseFloat(employeeAbsenceDetail.max_absence_day) - parseFloat(employeeAbsenceDetail.day_absence));
+
+    let lastRequest = employeeAbsenceDetail.last_absence_request == null ? 'Chưa gửi yêu cầu nghỉ phép' : convertJSDateToVNDateTime(new Date(employeeAbsenceDetail.last_absence_request));
+
+    if (employeeAbsenceDetail.last_absence_request != null) {
+        let nextRequestDate = new Date(employeeAbsenceDetail.last_absence_request);
+        nextRequestDate.setDate(nextRequestDate.getDate() + 7);
+        $("#detailAbsenceRequest_nextAvailableRequest").data("nextRequestDate", nextRequestDate);
+
+        nextRequestDate = convertJSDateToVNDateTime(nextRequestDate)
+        $("#detailAbsenceRequest_nextAvailableRequest").val(nextRequestDate);
+    }
+
+    $("#detailAbsenceRequest_lastRequest").val(lastRequest);
+    let tbody = document.getElementById('absence-request-table-body');
+
+    if (tbody != null) {
+        tbody.innerHTML = '';
+    }
+
+    for (let i = 0; i < absenceRequestResults.length; i++) {
+        let absenceRequestResult = absenceRequestResults[i];
+
+        let tr = document.createElement('tr');
+
+        let absenceRequestID_td = document.createElement('td');
+        let dateBegin_td = document.createElement('td');
+        let dateEnd_td = document.createElement('td');
+        let status_td = document.createElement('td');
+        let dateRequest_td = document.createElement('td');
+        let detailsButton_td = document.createElement('td');
+
+        let responseTime_td = document.createElement('td');
+
+        responseTime_td.classList.add('py-4');
+        responseTime_td.classList.add('text-center');
+        responseTime_td.innerHTML = absenceRequestResult['response_time'] == null ? 'Chưa được duyệt' : convertJSDateToVNDateTime(new Date(absenceRequestResult['response_time']));
+
+        absenceRequestID_td.classList.add('py-4');
+        absenceRequestID_td.classList.add('text-center');
+        let div_absenceRequestID = document.createElement('div');
+        div_absenceRequestID.classList.add('text-center');
+
+        let h6_absenceRequestID = document.createElement('h6');
+        h6_absenceRequestID.innerHTML = absenceRequestResult['_id'];
+
+        div_absenceRequestID.appendChild(h6_absenceRequestID);
+        absenceRequestID_td.appendChild(div_absenceRequestID);
+
+        dateBegin_td.classList.add('py-4');
+        dateBegin_td.classList.add('text-center');
+        dateBegin_td.innerHTML = formatVNDate(absenceRequestResult['date_begin']);
+
+        dateEnd_td.classList.add('py-4');
+        dateEnd_td.classList.add('text-center');
+        dateEnd_td.innerHTML = absenceRequestResult['absence_days'];
+
+        status_td.classList.add('py-4');
+        status_td.classList.add('text-center');
+
+        let div_iconStatus = document.createElement('div');
+        div_iconStatus.classList.add('small');
+        div_iconStatus.classList.add('d-line');
+
+        let i_iconStatus = document.createElement('i');
+        let strongStatus = document.createElement('strong');
+        strongStatus.innerHTML = " " + absent_state[absenceRequestResult['state']];
+
+        if (absent_state[absenceRequestResult['state']] == 'Approved') {
+            i_iconStatus.classList.add('fa');
+            i_iconStatus.classList.add('fa-circle');
+            i_iconStatus.classList.add('text-success');
+        } else if (absent_state[absenceRequestResult['state']] == 'Refused') {
+            i_iconStatus.classList.add('fa');
+            i_iconStatus.classList.add('fa-circle');
+            i_iconStatus.classList.add('text-danger');
+        } else if (absent_state[absenceRequestResult['state']] == 'Waiting') {
+            i_iconStatus.classList.add('fa');
+            i_iconStatus.classList.add('fa-circle');
+            i_iconStatus.classList.add('text-primary');
+        }
+
+        div_iconStatus.appendChild(i_iconStatus);
+        div_iconStatus.appendChild(strongStatus);
+        status_td.appendChild(div_iconStatus);
+
+        dateRequest_td.classList.add('py-4');
+        dateRequest_td.classList.add('text-center');
+        dateRequest_td.innerHTML = formatVNDate(absenceRequestResult['request_time']);
+
+        let div_detailsButton = document.createElement('div');
+        let detailsButton = document.createElement('a');
+
+        detailsButton.classList.add('btn');
+        detailsButton.classList.add('btn-primary');
+        detailsButton.classList.add('btn-sm');
+        detailsButton.classList.add('d-block');
+        detailsButton.classList.add('mt-1');
+        detailsButton.classList.add('w-100');
+
+        // detailsButton.setAttribute('onclick', 'showDetailAbsenceRequest('+JSON.stringify(absenceRequestResult)+')');
+        detailsButton.dataset.path = '/absents/absent/' + absenceRequestResult['_id'];
+
+        detailsButton.innerHTML = 'Xem chi tiết';
+
+        div_detailsButton.appendChild(detailsButton);
+        detailsButton_td.appendChild(div_detailsButton);
+
+        tr.appendChild(absenceRequestID_td);
+        tr.appendChild(dateBegin_td);
+        tr.appendChild(dateEnd_td);
+        tr.appendChild(status_td);
+        tr.appendChild(dateRequest_td);
+        tr.appendChild(responseTime_td);
+        tr.appendChild(detailsButton_td);
+
+        tbody.appendChild(tr);
+    }
+}
+
+// Hiện chi tiết yêu cầu nghỉ phép và nhưng không thể thực hiện chức năng duyệt hoặc từ chối yêu cầu nghỉ phép
+function showDetailEmployeeAbsenceRequest(absenceRequestDetail) {
+    $("#detailAbsenceRequest_status").val(absent_state[absenceRequestDetail['state']]);
+
+    if (absenceRequestDetail.response_time == null || absenceRequestDetail.response_time == "") {
+        $("#detailAbsenceRequest_responseTime").val("Chưa được duyệt");
+    } else {
+        $("#detailAbsenceRequest_responseTime").val(convertJSDateToVNDateTime(new Date(absenceRequestDetail.response_time)));
+    }
+
+    $("#detailAbsenceRequest_responseMessage").val(absenceRequestDetail.response_message);
+
+    $("#detailAbsenceRequest_requestID").val(absenceRequestDetail._id);
+    $("#detailAbsenceRequest_requestTime").val(convertJSDateToVNDateTime(new Date(absenceRequestDetail.request_time)));
+    $("#detailAbsenceRequest_dateBegin").val(formatVNDate(absenceRequestDetail.date_begin));
+    $("#detailAbsenceRequest_absenceDays").val(absenceRequestDetail.absence_days);
+
+    $("#detailAbsenceRequest_absenceReason").html(absenceRequestDetail.reason);
+    $("#detailAbsenceRequest_userID").val(absenceRequestDetail.user_id);
+
+    if (absenceRequestDetail["files"] !== undefined) {
+        listFiles = absenceRequestDetail['files'];
+
+        let tbody = document.getElementById('absence_request_attachment_table');
+
+        for (let i = 0; i < listFiles.length; i++) {
+            let tr = document.createElement("tr");
+            let file = listFiles[i];
+
+            let td_File = document.createElement("td");
+            td_File.classList.add("text-center");
+            let ext = file.name.split(".").at(-1).toLowerCase();
+            td_File.innerHTML = `<i class="fas ${extension_icons[ext] || 'fa-file'}"></i>` + " " + file['name'];
+
+            let td_TYPE = document.createElement("td");
+            td_TYPE.classList.add("text-center");
+            td_TYPE.innerHTML = file['type'];
+
+            let td_SIZE = document.createElement("td");
+            td_SIZE.classList.add("text-center");
+            td_SIZE.innerHTML = file['size'];
+
+            let td_BUTTON = document.createElement("td");
+            td_BUTTON.classList.add("text-center");
+
+            let download_a = document.createElement("a");
+            download_a.classList.add("btn");
+            download_a.setAttribute('href', file['url']);
+            download_a.setAttribute('download', '');
+            download_a.innerHTML = '<i class="fa fa-download action"></i>';
+
+            td_BUTTON.appendChild(download_a);
+
+            tr.appendChild(td_File);
+            tr.appendChild(td_TYPE);
+            tr.appendChild(td_SIZE);
+            tr.appendChild(td_BUTTON);
+
+            tbody.appendChild(tr);
+        };
+    }
+}
+
+
+// Tạo yêu cầu nghỉ phép
+$(document).on('click', '#request-absence', function (e) {
+    e.preventDefault()
+
+    let dateBegin = $("#create_absence_request_dateBegin").val().trim();
+    let absenceDays = $("#create_absence_request_totalAbsenceDay").val().trim();
+    let reason = $("#create_absence_request_absenceReason").val().trim();
+
+    if (dateBegin == "") {
+        fadeError("Vui lòng chọn ngày bắt đầu nghỉ.");
+        return false;
+    }
+
+    if (reason == "") {
+        fadeError("Vui lòng thêm lí do xin nghỉ phép.");
+        return false;
+    }
+
+    try {
+        absenceDays = parseFloat(absenceDays)
+    } catch {
+        fadeError("Số ngày nghỉ phải là số");
+        return false;
+    }
+
+    if (absenceDays < 0.5) {
+        fadeError("Số ngày nghỉ tối thiểu là nửa ngày");
+        return false;
+    }
+
+    files = []
+    if ($("#attachment").data("files") != null) {
+        files = $("#attachment").data("files");
+    }
+
+    var formData = new FormData();
+    formData.append("date_begin", dateBegin)
+    formData.append("absence_days", absenceDays.toString())
+    formData.append("reason", reason)
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append("absence_request_files", files[i])
+    }
+
+    $.ajax({
+        url: '/absents/absence-request',
+        type: 'POST',
+        dataType: "json",
+        caches: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (result) {
+            if (!result['status']) {
+                fadeError(result['message']);
+                return;
+            }
+            $('#createAbsenceRequest-modal-dialog').modal('hide')
+            $("#message-dialog").modal('hide')
+            showToast(result['message']);
+            loadComponent('/absents/me');
+        },
+        error: function (error) {
+            console.log(error);
+        },
+        xhr: function () {
+            var xhr = $.ajaxSettings.xhr();
+            $("#message-dialog").modal({ backdrop: 'static', keyboard: false })
+            $("#message").html("Chờ chút nha...");
+            // Upload progress
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    let percent = (e.loaded / e.total) * 100
+                    $("#progress-bar").width(percent + '%')
+                }
+            }
+            return xhr
+        }
+    });
+
+    return false;
+})

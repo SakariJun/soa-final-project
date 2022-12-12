@@ -46,7 +46,7 @@ const createAbsenceRequest = async function ({ user_id, role_name }, { date_begi
             }
         }
 
-        if (isNan(absence_days) || parseFloat(absence_days) % 0.5 != 0) {
+        if (isNaN(absence_days) || parseFloat(absence_days) % 0.5 != 0) {
             return {
                 status: false,
                 message: "Số ngày muốn nghỉ phải chia hết cho 0.5 ngày!",
