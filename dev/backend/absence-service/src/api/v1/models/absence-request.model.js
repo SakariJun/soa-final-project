@@ -18,10 +18,11 @@ const AbsenceRequestSchema = Schema(
             require: true,
             default: new Date(),
         },
-        date_end: {
-            type: Schema.Types.Date,
+
+        absence_days: {
+            type: Schema.Types.Number,
             require: true,
-            default: new Date(),
+            default: 0,
         },
 
         reason: {
