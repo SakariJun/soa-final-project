@@ -2,6 +2,7 @@ const { startSession } = require('mongoose');
 
 const { _Absence, _AbsenceRequest } = require('../models');
 const { convertJSDateToVNDateTime } = require('../utils/datetime-format.util');
+const DateDiff = require('../utils/day-diff.utils');
 
 const {
     ROLE_NAME_LEADER,
@@ -45,8 +46,7 @@ const createAbsenceRequest = async function ({ user_id, role_name }, { date_begi
                 return {
                     status: false,
                     message:
-                        `Bạn đã gửi yêu cầu xin nghỉ vào lúc ${convertJSDateToVNDateTime(absence.last_absence_request)}!\n
-                    Vui lòng đợi ${7 - dayLeft} ngày nữa để gửi yêu cầu tiếp theo`,
+                        `Bạn đã gửi yêu cầu xin nghỉ vào lúc ${convertJSDateToVNDateTime(absence.last_absence_request)}! Vui lòng đợi ${7 - dayLeft} ngày nữa để gửi yêu cầu tiếp theo`,
                 };
             }
         }
@@ -74,8 +74,7 @@ const createAbsenceRequest = async function ({ user_id, role_name }, { date_begi
         if (absence_days > absenceDayLeft) {
             return {
                 status: false,
-                message: `Số ngày nghỉ còn lại trong năm của bạn chỉ là ${absenceDayLeft} ngày!\n
-                Không thể xin nghỉ ${absence_days} ngày!`,
+                message: `Số ngày nghỉ còn lại trong năm của bạn chỉ là ${absenceDayLeft} ngày! Không thể xin nghỉ ${absence_days} ngày!`,
             };
         }
 
@@ -150,7 +149,8 @@ const getAllAbsenceByManager = async function ({ user_id, role_name, department_
             });
 
             const absenceRequests = await _AbsenceRequest
-                .find({ user_id: { $in: user_id }, status: ABSENCE_REQUEST_STATE_WAITING })
+                .find({ user_id: { $in: user_id }, state: ABSENCE_REQUEST_STATE_WAITING })
+                .sort({ request_time: 'desc' })
                 .lean();
 
             return {
@@ -190,7 +190,8 @@ const getAllAbsenceByManager = async function ({ user_id, role_name, department_
             });
 
             const absenceRequests = await _AbsenceRequest
-                .find({ user_id: { $in: user_id_array }, status: ABSENCE_REQUEST_STATE_WAITING })
+                .find({ user_id: { $in: user_id_array }, state: ABSENCE_REQUEST_STATE_WAITING })
+                .sort({ request_time: 'desc' })
                 .lean();
 
             return {
@@ -214,7 +215,10 @@ const getAllAbsenceRequestByEmployee = async function ({ user_id, role_name }) {
             return { status: true, message: 'Giám đốc không có đơn xin nghỉ phép!' };
         }
 
-        const absenceRequests = await _AbsenceRequest.find({ user_id }).lean();
+        const absenceRequests = await _AbsenceRequest
+            .find({ user_id })
+            .sort({ request_time: 'desc', response_time: 'desc' })
+            .lean();
 
         return { status: true, message: 'Lấy danh sách đơn xin nghỉ phép thành công!', data: absenceRequests };
     } catch (error) {
@@ -236,19 +240,21 @@ const getAbsenceRequestDetail = async function ({ absence_request_id }) {
             prefix: `${absenceRequestDetail.user_id}/absence/${absenceRequestDetail._id}`,
         });
 
-        listFiles = listFiles[0].map((element) => {
-            const data = {
-                url: element.metadata.mediaLink,
-                name: element.metadata.name.split('/').pop(),
-                size: element.metadata.size,
-                type: element.metadata.contentType,
-            };
+        if (listFiles) {
+            listFiles = listFiles[0].map((element) => {
+                const data = {
+                    url: element.metadata.mediaLink,
+                    name: element.metadata.name.split('/').pop(),
+                    size: element.metadata.size,
+                    type: element.metadata.contentType,
+                };
 
-            return data;
-        });
+                return data;
+            });
 
-        // TODO: Load danh sách file đính kèm
-        absenceRequestDetail.files = listFiles;
+            // TODO: Load danh sách file đính kèm
+            absenceRequestDetail.files = listFiles;
+        }
 
         return { status: true, message: 'Xem chi tiết đơn xin nghỉ phép thành công!', data: absenceRequestDetail };
     } catch (error) {
@@ -345,6 +351,7 @@ const getAllUserAbsenceToday = async function () {
         return { status: false, message: error.message };
     }
 };
+
 module.exports = {
     createAbsenceRequest,
 
