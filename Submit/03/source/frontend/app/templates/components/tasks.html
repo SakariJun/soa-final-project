@@ -58,7 +58,7 @@
             <div class="col-md-6 mb-2">
               <div class="form-group">
                 <label for="priority" class="h5">Độ ưu tiên</label>
-                <input type="number" class="form-control" id="priority" value="" />
+                <input type="number" max="5" min="1" class="form-control" id="priority" value="" />
               </div>
             </div>
             <div class="col-12 mb-2">
@@ -122,7 +122,7 @@
             <div class="col-md-6 mb-2">
               <div class="form-group">
                 <label for="rate-task-priority" class="h5">Độ ưu tiên</label>
-                <input type="number" class="form-control" id="rate-task-priority" value="" readonly />
+                <input type="number" max="5" min="1" class="form-control" id="rate-task-priority" value="" readonly />
               </div>
             </div>
             <div class="col-md-6 mb-2">
@@ -183,13 +183,15 @@
             <div class="col-md-6 mb-2">
               <div class="form-group">
                 <label for="task-submit-priority" class="h5">Độ ưu tiên</label>
-                <input placeholder="Loading..." type="number" class="form-control" id="task-submit-priority" value="" readonly />
+                <input placeholder="Loading..." max="5" min="1" type="number" class="form-control"
+                  id="task-submit-priority" value="" readonly />
               </div>
             </div>
             <div class="col-md-6 mb-2">
               <div class="form-group">
                 <label for="submit-deadline" class="h5">Thời hạn</label>
-                <input placeholder="Loading..." type="date" class="form-control" id="submit-deadline" value="" readonly />
+                <input placeholder="Loading..." type="date" class="form-control" id="submit-deadline" value=""
+                  readonly />
               </div>
             </div>
             <div class="col-12 mb-2">
@@ -296,6 +298,6 @@
       </div>
     </div>
   </div>
-{% else %}
-{% include "components/_tasks.html"|safe %}
-{% endif %}
+  {% else %}
+  {% include "components/_tasks.html"|safe %}
+  {% endif %}

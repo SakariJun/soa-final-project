@@ -28,27 +28,30 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    MONGODB_SETTINGS = [
-        {
-            "db": "tatbusiness",
-            "host": "localhost",
-            "port": 27017,
-            "alias": "default",
-        }
-    ]
+    # MONGODB_SETTINGS = [
+    #     {
+    #         "db": "employee-management-task",
+    #         "host": "localhost",
+    #         "port": 27017,
+    #         "alias": "default",
+    #     }
+    # ]
+    MONGODB_HOST = "mongodb+srv://tangkientrung_51900718:ztqiYGnyaR6vCseB@cluster0.fcka9.mongodb.net/employee-management-task"
 
 
 class ProductionConfig(Config):
-    MONGODB_SETTINGS = [
-        {
-            "db": os.environ.get("db"),
-            "host": os.environ.get("host"),
-            "port": os.environ.get("alias") or 27017,
-            "alias": os.environ.get("alias") or "default",
-            "username": os.environ.get("username"),
-            "password": os.environ.get("password"),
-        }
-    ]
+    # MONGODB_SETTINGS = [
+    #     {
+    #         "db": os.environ.get("db"),
+    #         "host": os.environ.get("host"),
+    #         "port": os.environ.get("alias") or 27017,
+    #         "alias": os.environ.get("alias") or "default",
+    #         "username": os.environ.get("username"),
+    #         "password": os.environ.get("password"),
+    #     }
+    # ]
+    MONGODB_HOST = "mongodb+srv://tangkientrung_51900718:ztqiYGnyaR6vCseB@cluster0.fcka9.mongodb.net/employee-management-task"
+
 
 
 config = {

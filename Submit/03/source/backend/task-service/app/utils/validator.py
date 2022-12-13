@@ -17,7 +17,7 @@ def validate_task_data(data):
         return dict(status=False, message="Vui lòng nhập mô tả công việc")
     if deadline is None:
         return dict(status=False, message="Vui lòng nhập deadline công việc")
-    if priority < 1 or priority > 5:
+    if int(priority) < 1 or int(priority) > 5:
         return dict(status=False, message="Mức độ ưu tiên từ 1-5")
     try:
         deadline = datetime.strptime(deadline, "%Y-%m-%d")
