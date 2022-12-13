@@ -1,0 +1,305 @@
+<div class="container" style="background-color: #f6f5f6">
+  <div class="mt-5">
+    <div class="card col float-left mr-3" id="">
+      <div class="card-header">
+        <h1 class="text-center text-uppercase pt-3">Chi tiết phòng ban</h1>
+      </div>
+      <div class="card-body">
+        <div>
+          <i class="fas fa-cube mr-3 mb-2"></i>
+          <span
+            ><strong>Mã phòng ban&emsp;:</strong>&emsp;<span
+              id="department-id-detail"
+            >
+              {{ department.get('department_id', 'Unknown') }}
+            </span></span
+          >
+        </div>
+        <div>
+          <i class="fas fa-university mr-3 my-2"></i>
+          <span
+            ><strong>Tên phòng ban&emsp;:</strong>&emsp;<span
+              id="department-name-detail"
+            >
+              {{ department.get('name', 'Unknown') }}
+            </span></span
+          >
+        </div>
+        <div>
+          <i class="fas fa-map mr-3 my-2"></i>
+          <span
+            ><strong>Mô tả&emsp;:</strong>&emsp;<span
+              id="department-desc-detail"
+            >
+              {{ department.get('description', 'Unknown') }}
+            </span></span
+          >
+        </div>
+        <div>
+          <i class="fas fa-home mr-3 my-2"></i>
+          <span
+            ><strong>Số phòng&emsp;:</strong>&emsp;<span
+              id="department-room-detail"
+            >
+              {{ department.get('room', 'Unknown') }}
+            </span></span
+          >
+        </div>
+        <div
+          id="message-edit"
+          class="alert alert-danger my-2"
+          hidden="true"
+        ></div>
+        <div
+          onclick="editDepartment()"
+          class="float-right"
+          id="edit-department"
+        >
+          <i class="fas fa-wrench" id="edit-icon"></i>
+          <span><strong id="edit-bt">Cập nhật</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header border-bottom">
+        <h5 class="pt-2">Trưởng phòng</h5>
+      </div>
+      <div class="card-body table-responsive-lg">
+        <table class="rounded table-hover table">
+          <thead>
+            <tr>
+              <th style="border-top: None" class="text-center"></th>
+              <th style="border-top: None">ID</th>
+              <th style="border-top: None">Họ và tên</th>
+              <th style="border-top: None">Số điện thoại</th>
+              <th style="border-top: None">Email</th>
+              <th style="border-top: None"></th>
+            </tr>
+          </thead>
+          <tbody id="leader-table">
+            {% if department.get('leader') %}
+            <tr
+              onclick="userDetail(`{{ department.get('leader').get('user_id', '') }}`)"
+            >
+              <td style="width: 13%">
+                <div class="mt-3 ml-3" style="width: 5em; height: 5em">
+                  <img {% if department.get("leader").get('avatar') is none %}
+                  src="{{ url_for('static',
+                  filename='img/users/Male_Default.png') }}" {% else %} src="{{
+                  department.get('leader').get('avatar') }}" {% endif %} style="
+                  width: 70%; height: 70%; border-radius: 50%; object-fit:
+                  cover; " />
+                </div>
+              </td>
+              <td class="align-middle">
+                {{ department.get('leader').get('user_id', 'Unknown') }}
+              </td>
+              <td class="align-middle">
+                {{ department.get('leader').get('full_name', 'Unknown') }}
+              </td>
+              <td class="align-middle">
+                {{ department.get('leader').get('phone_number', 'Unknown') }}
+              </td>
+              <td class="align-middle">
+                {{ department.get('leader').get('email', 'Unknown') }}
+              </td>
+              <td class="align-middle">
+                <div>
+                  <button
+                    data-action="replace"
+                    class="btn btn-success btn-sm w-100 d-block"
+                    onclick="appointLeader(this, `{{ department.get('department_id') }}`, `{{ department.get('name') }}`)"
+                  >
+                    Đổi Trưởng phòng
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr class="text-center">
+              <td colspan="5"><h5>Chức vụ này tạm thời đang trống</h5></td>
+              <td class="align-middle">
+                <div>
+                  <button
+                    data-action="appoint"
+                    class="btn btn-success btn-sm w-100 d-block"
+                    onclick="appointLeader(this, `{{ department.get('department_id') }}`, `{{ department.get('name') }}`)"
+                  >
+                    Bổ nhiệm
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header border-bottom">
+        <h5 class="pt-2">Nhân viên</h5>
+      </div>
+      <div class="card-body table-responsive-lg">
+        <table class="rounded table-hover table" id="list-user-by-department">
+          <thead>
+            <tr>
+              <th style="border-top: None" class="text-center"></th>
+              <th style="border-top: None">ID</th>
+              <th style="border-top: None">Họ và tên</th>
+              <th style="border-top: None">Số điện thoại</th>
+              <th style="border-top: None">Email</th>
+            </tr>
+          </thead>
+          <tbody id="staff-table">
+            {% for employee in department.get('employees') %}
+            <tr onclick="userDetail(`{{ employee.get('user_id', '') }}`)">
+              <td style="width: 13%">
+                <div class="mt-3 ml-3" style="width: 5em; height: 5em">
+                  <img {% if employee.get('avatar') is none
+                  %} src="{{ url_for('static',
+                  filename='img/users/Male_Default.png') }}" {% else %} src="{{
+                  employee.get('avatar', '') }}" {% endif %} style=" width: 70%;
+                  height: 70%; border-radius: 50%; object-fit: cover; " />
+                </div>
+              </td>
+              <td class="align-middle">{{ employee.get('user_id', '') }}</td>
+              <td class="align-middle">{{ employee.get('full_name', '') }}</td>
+              <td class="align-middle">{{ employee.get('phone_number', '') }}</td>
+              <td class="align-middle">{{ employee.get('email', '') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="editDepartmentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Xác nhận cập nhật</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Xác nhận cập nhật thông tin phòng ban?</p>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Hủy
+          </button>
+          <button
+            id="confirm-edit"
+            class="btn btn-success"
+            data-dismiss="modal"
+          >
+            Xác nhận
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="edit-department-success-alert" class="modal fade mt-5" role="dialog">
+  <div class="modal-dialog mt-5">
+    <div class="modal-content mt-5">
+      <div class="modal-header">
+        <h3 class="modal-title text-success">Thành công</h3>
+      </div>
+      <div class="modal-body">
+        <h5>Thông tin phòng ban đã được cập nhật thành công!</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="confirm-leader" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Xác nhận bổ nhiệm?</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Xác nhận bổ nhiệm nhân viên
+          <strong id="appoint-leader-name"></strong> làm trưởng phòng
+          <strong id="new-de-name"></strong>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="cancel-appoint"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >
+          Hủy
+        </button>
+        <button
+          id="confirm-appoint"
+          class="btn btn-danger"
+          data-dismiss="modal"
+        >
+          Xác nhận
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="appoint-leader" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Chọn trưởng phòng mới?</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Vui lòng chọn một nhân viên của phòng
+          <strong id="dep-name">{{ department.get('name') }}</strong> để làm trưởng phòng:
+        </p>
+        <select class="form-control" name="choose-leader" id="choose-leader">
+          <option value="-1" selected disabled>Chọn trưởng phòng mới</option>
+          {% for employee in department.get('employees') %} {% if
+          employee.get('user_id')!=department.get('leader_id', '') %}
+          <option value="{{ employee.get('user_id') }}">
+            {{ employee.get('user_id') }} - {{ employee.get('full_name') }}
+          </option>
+          {% endif %} {% endfor %}
+        </select>
+
+        <a href="#" hidden="true" id="switch-to-add-staff"
+          >Thêm nhân viên mới</a
+        >
+        <div
+          id="message-appoint"
+          class="mt-2 alert alert-danger"
+          hidden="true"
+        ></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Hủy
+        </button>
+        <button id="btn-appoint" class="btn btn-success">Bổ nhiệm</button>
+      </div>
+    </div>
+  </div>
+</div>
